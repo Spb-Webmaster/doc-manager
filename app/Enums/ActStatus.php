@@ -20,4 +20,9 @@ enum ActStatus: string
             self::Cancelled => 'Отменён',
         };
     }
+
+    public function toString(): string
+    {
+        return $this->label();
+    }
 }

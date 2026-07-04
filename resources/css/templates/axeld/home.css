@@ -565,7 +565,7 @@ h2.sec-title {
 }
 
 .cta-card {
-  max-width: 1180px;
+  max-width: 800px;
   margin: 0 auto;
   background: var(--accent-lt);
   border: 1px solid rgba(37, 80, 226, 0.13);

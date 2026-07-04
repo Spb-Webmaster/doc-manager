@@ -16,8 +16,8 @@ use MoonShine\Laravel\Fields\Relationships\BelongsTo;
 use MoonShine\Laravel\Pages\Crud\IndexPage;
 use MoonShine\UI\Components\Table\TableBuilder;
 use MoonShine\UI\Fields\Date;
+use MoonShine\UI\Fields\Enum;
 use MoonShine\UI\Fields\ID;
-use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
 
 /**
@@ -38,8 +38,7 @@ final class InvoiceIndexPage extends IndexPage
 
             Date::make('Дата', 'date')->format('d.m.Y')->sortable(),
 
-            Select::make('Статус', 'status')
-                ->options(collect(InvoiceStatus::cases())->mapWithKeys(fn($s) => [$s->value => $s->label()])->all()),
+            Enum::make('Статус', 'status')->attach(InvoiceStatus::class),
 
             Text::make('Итого', 'total'),
         ];
@@ -49,8 +48,7 @@ final class InvoiceIndexPage extends IndexPage
     {
         return [
             Text::make('Номер', 'number'),
-            Select::make('Статус', 'status')
-                ->options(collect(InvoiceStatus::cases())->mapWithKeys(fn($s) => [$s->value => $s->label()])->all()),
+            Enum::make('Статус', 'status')->attach(InvoiceStatus::class),
         ];
     }
 

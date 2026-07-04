@@ -19,9 +19,9 @@ use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Layout\Flex;
 use MoonShine\UI\Fields\Date;
+use MoonShine\UI\Fields\Enum;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Number;
-use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 
@@ -50,8 +50,8 @@ final class InvoiceFormPage extends FormPage
                     Text::make('Номер', 'number')->required(),
                     Date::make('Дата', 'date')->required(),
                     Date::make('Срок оплаты', 'due_date'),
-                    Select::make('Статус', 'status')
-                        ->options(collect(InvoiceStatus::cases())->mapWithKeys(fn($s) => [$s->value => $s->label()])->all())
+                    Enum::make('Статус', 'status')
+                        ->attach(InvoiceStatus::class)
                         ->required(),
                 ]),
             ]),

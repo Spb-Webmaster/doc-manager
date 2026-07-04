@@ -149,7 +149,7 @@
         <div class="step-title">Введите свой ИНН</div>
         <p class="step-desc">
           Система автоматически запрашивает данные из реестра ФНС — название организации, адрес, КПП и ОГРН.
-          Вводить вручную не нужно.
+
         </p>
         <div class="step-badge">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">

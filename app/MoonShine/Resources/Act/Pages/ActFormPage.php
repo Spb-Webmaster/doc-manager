@@ -21,9 +21,9 @@ use MoonShine\Laravel\Pages\Crud\FormPage;
 use MoonShine\UI\Components\Layout\Box;
 use MoonShine\UI\Components\Layout\Flex;
 use MoonShine\UI\Fields\Date;
+use MoonShine\UI\Fields\Enum;
 use MoonShine\UI\Fields\ID;
 use MoonShine\UI\Fields\Number;
-use MoonShine\UI\Fields\Select;
 use MoonShine\UI\Fields\Text;
 use MoonShine\UI\Fields\Textarea;
 
@@ -55,8 +55,8 @@ final class ActFormPage extends FormPage
                 Flex::make([
                     Text::make('Номер', 'number')->required(),
                     Date::make('Дата', 'date')->required(),
-                    Select::make('Статус', 'status')
-                        ->options(collect(ActStatus::cases())->mapWithKeys(fn($s) => [$s->value => $s->label()])->all())
+                    Enum::make('Статус', 'status')
+                        ->attach(ActStatus::class)
                         ->required(),
                 ]),
             ]),
