@@ -257,24 +257,36 @@
 <section class="sec stats-sec">
   <div class="sec-inner">
     <div class="sec-head fi">
-      <div class="sec-tag">В цифрах</div>
-      <h2 class="sec-title">СчётОк в действии</h2>
-      <p class="sec-sub">Тысячи ИП и самозанятых уже экономят время на выставлении счетов.</p>
+      <div class="sec-tag">Возможности кабинета</div>
+      <h2 class="sec-title">СчётОк умеет больше, чем считать</h2>
+      <p class="sec-sub">Не только счета — акты, договоры и повторяющиеся платежи под контролем.</p>
     </div>
     <div class="stats-grid">
-      <div class="stat-item">
-        <div class="stat-num fi" data-target="52000">0<span class="acc">+</span></div>
-        <div class="stat-label">счетов создано<br>пользователями сервиса</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num fi" data-target="14000" style="transition-delay:.1s">0<span class="acc">+</span></div>
-        <div class="stat-label">зарегистрированных<br>пользователей</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-num fi" style="transition-delay:.2s">
-          <span style="font-size:34px;letter-spacing:-1px;">≈ 2 мин</span>
+      <div class="stat-item fi">
+        <div class="feat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 2v6h-6M3 22v-6h6"/>
+            <path d="M3.5 12a8.5 8.5 0 0 1 14.6-5.9L21 8M20.5 12a8.5 8.5 0 0 1-14.6 5.9L3 16"/>
+          </svg>
         </div>
-        <div class="stat-label">среднее время<br>создания одного счёта</div>
+        <div class="stat-label"><b>Умные счета —</b><br>автосоздание по расписанию. Счёт и акт формируются и уходят контрагенту сами: раз в месяц или квартал, без ручного участия.</div>
+      </div>
+      <div class="stat-item fi" style="transition-delay:.1s">
+        <div class="feat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <path d="M14 2v6h6M9 13l2 2 4-4"/>
+          </svg>
+        </div>
+        <div class="stat-label"><b>Акты выполненных работ —</b><br>формируются вместе со счётом или отдельно, в том же стандартном PDF-формате.</div>
+      </div>
+      <div class="stat-item fi" style="transition-delay:.2s">
+        <div class="feat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+          </svg>
+        </div>
+        <div class="stat-label"><b>Несколько договоров на контрагента —</b><br>все документы по одному партнёру в одном месте, с сортировкой по важности.</div>
       </div>
     </div>
   </div>
@@ -321,29 +333,11 @@
     entries.forEach(e => {
       if (!e.isIntersecting) return;
       e.target.classList.add('on');
-      if (e.target.dataset.target) {
-        animateCount(e.target);
-        obs.unobserve(e.target);
-      }
+      obs.unobserve(e.target);
     });
   }, { threshold: 0.18 });
 
   document.querySelectorAll('.fi').forEach(el => obs.observe(el));
-
-  // ── Counter animation
-  function animateCount(el) {
-    const target = parseInt(el.dataset.target, 10);
-    const accEl  = el.querySelector('.acc');
-    const dur    = 1800;
-    const t0     = performance.now();
-    (function tick(now) {
-      const p = Math.min((now - t0) / dur, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      const val = Math.round(eased * target);
-      el.innerHTML = val.toLocaleString('ru-RU') + (accEl ? accEl.outerHTML : '');
-      if (p < 1) requestAnimationFrame(tick);
-    })(performance.now());
-  }
 
   // ── Tweaks panel
   const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{

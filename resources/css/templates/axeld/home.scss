@@ -552,23 +552,27 @@ h2.sec-title {
     background: rgba(255, 255, 255, .025);
 }
 
-.stat-num {
-    font-size: 54px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -2.5px;
-    line-height: 1;
-    margin-bottom: 10px;
-}
-
-.stat-num .acc {
+.feat-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
     color: oklch(65% .18 262);
+    background: rgba(255, 255, 255, .06);
 }
 
 .stat-label {
     font-size: 14.5px;
     color: oklch(68% .03 250);
     line-height: 1.55;
+}
+
+.stat-label b {
+    color: #fff;
+    font-weight: 700;
 }
 
 // ── CTA ──

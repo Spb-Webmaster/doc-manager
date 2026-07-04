@@ -1,0 +1,218 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - navigation [ref=e3]:
+      - generic [ref=e4]:
+        - link "СчётОк" [ref=e5] [cursor=pointer]:
+          - /url: https://account-ok.test
+          - img [ref=e7]
+          - text: СчётОк
+        - generic [ref=e11]:
+          - link "Войти" [ref=e12] [cursor=pointer]:
+            - /url: https://account-ok.test/login
+          - link "Зарегистрироваться" [ref=e13] [cursor=pointer]:
+            - /url: https://account-ok.test/register
+    - main [ref=e14]:
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - generic [ref=e17]:
+            - img [ref=e18]
+            - text: Для ИП и самозанятых
+          - heading "Создать счёт? Два клика." [level=1] [ref=e20]:
+            - text: Создать счёт?
+            - emphasis [ref=e21]: Два клика.
+          - paragraph [ref=e22]: Введите ИНН — реквизиты заполнятся автоматически из реестра ФНС. Выберите дату — PDF счёт готов к отправке или скачиванию.
+          - generic [ref=e23]:
+            - link "Создать счёт бесплатно" [ref=e24] [cursor=pointer]:
+              - /url: https://account-ok.test/register
+            - link "Войти" [ref=e25] [cursor=pointer]:
+              - /url: https://account-ok.test/login
+          - generic [ref=e26]:
+            - img [ref=e27]
+            - text: Регистрация бесплатна — без банковской карты
+        - generic [ref=e29]:
+          - generic [ref=e30]:
+            - generic [ref=e33]: Новый счёт
+            - generic [ref=e34]:
+              - generic [ref=e35]: Ваш ИНН
+              - generic [ref=e36]: 7712 345678
+              - generic [ref=e37]:
+                - img [ref=e38]
+                - text: ООО «Альфа Трейд»
+            - generic [ref=e40]:
+              - generic [ref=e41]: ИНН контрагента
+              - generic [ref=e42]: 5012 345678
+              - generic [ref=e43]:
+                - img [ref=e44]
+                - text: ИП Смирнов А.В.
+            - generic [ref=e46]:
+              - generic [ref=e47]: Дата счёта
+              - generic [ref=e48]:
+                - img [ref=e49]
+                - text: 4 июля 2026
+            - link [ref=e52] [cursor=pointer]:
+              - /url: https://account-ok.test/cabinet/invoices/create
+              - text: Создать счёт →
+          - img [ref=e54]
+          - generic [ref=e56]:
+            - generic [ref=e57]: PDF
+            - generic [ref=e58]: СЧЁТ № 128
+            - generic [ref=e59]: от 04.07.2026
+            - generic [ref=e60]:
+              - generic [ref=e61]: "Поставщик:"
+              - generic [ref=e62]: ООО «Альфа»
+            - generic [ref=e63]:
+              - generic [ref=e64]: "Покупатель:"
+              - generic [ref=e65]: ИП Смирнов
+            - generic [ref=e66]:
+              - generic [ref=e67]:
+                - generic [ref=e68]: Услуга
+                - generic [ref=e69]: Сумма
+              - generic [ref=e70]:
+                - generic [ref=e71]: Консалтинг
+                - generic [ref=e72]: 50 000 ₽
+            - generic [ref=e73]: "Итого: 50 000 ₽"
+            - generic [ref=e74]:
+              - button [ref=e75] [cursor=pointer]: ↓ PDF
+              - button [ref=e76] [cursor=pointer]: ✉ Email
+      - generic [ref=e78]:
+        - generic [ref=e79]:
+          - img [ref=e80]
+          - text: Данные из реестра ФНС
+        - generic [ref=e83]:
+          - img [ref=e84]
+          - text: Счёт в формате PDF
+        - generic [ref=e88]:
+          - img [ref=e89]
+          - text: Отправка по email
+        - generic [ref=e93]:
+          - img [ref=e94]
+          - text: Без ошибок в реквизитах
+      - generic [ref=e98]:
+        - generic [ref=e99]:
+          - generic [ref=e100]: Как это работает
+          - heading "Три шага — и счёт готов" [level=2] [ref=e101]
+          - paragraph [ref=e102]: Никаких сложных форм, ручного ввода и ошибок в реквизитах.
+        - generic [ref=e103]:
+          - generic [ref=e104]:
+            - generic [ref=e105]: "1"
+            - generic [ref=e106]: Введите свой ИНН
+            - paragraph [ref=e107]: Система автоматически запрашивает данные из реестра ФНС — название организации, адрес, КПП и ОГРН.
+            - generic [ref=e108]:
+              - img [ref=e109]
+              - text: Автозаполнение из ФНС
+          - img [ref=e112]
+          - generic [ref=e114]:
+            - generic [ref=e115]: "2"
+            - generic [ref=e116]: ИНН контрагента и дата
+            - paragraph [ref=e117]: Данные покупателя тоже подтягиваются из ФНС автоматически. Выберите дату счёта через удобный встроенный календарь.
+            - generic [ref=e118]:
+              - img [ref=e119]
+              - text: Выбор даты через календарь
+          - img [ref=e122]
+          - generic [ref=e124]:
+            - generic [ref=e125]: "3"
+            - generic [ref=e126]: Скачайте PDF или отправьте
+            - paragraph [ref=e127]: Счёт формируется мгновенно в стандартном виде. Скачайте PDF одним кликом или отправьте напрямую контрагенту по email.
+            - generic [ref=e128]:
+              - img [ref=e129]
+              - text: PDF за секунду
+      - generic [ref=e132]:
+        - generic [ref=e133]:
+          - generic [ref=e134]: Преимущества
+          - heading "Почему выбирают СчётОк" [level=2] [ref=e135]
+          - paragraph [ref=e136]: Создан специально для ИП и самозанятых — минимум действий, максимум результата.
+        - generic [ref=e137]:
+          - generic [ref=e138]:
+            - img [ref=e140]
+            - generic [ref=e143]: Автозаполнение реквизитов
+            - paragraph [ref=e144]: Только ИНН — всё остальное сервис заполнит сам. Название, адрес, ИНН, КПП, ОГРН из официального реестра ФНС без ошибок.
+          - generic [ref=e145]:
+            - img [ref=e147]
+            - generic [ref=e150]: Удобный выбор дат
+            - paragraph [ref=e151]: Встроенный календарь для быстрого выбора периода. Несколько кликов — и дата указана точно, без ручного ввода.
+          - generic [ref=e152]:
+            - img [ref=e154]
+            - generic [ref=e157]: PDF одним кликом
+            - paragraph [ref=e158]: Счёт формируется мгновенно в стандартном формате. Скачайте готовый документ без лишних шагов и настроек.
+          - generic [ref=e159]:
+            - img [ref=e161]
+            - generic [ref=e164]: Отправка по email
+            - paragraph [ref=e165]: Не нужно скачивать и прикреплять вручную. Отправьте счёт прямо из сервиса — контрагент получит письмо сразу.
+      - generic [ref=e167]:
+        - generic [ref=e168]:
+          - generic [ref=e169]: Возможности кабинета
+          - heading "СчётОк умеет больше, чем считать" [level=2] [ref=e170]
+          - paragraph [ref=e171]: Не только счета — акты, договоры и повторяющиеся платежи под контролем.
+        - generic [ref=e172]:
+          - generic [ref=e173]:
+            - img [ref=e175]
+            - generic [ref=e178]:
+              - text: Умные счета —
+              - text: "автосоздание по расписанию. Счёт и акт формируются и уходят контрагенту сами: раз в месяц или квартал, без ручного участия."
+          - generic [ref=e179]:
+            - img [ref=e181]
+            - generic [ref=e184]:
+              - text: Акты выполненных работ —
+              - text: формируются вместе со счётом или отдельно, в том же стандартном PDF-формате.
+          - generic [ref=e185]:
+            - img [ref=e187]
+            - generic [ref=e189]:
+              - text: Несколько договоров на контрагента —
+              - text: все документы по одному партнёру в одном месте, с сортировкой по важности.
+      - generic [ref=e191]:
+        - generic [ref=e192]: Начать работу
+        - heading "Попробуйте бесплатно — первый счёт за 2 минуты" [level=2] [ref=e193]:
+          - text: Попробуйте бесплатно —
+          - text: первый счёт за 2 минуты
+        - paragraph [ref=e194]: Регистрация занимает меньше минуты. Сразу работа — без тестовых ограничений.
+        - generic [ref=e195]:
+          - link "Зарегистрироваться" [ref=e196] [cursor=pointer]:
+            - /url: https://account-ok.test/register
+          - link "Войти в кабинет" [ref=e197] [cursor=pointer]:
+            - /url: https://account-ok.test/login
+  - contentinfo [ref=e198]:
+    - generic [ref=e199]:
+      - link "СчётОк" [ref=e200] [cursor=pointer]:
+        - /url: "#"
+        - img [ref=e202]
+        - text: СчётОк
+      - list [ref=e206]:
+        - listitem [ref=e207]:
+          - link "О сервисе" [ref=e208] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e209]:
+          - link "Тарифы" [ref=e210] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e211]:
+          - link "Справка" [ref=e212] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e213]:
+          - link "Конфиденциальность" [ref=e214] [cursor=pointer]:
+            - /url: "#"
+        - listitem [ref=e215]:
+          - link "Оферта" [ref=e216] [cursor=pointer]:
+            - /url: "#"
+      - generic [ref=e217]: © 2026 СчётОк
+  - generic [ref=e220]:
+    - generic [ref=e222]:
+      - generic [ref=e223] [cursor=pointer]:
+        - generic: Request
+      - generic [ref=e224] [cursor=pointer]:
+        - generic: Timeline
+      - generic [ref=e225] [cursor=pointer]:
+        - generic: Views
+        - generic [ref=e226]: "7"
+      - generic [ref=e227] [cursor=pointer]:
+        - generic: Queries
+        - generic [ref=e228]: "4"
+      - generic [ref=e229] [cursor=pointer]:
+        - generic: Models
+        - generic [ref=e230]: "1"
+    - generic [ref=e231]:
+      - generic [ref=e239] [cursor=pointer]: GET /
+      - generic [ref=e240] [cursor=pointer]:
+        - generic: 423ms
+      - generic [ref=e242] [cursor=pointer]:
+        - generic: 27MB
+      - generic [ref=e244] [cursor=pointer]:
+        - generic: 13.x
