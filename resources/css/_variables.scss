@@ -1,0 +1,61 @@
+:root {
+  /* ── Основные цвета сайта ── */
+  --color:              #282828;
+  --color-red:          #EF533F;
+  --color-grey:         #667085;
+  --color-green-bright: #43D38B;
+  --color-green-dark:   #2F6E4D;
+  --color-yellow:       #FF931E;
+  --color-indigo:       #575EEF;
+  --color-text-muted:   #6f7893;
+  --color-gray-btn:     #9e9e9e;
+  --color-list-bullet:  #cbdaed;
+  --color-price:        #ffe135;
+  --color-border-light: #f0f0f0;
+
+  /* ── Alert / Danger ── */
+  --color-danger:        #842029;
+  --color-danger-bg:     #f8d7da;
+  --color-danger-border: #f5c2c7;
+
+  /* ── UI: шапка, подвал, компоненты ── */
+  --brand:         #f84e40;
+  --ui-dark:       #1f1f22;
+  --ui-gray:       #7a7a7a;
+  --ui-gray-muted: #888;
+  --ui-border:     #e8e8e8;
+  --ui-topbar-bg:  #f5f5f7;
+  --ui-bg-light:   #F5F5F7;
+  --ui-bg-soft:    #f6f5f4;
+
+  /* ── СчётОк: главная страница и формы ── */
+  --border-f:  #2550E2;
+  --red:       #D63B3B;
+  --red-lt:    #FEF0F0;
+
+  /* ── СчётОк: главная страница ── */
+  --bg:        #F4F6FA;
+  --surface:   #FFFFFF;
+  --text-h:    #0F1628;
+  --text-b:    #3D4560;
+  --text-s:    #7B849A;
+  --accent:    #2550E2;
+  --accent-hv: #1A3FC4;
+  --accent-lt: #EAF0FD;
+  --border:    #DFE5EF;
+  --green:     #159B6A;
+  --green-lt:  #E6F7EF;
+  --purple:    #6B45D8;
+  --purple-lt: #F0ECFE;
+  --dark:      #0F1628;
+  --dark-2:    #1A2140;
+  --rad:       14px;
+  --rad-sm:    9px;
+  --rad-lg:    22px;
+  --sh:        0 1px 4px rgba(15,22,40,.05), 0 4px 18px rgba(15,22,40,.08);
+  --sh-lg:     0 6px 12px rgba(15,22,40,.07), 0 20px 48px rgba(15,22,40,.13);
+
+  /* ── Шрифты ── */
+  --font-main:  'Source Sans 3 Variable', sans-serif;
+  --font-golos: 'Golos Text Variable', system-ui, -apple-system, sans-serif;
+}

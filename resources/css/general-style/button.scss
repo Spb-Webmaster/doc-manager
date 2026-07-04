@@ -1,0 +1,234 @@
+@charset "utf-8";
+$color: #282828;
+$colorRed: #EF533F;
+$colorCCC: #CCCCCC;
+$colorGrey: #667085;
+$colorBlue: #002775;
+$colorBlue2: #03a9f4;
+$colorGreen: #0f6567;
+$colorYellow: #FF931E;
+$colorOrange: #FF732C;
+
+
+$maxWidth: 1440;
+@mixin adaptiv-font($pcSize, $mobSize) {
+    $addSize: $pcSize - $mobSize;
+    $maxWidth: $maxWidth - 320;
+    font-size: calc(#{$mobSize + px} + #{$addSize} * ((100vw - 320px) / #{$maxWidth}));
+}
+
+
+@mixin Roboto {
+    font-family: 'Roboto Variable', sans-serif;
+}
+
+@mixin RobotoFlex {
+    font-family: 'Roboto Flex Variable', sans-serif;
+}
+
+.button {
+
+    width: 100%;
+    height: 56px;
+    text-decoration: none;
+    text-transform: none;
+    background: $colorBlue;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    @include RobotoFlex;
+    position: relative;
+    margin: 0;
+    font-weight: 500;
+    border-radius: 12px;
+    transition: 0.2s;
+    border: 1px solid $colorBlue;
+    cursor: pointer;
+
+
+    &:hover {
+        background:#fff ;
+        color: $colorBlue;
+        border: 1px solid #E6E0EC;
+    }
+
+
+
+    &.orange {
+        background: $colorOrange;
+        border: 1px solid $colorOrange;
+
+
+    }
+    &.orange:hover {
+        background: $colorOrange;
+        border: 1px solid $colorOrange;
+
+
+    }
+
+    &.white {
+        background: #fff;
+        color: $colorBlue;
+        border: 1px solid #E6E0EC;
+
+    }
+    &.white:hover {
+        background: $colorBlue;
+        color: #fff;
+        border: 1px solid $colorBlue;
+
+    }
+
+    &.green {
+        background: #2F6E4D;
+        color: #fff;
+        border: 1px solid #2F6E4D;
+
+    }
+    &.green:hover {
+        background: #fff;
+        color: green;
+        border: 1px solid #2F6E4D;
+
+    }
+    &.red {
+        background: #fff;
+        color: $colorRed;
+        border: 1px solid #E6E0EC;
+
+    }
+    &.red:hover {
+        background: $colorRed;
+        color: #fff;
+        border: 1px solid $colorRed;
+
+    }
+    &.red2 {
+        background: $colorRed;
+        color: #fff;
+        border: 1px solid $colorRed;
+
+    }
+    &.red2:hover {
+        background: #fff;
+        color: $colorRed;
+        border: 1px solid $colorRed;
+
+    }
+
+
+}
+.button_middle {
+
+    width: 100%;
+    height: 48px;
+    text-decoration: none;
+    text-transform: none;
+    background: $colorBlue;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    @include RobotoFlex;
+    position: relative;
+    margin: 0;
+    font-weight: 500;
+    border-radius: 12px;
+    transition: 0.2s;
+    border: 1px solid $colorBlue;
+    cursor: pointer;
+
+
+    &:hover {
+        background:#fff ;
+        color: $colorBlue;
+        border: 1px solid #E6E0EC;
+    }
+
+
+
+    &.orange {
+        background: $colorOrange;
+        border: 1px solid $colorOrange;
+
+
+    }
+    &.orange:hover {
+        background: $colorOrange;
+        border: 1px solid $colorOrange;
+
+
+    }
+
+    &.white {
+        background: #fff;
+        color: $colorBlue;
+        border: 1px solid #E6E0EC;
+
+    }
+    &.white:hover {
+        background: $colorBlue;
+        color: #fff;
+        border: 1px solid $colorBlue;
+
+    }
+    &.green {
+        background: #2F6E4D;
+        color: #fff;
+        border: 1px solid #2F6E4D;
+
+    }
+    &.green:hover {
+        background: #fff;
+        color: green;
+        border: 1px solid #2F6E4D;
+
+    }
+    &.red {
+        background: #fff;
+        color: $colorRed;
+        border: 1px solid #E6E0EC;
+
+    }
+    &.red:hover {
+        background: $colorRed;
+        color: #fff;
+        border: 1px solid $colorRed;
+
+    }
+    &.red2 {
+        background: $colorRed;
+        color: #fff;
+        border: 1px solid $colorRed;
+
+    }
+    &.red2:hover {
+        background: #fff;
+        color: $colorRed;
+        border: 1px solid $colorRed;
+
+    }
+
+
+}
+
+
+@media screen and (max-width:865px) {
+    .button {
+
+        width: 100%;
+        height: 50px;
+        font-size: 16px;
+    }
+
+    .button_middle {
+
+        width: 100%;
+        height: 44px;
+        font-size: 16px;
+    }
+}

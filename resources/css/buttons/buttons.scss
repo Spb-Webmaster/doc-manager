@@ -1,0 +1,183 @@
+@charset "utf-8";
+
+.btn,
+.btn_danger {
+    width: auto;
+    display: inline-table;
+    text-align: center;
+    padding: 5px 20px;
+    background: var(--color-red);
+    border-radius: 7px;
+    //   border: 1px solid var(--color-red);
+    color: #FFFFFF;
+    position: relative;
+    transition: 0.3s;
+    text-decoration: none !important;
+}
+
+.btn.btn_white {
+    background: #fff;
+    border-radius: 7px;
+    border: 1px solid var(--color-red);
+    color: var(--color);
+    position: relative;
+    transition: 0.3s;
+    text-decoration: none !important;
+}
+
+.btn.btn_white:hover {
+    background: var(--color-red);
+    border-radius: 7px;
+    border: 1px solid var(--color-red);
+    color: #fff;
+    position: relative;
+    transition: 0.3s;
+    text-decoration: none !important;
+}
+
+.btn.btn_green {
+    background: var(--color-green-bright);
+    border-radius: 7px;
+    border: 1px solid var(--color-green-bright);
+    color: #ffffff;
+    position: relative;
+    transition: 0.3s;
+    text-decoration: none !important;
+}
+
+.btn.btn_green:hover {
+    background: #ffffff;
+    border: 1px solid var(--color-green-bright);
+    color: var(--color-green-bright);
+
+}
+
+.btn.btn_grey {
+    background: var(--color-gray-btn);
+    border: 1px solid var(--color-gray-btn);
+    color: #ffffff;
+    transition: 0.3s;
+    text-decoration: none !important;
+}
+
+.btn.btn_grey:hover {
+    background: #ffffff;
+    border: 1px solid var(--color-gray-btn);
+    color: var(--color-gray-btn);
+}
+
+.btn.over,
+.btn:hover {
+    /*background: #FFFFFF;
+        color: var(--color-red);
+        border: 1px solid var(--color-red);*/
+}
+
+.btn.over:hover {
+    background: var(--color-red);
+    color: #FFFFFF;
+    border: 1px solid var(--color-red);
+}
+
+.btn.btn-middle {
+    padding: 8px 20px;
+}
+
+.btn.btn-big {
+    padding: 10px 20px;
+    height: auto;
+    font-size: 18px;
+}
+
+.btn.btn-green {
+    background: var(--color-green-dark);
+    border: 1px solid var(--color-green-dark);
+    color: #fff;
+
+    &:hover {
+        background: #fff;
+        color: var(--color-green-dark);
+        border: 1px solid var(--color-green-dark);
+    }
+}
+
+.btn.btn-red {
+    background: var(--color-red);
+    border: 1px solid var(--color-red);
+    color: #fff;
+
+    &:hover {
+        background: #fff;
+        color: var(--color-red);
+        border: 1px solid var(--color-red);
+    }
+}
+
+.btn:disabled,
+.btn[disabled] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.btn.btn-indigo {
+    background: var(--color-indigo);
+    border: 1px solid var(--color-indigo);
+    color: #fff;
+
+    &:hover {
+        background: #fff;
+        color: var(--color-indigo);
+        border: 1px solid var(--color-indigo);
+    }
+}
+
+// ── СчётОк: кнопки навигации и CTA ──
+.btn-ghost {
+    background: transparent;
+    color: var(--text-h);
+    border: 1.5px solid var(--border);
+}
+
+.btn-ghost:hover {
+    background: var(--bg);
+    border-color: #c5cedf;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: #fff;
+}
+
+.btn-primary:hover {
+    background: var(--accent-hv);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 16px rgba(37, 80, 226, .32);
+}
+
+.btn.btn-lg {
+    padding: 13px 26px;
+    font-size: 16px;
+    border-radius: var(--rad);
+}
+
+.btn.btn-xl {
+    padding: 15px 34px;
+    font-size: 17px;
+    font-weight: 600;
+    border-radius: var(--rad);
+}
+
+@media (max-width: 468px) {
+    .nav-btns .btn-primary {
+        display: none;
+    }
+    .btn.btn-xl {
+        padding: 10px 34px;
+        font-size: 16px;
+    }
+    .btn.btn-lg {
+        padding: 10px 26px;
+        font-size: 16px;
+    }
+}

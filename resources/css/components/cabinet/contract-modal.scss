@@ -1,0 +1,111 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 22, 40, .5);
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  &.open { display: flex; }
+}
+
+.modal {
+  background: var(--surface);
+  border-radius: 20px;
+  box-shadow: 0 24px 64px rgba(15, 22, 40, .28);
+  width: 100%;
+  max-width: 480px;
+  overflow: hidden;
+}
+
+.modal-head {
+  padding: 22px 24px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.modal-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text-h);
+  letter-spacing: -.3px;
+}
+
+.modal-sub {
+  font-size: 13px;
+  color: var(--text-s);
+  margin-top: 4px;
+}
+
+.modal-x {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-s);
+  font-size: 18px;
+  transition: background .13s;
+  flex-shrink: 0;
+
+  &:hover { background: var(--bg); }
+}
+
+.modal-body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-foot {
+  padding: 0 24px 22px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+
+  .btn { padding: 10px 22px; border-radius: var(--rad-sm); font-size: 14px; }
+}
+
+.m-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.m-field-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.m-field-input {
+  width: 100%;
+  padding: 11px 13px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--rad-sm);
+  font-family: inherit;
+  font-size: 14.5px;
+  color: var(--text-h);
+  background: var(--bg);
+  outline: none;
+  transition: border-color .16s, box-shadow .16s, background .16s;
+
+  &:focus   { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px rgba(37, 80, 226, .10); }
+  &.valid   { border-color: var(--green);  background: var(--surface); }
+  &.invalid { border-color: var(--red);    background: var(--red-lt); }
+}
+
+.m-field-hint {
+  font-size: 11.5px;
+  color: var(--text-s);
+}

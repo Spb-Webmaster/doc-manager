@@ -1,0 +1,27 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    Options +FollowSymLinks
+
+    # Публичные медиафайлы через storage:link (public/storage → storage/app/public)
+    RewriteRule ^storage/(.*)$ public/storage/$1 [L,QSA]
+
+    # Публичные ассеты из public/vendor/ (MoonShine, TinyMCE и др.)
+    RewriteRule ^vendor/(.*)$ public/vendor/$1 [L,QSA]
+
+    # Блокируем доступ к служебным файлам
+    RewriteRule ^\.env - [F,L]
+    RewriteRule ^artisan - [F,L]
+    RewriteRule ^composer\.(json|lock)$ - [F,L]
+    RewriteRule ^package(-lock)?\.json$ - [F,L]
+    RewriteRule ^phpunit\.xml$ - [F,L]
+    RewriteRule ^(app|bootstrap|config|database|lang|resources|routes|src|storage|vendor)(/|$) - [F,L]
+
+    # Статика из public/
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{DOCUMENT_ROOT}/public%{REQUEST_URI} -f
+    RewriteRule ^(.+)$ public/$1 [L,QSA]
+
+    # Всё остальное → Laravel
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ public/index.php [L,QSA]
+</IfModule>

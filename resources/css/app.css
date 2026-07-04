@@ -1,0 +1,44 @@
+@import '_variables.scss';
+@import 'pagination.scss';
+ @import 'general-style/paddind.scss';
+/* @import 'general-style/width.scss';*/
+@import '@fontsource-variable/source-sans-3';
+/* @import '@fontsource-variable/roboto/wdth.css';*/
+@import '@fontsource-variable/golos-text/wght.css';
+/*@import 'fancybox/fancubox6.scss';*/
+@import 'message/flach_message.scss';
+/*@import 'loader_map.css';
+@import 'trix/trix.scss';
+@import 'components/modules/banner.scss';
+@import 'components/modules/programs.scss';
+@import 'components/modules/slider.scss';
+@import 'components/modules/schedule.scss';
+@import 'components/modules/advantages.scss';
+@import 'components/modules/consulting.scss';
+@import 'components/modules/actions_script.scss';
+@import 'components/modules/faq.scss';
+@import 'components/form/form-loader.scss';
+@import 'components/form/form-input.scss';
+@import 'components/form/form-blue-component.scss';*/
+@import 'buttons/buttons.scss';
+/* @import 'templates/axeld/breadcrumbs.scss';
+@import 'templates/axeld/common/pages/about.scss';
+@import 'templates/axeld/common/pages/default.scss';
+@import 'templates/axeld/common/resources/full/default.scss';
+@import 'templates/axeld/common/resources/full/full.scss';
+@import 'templates/axeld/common/resources/teaser/default.scss';
+@import 'templates/axeld/common/resources/teaser/default.scss';
+@import 'templates/axeld/breadcrumbs.scss';
+@import 'templates/axeld/content.scss';*/
+@import 'templates/axeld/header.scss';
+/* @import 'templates/axeld/city-selector.scss';*/
+@import 'templates/axeld/footer.scss';
+@import 'templates/axeld/home.scss';
+@import 'auth/auth.scss';
+@import 'cabinet/cabinet.scss';
+@import 'components/cabinet/contract-modal.scss';
+@import 'components/cabinet/calendar.scss';
+@import 'components/cabinet/doc-view-modal.scss';
+@import 'components/cabinet/upload-modal.scss';
+@import 'materialize-select/select.scss';
+@import 'style.scss';

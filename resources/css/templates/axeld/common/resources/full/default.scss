@@ -1,0 +1,134 @@
+@charset "utf-8";
+$color: #282828;
+$colorRed: #EF533F;
+$colorCCC: #CCCCCC;
+$colorGrey: #667085;
+$colorBlue: #095C9A;
+$colorBlue2: #03a9f4;
+$colorGreen: #0f6567;
+$colorYellow: #FF931E;
+$colorOrange: #FF732C;
+
+
+.content_page__img {
+    width: 100%;
+    margin-bottom: 48px;
+}
+
+.content_page__img-main {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    object-fit: cover;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin: 48px 0;
+
+    &__item {
+        display: block;
+        overflow: hidden;
+        border-radius: 12px;
+        aspect-ratio: 1 / 1;
+        cursor: zoom-in;
+    }
+
+    &__thumb {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+    }
+}
+
+.media-video {
+    width: 100%;
+    margin: 48px 0;
+
+    &__player {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+    }
+
+    &__youtube-wrap {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%; // 16:9
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    &__youtube {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        border: none;
+    }
+}
+
+.file-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 48px 0;
+
+    &__item {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 14px 18px;
+        border: 1px solid rgba(230, 224, 236, 0.9);
+        border-radius: 12px;
+        background: #fff;
+        text-decoration: none;
+        color: $color;
+        transition: border-color 0.2s, background 0.2s;
+
+        &:hover {
+            border-color: $colorRed;
+            background: rgba(239, 83, 63, 0.04);
+        }
+    }
+
+    &__icon {
+        flex-shrink: 0;
+    }
+
+    &__name {
+        font-size: 16px;
+        line-height: 1.4;
+    }
+}
+
+.content_page__subtitle {
+    position: relative;
+    top: -9px;
+    color: $colorGrey;
+    line-height: 1.2;
+    padding: 0 0 16px 0;
+}

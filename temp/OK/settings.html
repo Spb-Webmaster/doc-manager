@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Настройки — СчётОк</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #F4F6FA;
+      --surface:   #FFFFFF;
+      --text-h:    #0F1628;
+      --text-b:    #3D4560;
+      --text-s:    #7B849A;
+      --accent:    #2550E2;
+      --accent-hv: #1A3FC4;
+      --accent-lt: #EAF0FD;
+      --border:    #DFE5EF;
+      --green:     #159B6A;
+      --green-lt:  #E6F7EF;
+      --red:       #D63B3B;
+      --red-lt:    #FEF0F0;
+      --dark:      #0F1628;
+      --rad:       12px;
+      --rad-sm:    8px;
+      --sh:        0 1px 4px rgba(15,22,40,.05), 0 4px 16px rgba(15,22,40,.08);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: 'Golos Text', system-ui, -apple-system, sans-serif;
+      background: var(--bg); color: var(--text-b);
+      line-height: 1.5; -webkit-font-smoothing: antialiased;
+      display: flex; flex-direction: column;
+    }
+
+    /* ── Shell ── */
+    .shell { display: flex; height: 100vh; overflow: hidden; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 232px; flex-shrink: 0;
+      background: var(--surface); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; overflow-y: auto;
+    }
+    .sb-logo {
+      display: flex; align-items: center; gap: 10px;
+      padding: 0 18px; height: 64px;
+      text-decoration: none; font-size: 17px; font-weight: 700;
+      color: var(--text-h); letter-spacing: -.3px;
+      border-bottom: 1px solid var(--border); flex-shrink: 0;
+    }
+    .sb-logo-icon {
+      width: 30px; height: 30px; background: var(--accent);
+      border-radius: 8px; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0;
+    }
+    .sb-nav { flex: 1; padding: 10px 8px; }
+    .nav-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px; border-radius: var(--rad-sm);
+      text-decoration: none; font-size: 14px; font-weight: 500;
+      color: var(--text-b); border: none; background: transparent;
+      width: 100%; text-align: left; cursor: pointer;
+      transition: background .14s, color .14s; margin-bottom: 2px;
+    }
+    .nav-item:hover  { background: var(--bg); color: var(--text-h); }
+    .nav-item.active { background: var(--accent-lt); color: var(--accent); font-weight: 600; }
+    .nav-item svg { flex-shrink: 0; }
+    .sb-sep { height: 1px; background: var(--border); margin: 6px 10px; }
+    .sb-user { border-top: 1px solid var(--border); padding: 14px 16px; flex-shrink: 0; }
+    .sb-user-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .sb-avatar {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--accent-lt); color: var(--accent);
+      font-size: 13px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .sb-uname { font-size: 13.5px; font-weight: 600; color: var(--text-h); }
+    .sb-urole { font-size: 11.5px; color: var(--text-s); }
+    .sb-logout {
+      display: flex; align-items: center; gap: 7px;
+      text-decoration: none; font-size: 13px; color: var(--text-s); transition: color .14s;
+    }
+    .sb-logout:hover { color: var(--text-h); }
+
+    /* ── Main area ── */
+    .main-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .topbar {
+      height: 64px; flex-shrink: 0;
+      background: var(--surface); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 28px;
+    }
+    .tb-title { font-size: 17px; font-weight: 700; color: var(--text-h); letter-spacing: -.3px; }
+
+    .btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 9px 18px; border-radius: var(--rad-sm);
+      font-family: inherit; font-size: 14px; font-weight: 500;
+      cursor: pointer; border: none; text-decoration: none;
+      transition: background .15s, transform .15s, box-shadow .15s; white-space: nowrap;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hv); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(37,80,226,.28); }
+    .btn-outline { background: transparent; color: var(--text-h); border: 1.5px solid var(--border); }
+    .btn-outline:hover { background: var(--bg); }
+    .btn-danger { background: var(--red-lt); color: var(--red); border: 1.5px solid rgba(214,59,59,.2); }
+    .btn-danger:hover { background: #fde0e0; }
+
+    /* ── Content + tabs ── */
+    .content { flex: 1; overflow-y: auto; display: flex; }
+
+    /* Left tabs nav */
+    .tabs-nav {
+      width: 240px; flex-shrink: 0;
+      border-right: 1px solid var(--border);
+      padding: 20px 8px; background: var(--surface);
+    }
+    .tabs-nav-title {
+      font-size: 10.5px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: .9px; color: var(--text-s);
+      padding: 0 10px; margin-bottom: 6px;
+    }
+    .tab-link {
+      display: flex; align-items: center; gap: 9px;
+      padding: 10px 12px; border-radius: var(--rad-sm);
+      font-size: 13.5px; font-weight: 500; color: var(--text-b);
+      cursor: pointer; border: none; background: transparent;
+      width: 100%; text-align: left; margin-bottom: 2px;
+      transition: background .13s, color .13s;
+    }
+    .tab-link:hover  { background: var(--bg); color: var(--text-h); }
+    .tab-link.active { background: var(--accent-lt); color: var(--accent); font-weight: 600; }
+    .tab-link svg { flex-shrink: 0; }
+    .tabs-sep { height: 1px; background: var(--border); margin: 8px 10px; }
+
+    /* Tab panels */
+    .tab-panels { flex: 1; padding: 28px 32px; overflow-y: auto; }
+    .tab-panel { display: none; max-width: 680px; }
+    .tab-panel.active { display: block; }
+
+    /* ── Section cards ── */
+    .settings-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--rad); overflow: hidden; margin-bottom: 20px;
+    }
+    .sc-head {
+      padding: 16px 22px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .sc-title { font-size: 14px; font-weight: 700; color: var(--text-h); letter-spacing: -.2px; }
+    .sc-sub   { font-size: 12.5px; color: var(--text-s); margin-top: 2px; }
+    .sc-body  { padding: 20px 22px; display: flex; flex-direction: column; gap: 16px; }
+    .sc-foot  { padding: 14px 22px; border-top: 1px solid var(--border); background: var(--bg); display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+
+    /* ── Form fields ── */
+    .field-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field.full { grid-column: 1 / -1; }
+    .field-label { font-size: 12.5px; font-weight: 600; color: var(--text-h); }
+    .field-hint  { font-size: 11.5px; color: var(--text-s); margin-top: 3px; }
+    .field-input, .field-select {
+      width: 100%; padding: 10px 13px;
+      border: 1.5px solid var(--border); border-radius: var(--rad-sm);
+      font-family: inherit; font-size: 14px; color: var(--text-h);
+      background: var(--bg); outline: none;
+      transition: border-color .16s, box-shadow .16s, background .16s;
+    }
+    .field-input:focus, .field-select:focus {
+      border-color: var(--accent); background: var(--surface);
+      box-shadow: 0 0 0 3px rgba(37,80,226,.10);
+    }
+    .field-input[readonly] { background: var(--bg); color: var(--text-s); cursor: default; }
+    .field-input[readonly]:focus { border-color: var(--border); box-shadow: none; }
+    .field-select { cursor: pointer; }
+    .field-prefix-wrap { position: relative; }
+    .field-prefix {
+      position: absolute; left: 13px; top: 50%; transform: translateY(-50%);
+      font-size: 14px; color: var(--text-s); pointer-events: none;
+    }
+    .field-input.with-prefix { padding-left: 36px; }
+    .fias-btn {
+      display: inline-flex; align-items: center; gap: 5px;
+      margin-top: 6px; font-size: 12px; color: var(--accent);
+      background: none; border: none; font-family: inherit;
+      cursor: pointer; padding: 0;
+    }
+    .fias-btn:hover { text-decoration: underline; }
+
+    /* ── INN autofill chip ── */
+    .inn-chip {
+      display: flex; align-items: center; gap: 10px;
+      background: var(--green-lt); border: 1px solid rgba(21,155,106,.2);
+      border-radius: var(--rad-sm); padding: 10px 14px;
+    }
+    .inn-chip-icon { color: var(--green); flex-shrink: 0; }
+    .inn-chip-text { font-size: 13px; color: var(--text-b); }
+    .inn-chip-text strong { color: var(--text-h); }
+
+    /* ── Bank row ── */
+    .bank-item {
+      border: 1.5px solid var(--border); border-radius: var(--rad);
+      overflow: hidden; transition: border-color .15s;
+    }
+    .bank-item.primary { border-color: var(--accent); }
+    .bank-item-head {
+      display: flex; align-items: center; gap: 12px;
+      padding: 14px 18px; background: var(--bg);
+      border-bottom: 1px solid var(--border); cursor: pointer;
+    }
+    .bank-item.primary .bank-item-head { background: var(--accent-lt); border-bottom-color: rgba(37,80,226,.15); }
+    .bank-item-head-ico {
+      width: 34px; height: 34px; border-radius: 9px;
+      background: var(--surface); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .bank-item.primary .bank-item-head-ico { background: var(--accent); border-color: transparent; }
+    .bank-item.primary .bank-item-head-ico svg { color: #fff; }
+    .bank-item-head-info { flex: 1; min-width: 0; }
+    .bank-item-name { font-size: 13.5px; font-weight: 700; color: var(--text-h); }
+    .bank-item-acc  { font-size: 12px; color: var(--text-s); }
+    .bank-primary-badge {
+      font-size: 11px; font-weight: 700; color: var(--accent);
+      background: rgba(37,80,226,.12); padding: 3px 9px; border-radius: 5px;
+    }
+    .bank-item-body { padding: 16px 18px; }
+    .bank-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .bank-collapse { display: none; }
+    .bank-collapse.open { display: block; }
+    .bank-item-foot {
+      padding: 10px 18px; border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--bg);
+    }
+    .add-bank-btn {
+      width: 100%; padding: 13px;
+      border: 1.5px dashed var(--border); border-radius: var(--rad);
+      background: transparent; font-family: inherit; font-size: 14px;
+      color: var(--text-s); cursor: pointer;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    .add-bank-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-lt); }
+
+    /* ── Password strength ── */
+    .pw-bars { display: flex; gap: 4px; margin-top: 8px; }
+    .pw-bar { flex: 1; height: 3px; border-radius: 2px; background: var(--border); transition: background .25s; }
+    .pw-bar.weak   { background: var(--red); }
+    .pw-bar.medium { background: #F0A500; }
+    .pw-bar.strong { background: var(--green); }
+    .pw-label { font-size: 11.5px; margin-top: 4px; }
+    .pw-label.weak   { color: var(--red); }
+    .pw-label.medium { color: #C88000; }
+    .pw-label.strong { color: var(--green); }
+    .pw-wrap { position: relative; }
+    .pw-eye {
+      position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
+      background: none; border: none; cursor: pointer; color: var(--text-s);
+      display: flex; align-items: center; padding: 4px;
+    }
+    .pw-eye:hover { color: var(--text-h); }
+
+    /* ── Notifications toggle ── */
+    .notif-row {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 24px; padding: 14px 0; border-bottom: 1px solid var(--border);
+    }
+    .notif-row:first-child { padding-top: 0; }
+    .notif-row:last-child  { border-bottom: none; padding-bottom: 0; }
+    .notif-info { flex: 1; }
+    .notif-title { font-size: 14px; font-weight: 600; color: var(--text-h); margin-bottom: 3px; }
+    .notif-desc  { font-size: 12.5px; color: var(--text-s); line-height: 1.5; }
+    .toggle {
+      width: 40px; height: 22px; border-radius: 11px;
+      background: var(--border); border: none; cursor: pointer;
+      position: relative; flex-shrink: 0; transition: background .2s;
+    }
+    .toggle::after {
+      content: ''; position: absolute;
+      width: 18px; height: 18px; border-radius: 50%;
+      background: #fff; top: 2px; left: 2px;
+      transition: transform .2s; box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    }
+    .toggle.on { background: var(--green); }
+    .toggle.on::after { transform: translateX(18px); }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--dark); color: #fff;
+      padding: 11px 20px; border-radius: 10px;
+      font-size: 14px; font-weight: 500;
+      opacity: 0; transition: opacity .25s, transform .25s;
+      pointer-events: none; z-index: 999; white-space: nowrap;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast svg { color: var(--green); flex-shrink: 0; }
+
+    /* ── Danger zone ── */
+    .danger-zone {
+      border: 1.5px solid rgba(214,59,59,.25);
+      border-radius: var(--rad); padding: 20px 22px;
+      background: var(--red-lt);
+    }
+    .dz-title { font-size: 14px; font-weight: 700; color: var(--red); margin-bottom: 6px; }
+    .dz-desc  { font-size: 13px; color: var(--text-b); margin-bottom: 16px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar">
+    <a href="index.html" class="sb-logo">
+      <div class="sb-logo-icon">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <rect x="2" y="1" width="10" height="13" rx="1.8" stroke="#fff" stroke-width="1.4"/>
+          <path d="M9.5 1v3.5H13" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M4.5 7h7M4.5 9.5h7M4.5 12h4" stroke="#fff" stroke-width="1.3" stroke-linecap="round"/>
+        </svg>
+      </div>
+      СчётОк
+    </a>
+    <nav class="sb-nav">
+      <a class="nav-item" href="cabinet.html">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="1.5" y="1.5" width="5.5" height="5.5" rx="1.5"/><rect x="9" y="1.5" width="5.5" height="5.5" rx="1.5"/>
+          <rect x="1.5" y="9" width="5.5" height="5.5" rx="1.5"/><rect x="9" y="9" width="5.5" height="5.5" rx="1.5"/>
+        </svg>
+        Кабинет
+      </a>
+      <a class="nav-item" href="create-invoice.html">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 2H4a1.5 1.5 0 0 0-1.5 1.5v9A1.5 1.5 0 0 0 4 14h8a1.5 1.5 0 0 0 1.5-1.5V7z"/>
+          <path d="M9 2v5h5M8 9v3M6.5 10.5h3"/>
+        </svg>
+        Создать счёт
+      </a>
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 2H4a1.5 1.5 0 0 0-1.5 1.5v9A1.5 1.5 0 0 0 4 14h8a1.5 1.5 0 0 0 1.5-1.5V7z"/>
+          <path d="M9 2v5h5M5.5 10.5l2 2 3.5-3.5"/>
+        </svg>
+        Создать акт
+      </a>
+      <a class="nav-item" href="#">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="5.5" cy="5.5" r="2.5"/><circle cx="11" cy="5.5" r="2.5"/>
+          <path d="M1 13c0-2.5 2-4.5 4.5-4.5h4c2.5 0 4.5 2 4.5 4.5"/>
+        </svg>
+        Контрагенты
+      </a>
+      <div class="sb-sep"></div>
+      <a class="nav-item active" href="settings.html">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+          <circle cx="8" cy="8" r="2.5"/>
+          <path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.4 3.4l1.4 1.4M11.2 11.2l1.4 1.4M3.4 12.6l1.4-1.4M11.2 4.8l1.4-1.4"/>
+        </svg>
+        Настройки
+      </a>
+    </nav>
+    <div class="sb-user">
+      <div class="sb-user-row">
+        <div class="sb-avatar">АС</div>
+        <div><div class="sb-uname">Смирнов А.В.</div><div class="sb-urole">ИП · ИНН 501234567890</div></div>
+      </div>
+      <a href="login.html" class="sb-logout">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12.5H3a1.5 1.5 0 0 1-1.5-1.5V3A1.5 1.5 0 0 1 3 1.5h2M9.5 10l3-3-3-3M12.5 7H5.5"/>
+        </svg>
+        Выйти
+      </a>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <div class="main-area">
+    <header class="topbar">
+      <span class="tb-title">Настройки</span>
+    </header>
+
+    <div class="content">
+
+      <!-- Left tabs -->
+      <nav class="tabs-nav">
+        <div class="tabs-nav-title">Разделы</div>
+        <button class="tab-link active" data-tab="tab-org">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1.5" y="2" width="12" height="11" rx="2"/>
+            <path d="M5 2v11M1.5 6h4"/>
+          </svg>
+          Реквизиты
+        </button>
+        <button class="tab-link" data-tab="tab-bank">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="1" y="4" width="13" height="9" rx="1.5"/>
+            <path d="M1 7.5h13M4.5 10.5h2"/>
+          </svg>
+          Банковские счета
+        </button>
+        <button class="tab-link" data-tab="tab-profile">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="7.5" cy="5" r="3"/>
+            <path d="M1.5 14c0-3 2.7-5.5 6-5.5s6 2.5 6 5.5"/>
+          </svg>
+          Профиль и безопасность
+        </button>
+        <div class="tabs-sep"></div>
+        <button class="tab-link" data-tab="tab-notif">
+          <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M7.5 1.5C5 1.5 3 3.5 3 6c0 4-1.5 5.5-1.5 5.5h12S12 10 12 6c0-2.5-2-4.5-4.5-4.5z"/>
+            <path d="M6 12c0 .8.7 1.5 1.5 1.5S9 12.8 9 12"/>
+          </svg>
+          Уведомления
+        </button>
+      </nav>
+
+      <!-- ── Tab panels ── -->
+      <div class="tab-panels">
+
+        <!-- ① Реквизиты -->
+        <div class="tab-panel active" id="tab-org">
+          <div class="settings-card">
+            <div class="sc-head">
+              <div>
+                <div class="sc-title">Данные организации / ИП</div>
+                <div class="sc-sub">Заполняются автоматически по ИНН из реестра ФНС</div>
+              </div>
+            </div>
+            <div class="sc-body">
+              <!-- INN autofill -->
+              <div class="field">
+                <div class="field-label">ИНН</div>
+                <div style="display:flex;gap:10px;align-items:flex-end;">
+                  <input class="field-input" id="org-inn" type="text"
+                    value="501234567890" maxlength="12" style="max-width:200px;">
+                  <button class="btn btn-outline" id="inn-refresh-btn" style="padding:10px 16px;font-size:13px;">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M1 7A6 6 0 0 1 12.5 4M13 7A6 6 0 0 1 1.5 10"/>
+                      <path d="M13 2.5V5H10.5M1 11.5V9H3.5"/>
+                    </svg>
+                    Обновить из ФНС
+                  </button>
+                </div>
+              </div>
+              <div class="inn-chip" id="fns-chip">
+                <svg class="inn-chip-icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <circle cx="8" cy="8" r="7" fill="#E6F7EF"/>
+                  <path d="M5 8l2.5 2.5L11 5.5" stroke="#159B6A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <div class="inn-chip-text">
+                  Данные получены из ФНС: <strong>ИП Смирнов Алексей Вячеславович</strong>
+                </div>
+              </div>
+              <div class="field-grid-2">
+                <div class="field full">
+                  <div class="field-label">Полное наименование</div>
+                  <input class="field-input" id="org-name" type="text"
+                    value="Индивидуальный предприниматель Смирнов Алексей Вячеславович">
+                </div>
+                <div class="field">
+                  <div class="field-label">Краткое наименование</div>
+                  <input class="field-input" id="org-short" type="text" value="ИП Смирнов А.В.">
+                </div>
+                <div class="field">
+                  <div class="field-label">ОГРНИП / ОГРН</div>
+                  <input class="field-input" id="org-ogrn" type="text" value="321500000012345">
+                </div>
+                <div class="field">
+                  <div class="field-label">КПП</div>
+                  <input class="field-input" id="org-kpp" type="text" placeholder="Для ООО/АО" value="">
+                  <div class="field-hint">Только для юридических лиц</div>
+                </div>
+                <div class="field full">
+                  <div class="field-label">Юридический адрес</div>
+                  <input class="field-input" id="org-addr" type="text"
+                    value="г. Москва, ул. Садовая, д. 12, кв. 45">
+                  <button class="fias-btn">
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="6" cy="6" r="5"/><path d="M6 4v2M6 8v.5"/>
+                    </svg>
+                    Уточнить по ФИАС
+                  </button>
+                </div>
+                <div class="field">
+                  <div class="field-label">Телефон</div>
+                  <input class="field-input" id="org-phone" type="tel" value="+7 (916) 123-45-67">
+                </div>
+                <div class="field">
+                  <div class="field-label">Email для документов</div>
+                  <input class="field-input" id="org-email" type="email" value="smirnov@company.ru">
+                </div>
+              </div>
+            </div>
+            <div class="sc-foot">
+              <button class="btn btn-outline" id="org-cancel">Отменить</button>
+              <button class="btn btn-primary" id="org-save">Сохранить реквизиты</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ② Банковские счета -->
+        <div class="tab-panel" id="tab-bank">
+          <div class="settings-card">
+            <div class="sc-head">
+              <div>
+                <div class="sc-title">Банковские счета</div>
+                <div class="sc-sub">Основной счёт подставляется в счёт автоматически</div>
+              </div>
+            </div>
+            <div class="sc-body" id="bank-list">
+
+              <!-- Bank account 1 (primary) -->
+              <div class="bank-item primary" id="bank-0">
+                <div class="bank-item-head" data-bank="0">
+                  <div class="bank-item-head-ico">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="1" y="4" width="14" height="9" rx="1.5"/>
+                      <path d="M1 7.5h14M4 11h2"/>
+                    </svg>
+                  </div>
+                  <div class="bank-item-head-info">
+                    <div class="bank-item-name">АО «Тинькофф Банк»</div>
+                    <div class="bank-item-acc">•••• 4521</div>
+                  </div>
+                  <span class="bank-primary-badge">Основной</span>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" class="bank-chevron">
+                    <path d="M3 5l4 4 4-4"/>
+                  </svg>
+                </div>
+                <div class="bank-collapse open" id="bank-body-0">
+                  <div class="bank-item-body">
+                    <div class="bank-fields">
+                      <div class="field full">
+                        <div class="field-label">Наименование банка</div>
+                        <input class="field-input" type="text" value="АО «Тинькофф Банк»">
+                      </div>
+                      <div class="field">
+                        <div class="field-label">Расчётный счёт</div>
+                        <input class="field-input" type="text" value="40802810100000004521">
+                      </div>
+                      <div class="field">
+                        <div class="field-label">Корреспондентский счёт</div>
+                        <input class="field-input" type="text" value="30101810145250000974">
+                      </div>
+                      <div class="field">
+                        <div class="field-label">БИК</div>
+                        <input class="field-input" type="text" value="044525974">
+                      </div>
+                      <div class="field">
+                        <div class="field-label">Город</div>
+                        <input class="field-input" type="text" value="г. Москва">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bank-item-foot">
+                    <button class="btn btn-danger" style="font-size:12.5px;padding:7px 14px;">Удалить счёт</button>
+                    <button class="btn btn-primary" style="font-size:12.5px;padding:7px 14px;">Сохранить</button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Bank account 2 -->
+              <div class="bank-item" id="bank-1">
+                <div class="bank-item-head" data-bank="1">
+                  <div class="bank-item-head-ico">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="1" y="4" width="14" height="9" rx="1.5"/>
+                      <path d="M1 7.5h14M4 11h2"/>
+                    </svg>
+                  </div>
+                  <div class="bank-item-head-info">
+                    <div class="bank-item-name">ПАО «Сбербанк»</div>
+                    <div class="bank-item-acc">•••• 7890</div>
+                  </div>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" class="bank-chevron">
+                    <path d="M3 5l4 4 4-4"/>
+                  </svg>
+                </div>
+                <div class="bank-collapse" id="bank-body-1">
+                  <div class="bank-item-body">
+                    <div class="bank-fields">
+                      <div class="field full">
+                        <div class="field-label">Наименование банка</div>
+                        <input class="field-input" type="text" value="ПАО «Сбербанк»">
+                      </div>
+                      <div class="field">
+                        <div class="field-label">Расчётный счёт</div>
+                        <input class="field-input" type="text" value="40802810038001117890">
+                      </div>
+                      <div class="field">
+                        <div class="field-label">Корреспондентский счёт</div>
+                        <input class="field-input" type="text" value="30101810400000000225">
+                      </div>
+                      <div class="field">
+                        <div class="field-label">БИК</div>
+                        <input class="field-input" type="text" value="044525225">
+                      </div>
+                      <div class="field">
+                        <div class="field-label">Город</div>
+                        <input class="field-input" type="text" value="г. Москва">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="bank-item-foot">
+                    <div style="display:flex;gap:8px;">
+                      <button class="btn btn-outline" style="font-size:12.5px;padding:7px 14px;" data-make-primary="1">Сделать основным</button>
+                      <button class="btn btn-danger" style="font-size:12.5px;padding:7px 14px;">Удалить счёт</button>
+                    </div>
+                    <button class="btn btn-primary" style="font-size:12.5px;padding:7px 14px;">Сохранить</button>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="sc-body" style="padding-top:0;">
+              <button class="add-bank-btn" id="add-bank-btn">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M7 1.5v11M1.5 7h11"/></svg>
+                Добавить банковский счёт
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ③ Профиль и безопасность -->
+        <div class="tab-panel" id="tab-profile">
+          <div class="settings-card">
+            <div class="sc-head">
+              <div class="sc-title">Личные данные</div>
+            </div>
+            <div class="sc-body">
+              <div class="field-grid-2">
+                <div class="field">
+                  <div class="field-label">Имя</div>
+                  <input class="field-input" type="text" value="Алексей">
+                </div>
+                <div class="field">
+                  <div class="field-label">Фамилия и отчество</div>
+                  <input class="field-input" type="text" value="Вячеславович Смирнов">
+                </div>
+                <div class="field">
+                  <div class="field-label">Email (логин)</div>
+                  <input class="field-input" type="email" value="smirnov@company.ru">
+                </div>
+                <div class="field">
+                  <div class="field-label">Телефон</div>
+                  <input class="field-input" type="tel" value="+7 (916) 123-45-67">
+                </div>
+              </div>
+            </div>
+            <div class="sc-foot">
+              <button class="btn btn-primary" onclick="showToast('Личные данные сохранены')">Сохранить</button>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <div class="sc-head">
+              <div class="sc-title">Смена пароля</div>
+            </div>
+            <div class="sc-body">
+              <div class="field">
+                <div class="field-label">Текущий пароль</div>
+                <div class="pw-wrap">
+                  <input class="field-input" id="pw-cur" type="password" placeholder="Введите текущий пароль" style="padding-right:40px;">
+                  <button class="pw-eye" data-target="pw-cur">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
+                      <path d="M1.5 8s2.5-4.5 6.5-4.5 6.5 4.5 6.5 4.5-2.5 4.5-6.5 4.5S1.5 8 1.5 8z" stroke-linecap="round"/>
+                      <circle cx="8" cy="8" r="2"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="field">
+                <div class="field-label">Новый пароль</div>
+                <div class="pw-wrap">
+                  <input class="field-input" id="pw-new" type="password" placeholder="Не менее 8 символов" style="padding-right:40px;">
+                  <button class="pw-eye" data-target="pw-new">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4">
+                      <path d="M1.5 8s2.5-4.5 6.5-4.5 6.5 4.5 6.5 4.5-2.5 4.5-6.5 4.5S1.5 8 1.5 8z" stroke-linecap="round"/>
+                      <circle cx="8" cy="8" r="2"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="pw-bars">
+                  <div class="pw-bar" id="bar1"></div>
+                  <div class="pw-bar" id="bar2"></div>
+                  <div class="pw-bar" id="bar3"></div>
+                </div>
+                <div class="pw-label" id="pw-lbl"></div>
+              </div>
+              <div class="field">
+                <div class="field-label">Повторите новый пароль</div>
+                <input class="field-input" id="pw-rep" type="password" placeholder="Повторите новый пароль">
+              </div>
+            </div>
+            <div class="sc-foot">
+              <button class="btn btn-primary" onclick="showToast('Пароль успешно изменён')">Изменить пароль</button>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <div class="sc-head">
+              <div class="sc-title">Опасная зона</div>
+            </div>
+            <div class="sc-body">
+              <div class="danger-zone">
+                <div class="dz-title">Удалить аккаунт</div>
+                <div class="dz-desc">Все ваши данные, реквизиты и история документов будут безвозвратно удалены. Это действие нельзя отменить.</div>
+                <button class="btn btn-danger">Удалить аккаунт</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ④ Уведомления -->
+        <div class="tab-panel" id="tab-notif">
+          <div class="settings-card">
+            <div class="sc-head">
+              <div class="sc-title">Email-уведомления</div>
+            </div>
+            <div class="sc-body">
+              <div class="notif-row">
+                <div class="notif-info">
+                  <div class="notif-title">Счёт создан</div>
+                  <div class="notif-desc">Получать подтверждение каждый раз при создании нового счёта</div>
+                </div>
+                <button class="toggle on" data-toggle="notif-invoice"></button>
+              </div>
+              <div class="notif-row">
+                <div class="notif-info">
+                  <div class="notif-title">Акт создан</div>
+                  <div class="notif-desc">Получать подтверждение при создании акта выполненных работ</div>
+                </div>
+                <button class="toggle on" data-toggle="notif-act"></button>
+              </div>
+              <div class="notif-row">
+                <div class="notif-info">
+                  <div class="notif-title">Документ отправлен контрагенту</div>
+                  <div class="notif-desc">Уведомление после успешной отправки документа по email</div>
+                </div>
+                <button class="toggle on" data-toggle="notif-sent"></button>
+              </div>
+              <div class="notif-row">
+                <div class="notif-info">
+                  <div class="notif-title">Добавлен новый контрагент</div>
+                  <div class="notif-desc">Уведомление при добавлении нового контрагента в список</div>
+                </div>
+                <button class="toggle" data-toggle="notif-cp"></button>
+              </div>
+              <div class="notif-row">
+                <div class="notif-info">
+                  <div class="notif-title">Новости и обновления сервиса</div>
+                  <div class="notif-desc">Информация о новых функциях и изменениях в СчётОк</div>
+                </div>
+                <button class="toggle" data-toggle="notif-news"></button>
+              </div>
+            </div>
+            <div class="sc-foot">
+              <button class="btn btn-primary" onclick="showToast('Настройки уведомлений сохранены')">Сохранить</button>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /tab-panels -->
+    </div><!-- /content -->
+  </div><!-- /main-area -->
+</div><!-- /shell -->
+
+<!-- Toast -->
+<div class="toast" id="toast">
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <circle cx="8" cy="8" r="7" fill="#159B6A"/>
+    <path d="M5 8l2.5 2.5L11 5.5" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+  <span id="toast-text">Сохранено</span>
+</div>
+
+<script>
+  /* ── Tabs ── */
+  document.querySelectorAll('.tab-link').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-link').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ── Bank accordion ── */
+  document.querySelectorAll('.bank-item-head').forEach(head => {
+    head.addEventListener('click', () => {
+      const idx = head.dataset.bank;
+      const body = document.getElementById('bank-body-' + idx);
+      body.classList.toggle('open');
+      head.querySelector('.bank-chevron').style.transform =
+        body.classList.contains('open') ? 'rotate(180deg)' : '';
+    });
+  });
+
+  /* ── Password toggle (eye) ── */
+  document.querySelectorAll('.pw-eye').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const inp = document.getElementById(btn.dataset.target);
+      inp.type = inp.type === 'password' ? 'text' : 'password';
+      btn.style.color = inp.type === 'text' ? 'var(--accent)' : '';
+    });
+  });
+
+  /* ── Password strength ── */
+  document.getElementById('pw-new').addEventListener('input', function() {
+    const v = this.value;
+    const bars = [document.getElementById('bar1'), document.getElementById('bar2'), document.getElementById('bar3')];
+    const lbl = document.getElementById('pw-lbl');
+    if (!v) { bars.forEach(b => b.className = 'pw-bar'); lbl.textContent = ''; return; }
+    let s = 0;
+    if (v.length >= 8) s++;
+    if (/[A-ZА-Я]/.test(v) || /[a-zа-я]/.test(v)) s++;
+    if (/\d/.test(v) && /[^A-Za-zА-Яа-я0-9]/.test(v)) s++;
+    const cls = s === 1 ? 'weak' : s === 2 ? 'medium' : 'strong';
+    const lbts = { weak: 'Слабый', medium: 'Средний', strong: 'Надёжный' };
+    bars.forEach((b, i) => { b.className = 'pw-bar' + (i < s ? ' ' + cls : ''); });
+    lbl.className = 'pw-label ' + cls;
+    lbl.textContent = lbts[cls] + ' пароль';
+  });
+
+  /* ── Notification toggles ── */
+  document.querySelectorAll('.toggle').forEach(btn => {
+    btn.addEventListener('click', () => btn.classList.toggle('on'));
+  });
+
+  /* ── Save buttons ── */
+  document.getElementById('org-save').addEventListener('click', () => showToast('Реквизиты сохранены'));
+  document.getElementById('org-cancel').addEventListener('click', () => showToast('Изменения отменены'));
+  document.getElementById('inn-refresh-btn').addEventListener('click', function() {
+    this.textContent = 'Обновляем…';
+    this.disabled = true;
+    setTimeout(() => {
+      this.innerHTML = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7A6 6 0 0 1 12.5 4M13 7A6 6 0 0 1 1.5 10"/><path d="M13 2.5V5H10.5M1 11.5V9H3.5"/></svg> Обновить из ФНС`;
+      this.disabled = false;
+      showToast('Данные обновлены из реестра ФНС');
+    }, 1200);
+  });
+
+  /* ── Add bank ── */
+  document.getElementById('add-bank-btn').addEventListener('click', () => {
+    showToast('Добавление счёта — в разработке');
+  });
+
+  /* ── Toast ── */
+  let toastTimer;
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-text').textContent = msg;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+  }
+  window.showToast = showToast;
+</script>
+</body>
+</html>

@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход — СчётОк</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:        #F4F6FA;
+      --surface:   #FFFFFF;
+      --text-h:    #0F1628;
+      --text-b:    #3D4560;
+      --text-s:    #7B849A;
+      --accent:    #2550E2;
+      --accent-hv: #1A3FC4;
+      --accent-lt: #EAF0FD;
+      --border:    #DFE5EF;
+      --green:     #159B6A;
+      --green-lt:  #E6F7EF;
+      --red:       #D63B3B;
+      --red-lt:    #FEF0F0;
+      --dark:      #0F1628;
+      --rad:       14px;
+      --rad-sm:    9px;
+      --sh-lg:     0 6px 12px rgba(15,22,40,.07), 0 20px 48px rgba(15,22,40,.13);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { height: 100%; }
+
+    body {
+      font-family: 'Golos Text', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-b);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── Nav ── */
+    .nav {
+      background: rgba(255,255,255,.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .nav-inner {
+      max-width: 1180px; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; gap: 16px;
+    }
+    .logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; font-size: 19px; font-weight: 700;
+      color: var(--text-h); letter-spacing: -.3px;
+    }
+    .logo-icon {
+      width: 34px; height: 34px;
+      background: var(--accent); border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-hint {
+      font-size: 14px; color: var(--text-s);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .nav-hint a {
+      color: var(--accent); font-weight: 600;
+      text-decoration: none; transition: opacity .15s;
+    }
+    .nav-hint a:hover { opacity: .75; }
+
+    /* ── Layout ── */
+    .page-body {
+      flex: 1; display: flex;
+      align-items: center; justify-content: center;
+      padding: 40px 24px;
+    }
+
+    /* ── Card ── */
+    .card {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      background: var(--surface);
+      border-radius: 22px;
+      box-shadow: var(--sh-lg);
+      overflow: hidden;
+      width: 100%; max-width: 760px;
+      border: 1px solid var(--border);
+    }
+
+    /* ── Left panel ── */
+    .panel {
+      background: var(--dark);
+      padding: 44px 32px;
+      display: flex; flex-direction: column;
+    }
+    .panel-logo {
+      display: flex; align-items: center; gap: 10px;
+      text-decoration: none; font-size: 17px; font-weight: 700;
+      color: #fff; letter-spacing: -.3px; margin-bottom: 40px;
+    }
+    .panel-logo-icon {
+      width: 28px; height: 28px;
+      background: var(--accent); border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .panel-h {
+      font-size: 22px; font-weight: 700;
+      color: #fff; letter-spacing: -.5px;
+      line-height: 1.25; text-wrap: balance; margin-bottom: 10px;
+    }
+    .panel-sub {
+      font-size: 13.5px; color: oklch(68% .03 250);
+      line-height: 1.6; margin-bottom: 40px; text-wrap: pretty;
+    }
+
+    /* Decorative mini invoice */
+    .panel-mock {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 12px; padding: 16px 18px;
+      margin-bottom: auto;
+    }
+    .pm-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 10px;
+    }
+    .pm-title { font-size: 11px; font-weight: 700; color: #fff; letter-spacing: .3px; }
+    .pm-badge {
+      background: var(--accent); color: #fff;
+      font-size: 9px; font-weight: 800;
+      padding: 2px 7px; border-radius: 4px; letter-spacing: .8px;
+    }
+    .pm-line { height: 1px; background: rgba(255,255,255,.08); margin-bottom: 10px; }
+    .pm-field {
+      display: flex; justify-content: space-between;
+      font-size: 10px; margin-bottom: 5px;
+    }
+    .pm-field span:first-child { color: oklch(55% .03 250); }
+    .pm-field span:last-child  { color: oklch(82% .03 250); font-weight: 600; }
+    .pm-total {
+      margin-top: 8px; padding-top: 8px;
+      border-top: 1px solid rgba(255,255,255,.08);
+      font-size: 11px; font-weight: 700; color: #fff;
+      display: flex; justify-content: space-between;
+    }
+    .pm-total span:last-child { color: oklch(70% .15 262); }
+    .pm-btns { display: flex; gap: 6px; margin-top: 12px; }
+    .pm-btn {
+      flex: 1; padding: 6px; border-radius: 6px; border: none;
+      font-family: inherit; font-size: 10px; font-weight: 700;
+      cursor: default;
+    }
+    .pm-btn.dl { background: var(--accent); color: #fff; }
+    .pm-btn.em { background: rgba(255,255,255,.07); color: oklch(75% .03 250); }
+
+    .panel-footer {
+      margin-top: 28px;
+      font-size: 11.5px; color: oklch(44% .03 250); line-height: 1.5;
+    }
+
+    /* ── Form panel ── */
+    .form-panel {
+      padding: 52px 48px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .form-eyebrow {
+      font-size: 12px; font-weight: 700; color: var(--accent);
+      text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px;
+    }
+    .form-title {
+      font-size: 28px; font-weight: 700;
+      color: var(--text-h); letter-spacing: -.7px; margin-bottom: 6px;
+    }
+    .form-sub {
+      font-size: 14px; color: var(--text-s); margin-bottom: 36px;
+    }
+    .form-sub a {
+      color: var(--accent); font-weight: 600;
+      text-decoration: none;
+    }
+    .form-sub a:hover { text-decoration: underline; }
+
+    /* ── Fields ── */
+    .fields { display: flex; flex-direction: column; gap: 20px; }
+
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field-label {
+      font-size: 13px; font-weight: 600; color: var(--text-h);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .field-label a {
+      font-size: 12.5px; font-weight: 500; color: var(--accent);
+      text-decoration: none;
+    }
+    .field-label a:hover { text-decoration: underline; }
+
+    .input-wrap { position: relative; }
+    .field-input {
+      width: 100%; padding: 12px 44px 12px 14px;
+      border: 1.5px solid var(--border);
+      border-radius: var(--rad-sm);
+      font-family: inherit; font-size: 15px;
+      color: var(--text-h); background: var(--bg);
+      outline: none;
+      transition: border-color .18s, box-shadow .18s, background .18s;
+      line-height: 1.4;
+    }
+    .field-input::placeholder { color: var(--text-s); }
+    .field-input:focus {
+      border-color: var(--accent);
+      background: var(--surface);
+      box-shadow: 0 0 0 3px rgba(37,80,226,.12);
+    }
+    .field-input.valid   { border-color: var(--green); background: var(--surface); }
+    .field-input.invalid { border-color: var(--red);   background: var(--red-lt); }
+
+    .pw-toggle {
+      position: absolute; right: 12px; top: 50%;
+      transform: translateY(-50%);
+      background: none; border: none; cursor: pointer;
+      color: var(--text-s); padding: 4px;
+      display: flex; align-items: center;
+      transition: color .15s;
+    }
+    .pw-toggle:hover { color: var(--text-h); }
+
+    .field-icon {
+      position: absolute; right: 12px; top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+
+    .field-msg {
+      font-size: 12px; min-height: 16px; line-height: 1.3;
+    }
+    .field-msg.err  { color: var(--red); }
+    .field-msg.ok   { color: var(--green); }
+
+    /* ── Error alert ── */
+    .alert {
+      display: none; align-items: center; gap: 10px;
+      background: var(--red-lt); border: 1.5px solid rgba(214,59,59,.2);
+      border-radius: var(--rad-sm); padding: 12px 14px;
+      font-size: 13.5px; color: var(--red); margin-bottom: 4px;
+    }
+    .alert.show { display: flex; }
+    .alert svg { flex-shrink: 0; }
+
+    /* ── Submit ── */
+    .submit-btn {
+      width: 100%; padding: 14px;
+      background: var(--accent); color: #fff;
+      border: none; border-radius: var(--rad);
+      font-family: inherit; font-size: 16px; font-weight: 600;
+      cursor: pointer; letter-spacing: -.1px;
+      transition: background .18s, transform .18s, box-shadow .18s;
+      margin-top: 6px; display: flex; align-items: center;
+      justify-content: center; gap: 8px;
+    }
+    .submit-btn:hover:not(:disabled) {
+      background: var(--accent-hv);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 18px rgba(37,80,226,.32);
+    }
+    .submit-btn:disabled { opacity: .55; cursor: not-allowed; transform: none; box-shadow: none; }
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2.5px solid rgba(255,255,255,.35);
+      border-top-color: #fff;
+      border-radius: 50%; animation: spin .7s linear infinite;
+      display: none;
+    }
+    .submit-btn.loading .spinner { display: block; }
+    .submit-btn.loading .btn-label { opacity: .7; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Divider ── */
+    .divider {
+      display: flex; align-items: center; gap: 12px;
+      color: var(--text-s); font-size: 13px; margin: 4px 0;
+    }
+    .divider::before, .divider::after {
+      content: ''; flex: 1; height: 1px; background: var(--border);
+    }
+
+    /* ── Register link ── */
+    .reg-link {
+      text-align: center; font-size: 14px; color: var(--text-s);
+    }
+    .reg-link a {
+      color: var(--accent); font-weight: 600;
+      text-decoration: none;
+    }
+    .reg-link a:hover { text-decoration: underline; }
+
+    /* ── Responsive ── */
+    @media (max-width: 680px) {
+      .card { grid-template-columns: 1fr; max-width: 420px; }
+      .panel { display: none; }
+      .form-panel { padding: 36px 24px; }
+      .page-body { align-items: flex-start; padding: 24px 16px; }
+    }
+    @media (max-width: 400px) {
+      .form-panel { padding: 28px 18px; }
+      .form-title { font-size: 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">
+      <div class="logo-icon">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+          <rect x="2.5" y="1.5" width="11" height="14" rx="1.8" stroke="#fff" stroke-width="1.5"/>
+          <path d="M11 1.5v4H15" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M5.5 8h7M5.5 11h7M5.5 14h4" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      СчётОк
+    </a>
+    <div class="nav-hint">
+      Нет аккаунта?
+      <a href="register.html">Зарегистрироваться</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Page -->
+<main class="page-body">
+  <div class="card">
+
+    <!-- Left brand panel -->
+    <div class="panel">
+      <a href="index.html" class="panel-logo">
+        <div class="panel-logo-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="1.5" y="1" width="9" height="12" rx="1.5" stroke="#fff" stroke-width="1.3"/>
+            <path d="M8.5 1v3.5H12" stroke="#fff" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M3.5 6.5h6M3.5 9h6M3.5 11.5h3.5" stroke="#fff" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        СчётОк
+      </a>
+      <div class="panel-h">С возвращением!</div>
+      <p class="panel-sub">Войдите в аккаунт и выставьте счёт за два клика.</p>
+
+      <!-- Decorative invoice mock -->
+      <div class="panel-mock">
+        <div class="pm-row">
+          <span class="pm-title">СЧЁТ № 247</span>
+          <span class="pm-badge">PDF</span>
+        </div>
+        <div class="pm-line"></div>
+        <div class="pm-field"><span>Поставщик</span><span>ООО «Альфа»</span></div>
+        <div class="pm-field"><span>Покупатель</span><span>ИП Смирнов</span></div>
+        <div class="pm-field"><span>Дата</span><span>22.05.2026</span></div>
+        <div class="pm-total"><span>Итого</span><span>50 000 ₽</span></div>
+        <div class="pm-btns">
+          <button class="pm-btn dl">↓ Скачать PDF</button>
+          <button class="pm-btn em">✉ Email</button>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        Ваши данные защищены. Доступ только по паролю.
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="form-panel">
+      <div class="form-eyebrow">Вход</div>
+      <div class="form-title">Добро пожаловать</div>
+      <p class="form-sub">Нет аккаунта? <a href="register.html">Зарегистрироваться</a></p>
+
+      <!-- Error alert -->
+      <div class="alert" id="alert">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/>
+          <path d="M8 5v3.5M8 10.5v.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <span id="alert-text">Неверный email или пароль</span>
+      </div>
+
+      <form class="fields" id="login-form" novalidate>
+
+        <!-- Email -->
+        <div class="field">
+          <label class="field-label" for="f-email">Электронная почта</label>
+          <div class="input-wrap">
+            <input class="field-input" id="f-email" type="email"
+              placeholder="alex@company.ru" autocomplete="email">
+            <span class="field-icon" id="icon-email"></span>
+          </div>
+          <span class="field-msg" id="msg-email"></span>
+        </div>
+
+        <!-- Password -->
+        <div class="field">
+          <label class="field-label" for="f-pw">
+            Пароль
+            <a href="reset.html" tabindex="-1">Забыли пароль?</a>
+          </label>
+          <div class="input-wrap">
+            <input class="field-input" id="f-pw" type="password"
+              placeholder="Введите пароль" autocomplete="current-password">
+            <button type="button" class="pw-toggle" id="pw-toggle" tabindex="-1" aria-label="Показать пароль">
+              <svg id="eye-open" width="18" height="18" viewBox="0 0 18 18" fill="none">
+                <path d="M1.5 9s2.5-5 7.5-5 7.5 5 7.5 5-2.5 5-7.5 5-7.5-5-7.5-5z"
+                  stroke="currentColor" stroke-width="1.4"/>
+                <circle cx="9" cy="9" r="2" stroke="currentColor" stroke-width="1.4"/>
+              </svg>
+              <svg id="eye-closed" width="18" height="18" viewBox="0 0 18 18" fill="none" style="display:none">
+                <path d="M2 3l14 12M7.5 5.2A7.5 7.5 0 0 1 9 5c5 0 7.5 4 7.5 4s-.9 1.7-2.5 3"
+                  stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                <path d="M4 7.2C2.7 8.2 1.5 9 1.5 9s2.5 5 7.5 5c1.4 0 2.6-.4 3.6-1"
+                  stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+              </svg>
+            </button>
+          </div>
+          <span class="field-msg" id="msg-pw"></span>
+        </div>
+
+        <!-- Submit -->
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span class="spinner" id="spinner"></span>
+          <span class="btn-label">Войти</span>
+        </button>
+
+        <div class="divider">или</div>
+
+        <div class="reg-link">
+          Первый раз здесь? <a href="register.html">Создать аккаунт</a>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</main>
+
+<script>
+  const svgOk = `<svg class="field-icon ok" style="color:var(--green)" width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <circle cx="8" cy="8" r="7" fill="#E6F7EF"/>
+    <path d="M5 8l2.5 2.5L11 5.5" stroke="#159B6A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>`;
+  const svgErr = `<svg class="field-icon err" style="color:var(--red)" width="16" height="16" viewBox="0 0 16 16" fill="none">
+    <circle cx="8" cy="8" r="7" fill="#FEF0F0"/>
+    <path d="M10.5 5.5l-5 5M5.5 5.5l5 5" stroke="#D63B3B" stroke-width="1.6" stroke-linecap="round"/>
+  </svg>`;
+
+  const fEmail = document.getElementById('f-email');
+  const iEmail = document.getElementById('icon-email');
+  const mEmail = document.getElementById('msg-email');
+  const fPw    = document.getElementById('f-pw');
+  const mPw    = document.getElementById('msg-pw');
+  const alert  = document.getElementById('alert');
+
+  function setState(input, iconEl, msgEl, state, msg) {
+    input.classList.remove('valid','invalid');
+    if (state === 'ok')  { input.classList.add('valid');   if (iconEl) iconEl.innerHTML = svgOk; }
+    if (state === 'err') { input.classList.add('invalid'); if (iconEl) iconEl.innerHTML = svgErr; }
+    if (state === '')    { if (iconEl) iconEl.innerHTML = ''; }
+    msgEl.className = 'field-msg ' + (state === 'err' ? 'err' : '');
+    msgEl.textContent = msg || '';
+  }
+
+  function validateEmail() {
+    const v = fEmail.value.trim();
+    if (!v) { setState(fEmail, iEmail, mEmail, 'err', 'Введите электронную почту'); return false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v)) { setState(fEmail, iEmail, mEmail, 'err', 'Некорректный адрес'); return false; }
+    setState(fEmail, iEmail, mEmail, 'ok', ''); return true;
+  }
+
+  function validatePw() {
+    const v = fPw.value;
+    if (!v) { setState(fPw, null, mPw, 'err', 'Введите пароль'); return false; }
+    setState(fPw, null, mPw, '', ''); return true;
+  }
+
+  fEmail.addEventListener('blur', validateEmail);
+  fEmail.addEventListener('input', () => { if (fEmail.classList.contains('invalid')) validateEmail(); alert.classList.remove('show'); });
+  fPw.addEventListener('input', () => { if (fPw.classList.contains('invalid')) validatePw(); alert.classList.remove('show'); });
+  fPw.addEventListener('blur', validatePw);
+
+  /* Password toggle */
+  document.getElementById('pw-toggle').addEventListener('click', function() {
+    const show = fPw.type === 'password';
+    fPw.type = show ? 'text' : 'password';
+    document.getElementById('eye-open').style.display  = show ? 'none' : '';
+    document.getElementById('eye-closed').style.display = show ? '' : 'none';
+    this.style.color = show ? 'var(--accent)' : '';
+  });
+
+  /* Submit */
+  document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const eOk = validateEmail();
+    const pOk = validatePw();
+    if (!eOk || !pOk) return;
+
+    const btn = document.getElementById('submit-btn');
+    btn.classList.add('loading');
+    btn.disabled = true;
+    alert.classList.remove('show');
+
+    /* Simulate auth — show error for demo */
+    setTimeout(() => {
+      btn.classList.remove('loading');
+      btn.disabled = false;
+
+      /* In real app: redirect on success, show error on fail */
+      const demo = fEmail.value.toLowerCase() === 'test@test.ru' && fPw.value === '12345678';
+      if (demo) {
+        // success → redirect
+        document.querySelector('.btn-label').textContent = 'Входим…';
+        btn.disabled = true;
+      } else {
+        fEmail.classList.add('invalid');
+        fPw.classList.add('invalid');
+        alert.classList.add('show');
+        document.getElementById('alert-text').textContent = 'Неверный email или пароль';
+        fPw.value = '';
+        fPw.focus();
+      }
+    }, 1000);
+  });
+
+  /* Auto-focus email */
+  fEmail.focus();
+</script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Build frontend assets
+        run: |
+          npm ci
+          npm run build
+
+      - name: Setup SSH key
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy files via rsync
+        run: |
+          rsync -rltz --delete \
+            --no-perms --no-owner --no-group --omit-dir-times \
+            --exclude='.git' \
+            --exclude='.ssh' \
+            --exclude='.cache' \
+            --exclude='composer2.phar' \
+            --exclude='node_modules' \
+            --exclude='.env' \
+            --exclude='/vendor' \
+            --exclude='storage/app/public' \
+            --exclude='storage/logs' \
+            --exclude='storage/framework/sessions' \
+            --exclude='storage/framework/cache' \
+            --exclude='storage/framework/views' \
+            --exclude='public/storage' \
+            -e "ssh -i ~/.ssh/deploy_key -o StrictHostKeyChecking=no" \
+            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~/
+
+      - name: Post-deploy tasks
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -e
+            cd ~
+
+            cat > .env << '__ENV_EOF__'
+            ${{ secrets.ENV_PRODUCTION }}
+            __ENV_EOF__
+
+            mkdir -p storage/framework/{cache/data,sessions,testing,views} storage/app/public storage/logs
+            chmod -R 775 storage bootstrap/cache
+
+            php8.3 ~/composer2.phar install --no-dev --optimize-autoloader --no-interaction --no-scripts
+
+            php8.3 artisan package:discover --ansi
+            php8.3 artisan migrate --force
+            php8.3 artisan config:cache
+            php8.3 artisan route:cache
+            php8.3 artisan view:cache
+            php8.3 artisan storage:link --force

@@ -1,0 +1,180 @@
+.mz-select {
+  position: relative;
+  width: 100%;
+  margin-bottom: 0;
+  font-family: inherit;
+}
+
+.mz-select select {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.mz-select__label {
+  display: none;
+}
+
+.mz-select__trigger {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 36px 10px 13px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--rad-sm);
+  background: var(--bg);
+  color: var(--text-s);
+  font-family: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: border-color 0.16s, box-shadow 0.16s, background 0.16s;
+}
+.mz-select__trigger::after {
+  content: "";
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  width: 18px;
+  height: 18px;
+  transform: translateY(-50%);
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="%237B849A" d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.18s;
+  pointer-events: none;
+}
+.mz-select__trigger:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(37, 80, 226, 0.1);
+}
+
+.mz-select.is-open .mz-select__trigger {
+  border-color: var(--accent);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px rgba(37, 80, 226, 0.1);
+}
+.mz-select.is-open .mz-select__trigger::after {
+  transform: translateY(-50%) rotate(180deg);
+}
+
+.mz-select.has-value .mz-select__trigger {
+  color: var(--text-h);
+}
+
+.mz-select__dropdown {
+  position: absolute;
+  z-index: 200;
+  left: 0;
+  right: 0;
+  top: calc(100% + 6px);
+  max-height: 240px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 5px 0;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--rad-sm);
+  box-shadow: 0 8px 32px rgba(15, 22, 40, 0.14);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease, visibility 0.15s ease;
+}
+.mz-select__dropdown::-webkit-scrollbar {
+  width: 5px;
+  background: transparent;
+}
+.mz-select__dropdown::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+.mz-select.is-open .mz-select__dropdown {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mz-select.is-open--up .mz-select__dropdown {
+  top: auto;
+  bottom: calc(100% + 6px);
+  transform: translateY(4px);
+}
+
+.mz-select.is-open.is-open--up .mz-select__dropdown {
+  transform: translateY(0);
+}
+
+.mz-select__option {
+  padding: 9px 13px;
+  font-size: 14px;
+  font-family: inherit;
+  line-height: 1.4;
+  color: var(--text-b);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+.mz-select__option:hover, .mz-select__option.is-active {
+  background: var(--accent-lt);
+  color: var(--accent);
+}
+.mz-select__option.is-selected {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+.mz-select__option.is-selected:hover {
+  background: var(--accent-hv);
+}
+.mz-select__option.is-disabled {
+  color: var(--text-s);
+  cursor: default;
+  background: transparent;
+}
+.mz-select__option.is-disabled.is-active, .mz-select__option.is-disabled.is-selected {
+  background: var(--bg);
+  color: var(--text-s);
+}
+
+.mz-select.is-disabled {
+  pointer-events: none;
+  opacity: 0.55;
+}
+
+.mz-select--compact {
+  width: auto;
+}
+.mz-select--compact .mz-select__trigger {
+  padding: 3px 26px 3px 8px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--text-h);
+  background: var(--surface);
+}
+.mz-select--compact.has-value .mz-select__trigger {
+  color: var(--text-h);
+}
+.mz-select--compact .mz-select__trigger::after {
+  right: 5px;
+  width: 16px;
+  height: 16px;
+}
+.mz-select--compact .mz-select__dropdown {
+  min-width: 110px;
+}
+.mz-select--compact .mz-select__option {
+  padding: 7px 11px;
+  font-size: 13px;
+}
+
+/*# sourceMappingURL=select.css.map */

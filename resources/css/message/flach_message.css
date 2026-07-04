@@ -1,0 +1,88 @@
+.flashMessage__wrap {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  min-width: 320px;
+  max-width: 600px;
+  width: max-content;
+}
+.flashMessage__wrap .flashMessage {
+  position: static;
+}
+.flashMessage__wrap .message {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 44px 14px 18px;
+  border-radius: var(--rad);
+  border: 1px solid transparent;
+  box-shadow: var(--sh-lg);
+  font-size: 15px;
+  line-height: 1.5;
+  position: relative;
+  white-space: nowrap;
+}
+.flashMessage__wrap .message p {
+  margin: 0;
+}
+.flashMessage__wrap .class__alert .message {
+  background: var(--red-lt);
+  border-color: rgba(214, 59, 59, 0.25);
+  color: var(--red);
+}
+.flashMessage__wrap .class__alert .message::before {
+  content: "";
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Ccircle cx='8' cy='8' r='7' stroke='%23D63B3B' stroke-width='1.5'/%3E%3Cpath d='M8 5v3.5M8 10.5v.5' stroke='%23D63B3B' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.flashMessage__wrap .class__info .message {
+  background: var(--green-lt);
+  border-color: rgba(21, 155, 106, 0.25);
+  color: var(--green);
+}
+.flashMessage__wrap .class__info .message::before {
+  content: "";
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Ccircle cx='8' cy='8' r='7' stroke='%23159B6A' stroke-width='1.5'/%3E%3Cpath d='M5 8l2.5 2.5L11 5.5' stroke='%23159B6A' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+.flashMessage__wrap .btn-close {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  opacity: 0.45;
+  background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3E%3Cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3E%3C/svg%3E") center/10px auto no-repeat;
+  border-radius: 4px;
+  transition: opacity 0.15s;
+}
+.flashMessage__wrap .btn-close:hover {
+  opacity: 0.8;
+}
+
+@media screen and (max-width: 600px) {
+  .flashMessage__wrap {
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    transform: none;
+    min-width: 0;
+    max-width: none;
+    width: auto;
+  }
+  .flashMessage__wrap .message {
+    white-space: normal;
+  }
+}
+
+/*# sourceMappingURL=flach_message.css.map */
