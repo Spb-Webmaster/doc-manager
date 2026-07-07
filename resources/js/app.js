@@ -19,3 +19,6 @@ cabinetMessageDeleteInit();
 import { mzSelect } from './include/select/mz-select';
 mzSelect();
 
+import { cabinetSidebarInit } from './include/cabinet/sidebar';
+cabinetSidebarInit();
+

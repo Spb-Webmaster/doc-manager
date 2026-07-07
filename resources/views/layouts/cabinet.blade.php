@@ -18,6 +18,13 @@
 
 <div class="shell">
 
+  <button type="button" class="sb-toggle" aria-label="Открыть меню">
+    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+      <path d="M2 4.5h14M2 9h14M2 13.5h14"/>
+    </svg>
+  </button>
+  <div class="sb-overlay"></div>
+
   <!-- ══ SIDEBAR ══ -->
   <aside class="sidebar">
     <a href="{{ route('home') }}" class="sb-logo">

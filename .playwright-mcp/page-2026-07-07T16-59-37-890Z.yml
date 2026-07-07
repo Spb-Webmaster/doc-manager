@@ -1,0 +1,233 @@
+- generic [active] [ref=f5e1]:
+  - generic [ref=f5e2]:
+    - complementary [ref=f5e3]:
+      - link "СчётОк" [ref=f5e4] [cursor=pointer]:
+        - /url: https://account-ok.test
+        - img [ref=f5e6]
+        - text: СчётОк
+      - navigation [ref=f5e10]:
+        - link "Кабинет" [ref=f5e11] [cursor=pointer]:
+          - /url: https://account-ok.test/cabinet
+          - img [ref=f5e12]
+          - text: Кабинет
+        - link "Счета" [ref=f5e17] [cursor=pointer]:
+          - /url: https://account-ok.test/cabinet/invoices
+          - img [ref=f5e18]
+          - text: Счета
+        - link "Акты" [ref=f5e21] [cursor=pointer]:
+          - /url: https://account-ok.test/cabinet/acts
+          - img [ref=f5e22]
+          - text: Акты
+        - link "Шаблоны" [ref=f5e25] [cursor=pointer]:
+          - /url: https://account-ok.test/cabinet/templates
+          - img [ref=f5e26]
+          - text: Шаблоны
+        - link "Контрагенты" [ref=f5e30] [cursor=pointer]:
+          - /url: https://account-ok.test/cabinet/contractors
+          - img [ref=f5e31]
+          - text: Контрагенты
+        - link "Настройки" [ref=f5e36] [cursor=pointer]:
+          - /url: https://account-ok.test/cabinet/settings
+          - img [ref=f5e37]
+          - text: Настройки
+      - generic [ref=f5e40]:
+        - generic [ref=f5e41]:
+          - generic [ref=f5e42]: А
+          - generic [ref=f5e43]:
+            - generic [ref=f5e44]: Алексей Юрьевич Дементьев
+            - generic [ref=f5e45]: spb-webmaster@mail.ru
+        - button "Выйти" [ref=f5e47] [cursor=pointer]:
+          - img [ref=f5e48]
+          - text: Выйти
+    - generic [ref=f5e50]:
+      - banner [ref=f5e51]:
+        - generic [ref=f5e52]:
+          - generic [ref=f5e53]: Кабинет
+          - generic [ref=f5e54]: 07 июля 2026
+        - generic [ref=f5e55]:
+          - link "Создать акт" [ref=f5e56] [cursor=pointer]:
+            - /url: https://account-ok.test/cabinet/acts/create
+            - img [ref=f5e57]
+            - text: Создать акт
+          - link "Создать счёт" [ref=f5e59] [cursor=pointer]:
+            - /url: https://account-ok.test/cabinet/invoices/create
+            - img [ref=f5e60]
+            - text: Создать счёт
+      - generic [ref=f5e62]:
+        - generic [ref=f5e63]:
+          - link "Создать счёт Два клика по ИНН" [ref=f5e64] [cursor=pointer]:
+            - /url: https://account-ok.test/cabinet/invoices/create
+            - img [ref=f5e66]
+            - generic [ref=f5e69]:
+              - generic [ref=f5e70]: Создать счёт
+              - generic [ref=f5e71]: Два клика по ИНН
+          - link "Создать акт Акт выполненных работ" [ref=f5e72] [cursor=pointer]:
+            - /url: https://account-ok.test/cabinet/acts/create
+            - img [ref=f5e74]
+            - generic [ref=f5e77]:
+              - generic [ref=f5e78]: Создать акт
+              - generic [ref=f5e79]: Акт выполненных работ
+          - link "Добавить контрагента Автозаполнение по ИНН" [ref=f5e80] [cursor=pointer]:
+            - /url: https://account-ok.test/cabinet/contractors/create
+            - img [ref=f5e82]
+            - generic [ref=f5e85]:
+              - generic [ref=f5e86]: Добавить контрагента
+              - generic [ref=f5e87]: Автозаполнение по ИНН
+        - generic [ref=f5e88]:
+          - generic [ref=f5e89]:
+            - generic [ref=f5e90]:
+              - generic [ref=f5e91]: Мои реквизиты
+              - link "Редактировать" [ref=f5e92] [cursor=pointer]:
+                - /url: https://account-ok.test/cabinet/settings
+            - generic [ref=f5e93]:
+              - generic [ref=f5e94]:
+                - generic [ref=f5e95]: ИНН
+                - generic [ref=f5e96]: "781802346213"
+              - generic [ref=f5e97]:
+                - generic [ref=f5e98]: Наименование
+                - generic [ref=f5e99]: Индивидуальный предприниматель Дементьев Алексей Юрьевич
+              - generic [ref=f5e100]:
+                - generic [ref=f5e101]: ОГРНИП
+                - generic [ref=f5e102]: "311784724900059"
+              - generic [ref=f5e103]:
+                - generic [ref=f5e104]: Адрес
+                - generic [ref=f5e105]: г Санкт-Петербург, Красногвардейский пер
+              - generic [ref=f5e106]:
+                - generic [ref=f5e107]: Р/счёт
+                - generic [ref=f5e108]: 4080 •••• •••• 0080 · ПАО "БАНК "САНКТ-ПЕТЕРБУРГ"
+              - generic [ref=f5e109]:
+                - generic [ref=f5e110]: Почта
+                - generic [ref=f5e111]: spb-webmaster@mail.ru
+          - generic [ref=f5e112]:
+            - generic [ref=f5e113]:
+              - generic [ref=f5e114]: Сводка
+              - generic [ref=f5e115]: с января 2026
+            - generic [ref=f5e116]:
+              - generic [ref=f5e117]:
+                - generic [ref=f5e118]:
+                  - img [ref=f5e120]
+                  - text: Счетов выставлено
+                - generic [ref=f5e123]: "0"
+              - generic [ref=f5e124]:
+                - generic [ref=f5e125]:
+                  - img [ref=f5e127]
+                  - text: Актов выставлено
+                - generic [ref=f5e130]: "0"
+              - generic [ref=f5e131]:
+                - generic [ref=f5e132]:
+                  - img [ref=f5e134]
+                  - text: Контрагентов
+                - generic [ref=f5e138]: "6"
+        - generic [ref=f5e139]:
+          - generic [ref=f5e140]: Контрагенты
+          - link "Все контрагенты" [ref=f5e141] [cursor=pointer]:
+            - /url: https://account-ok.test/cabinet/contractors
+        - table [ref=f5e143]:
+          - rowgroup [ref=f5e144]:
+            - row "Контрагент Счетов Актов" [ref=f5e145]:
+              - columnheader "Контрагент" [ref=f5e146]
+              - columnheader "Счетов" [ref=f5e147]
+              - columnheader "Актов" [ref=f5e148]
+              - columnheader [ref=f5e149]
+          - rowgroup [ref=f5e150]:
+            - row "OOO \"СТРОЙМОНТАЖ\" ИНН 2301108266 0 0 Открыть" [ref=f5e151]:
+              - cell "OOO \"СТРОЙМОНТАЖ\" ИНН 2301108266" [ref=f5e152]:
+                - generic [ref=f5e153]: OOO "СТРОЙМОНТАЖ"
+                - generic [ref=f5e154]: ИНН 2301108266
+              - cell "0" [ref=f5e155]:
+                - generic [ref=f5e156]: "0"
+              - cell "0" [ref=f5e157]:
+                - generic [ref=f5e158]: "0"
+              - cell "Открыть" [ref=f5e159]:
+                - link "Открыть" [ref=f5e160] [cursor=pointer]:
+                  - /url: https://account-ok.test/cabinet/contractors?open=6
+                  - img [ref=f5e161]
+                  - text: Открыть
+            - row "ООО \"СТРОЙСТАНДАРТ\" ИНН 2315228669 0 0 Открыть" [ref=f5e163]:
+              - cell "ООО \"СТРОЙСТАНДАРТ\" ИНН 2315228669" [ref=f5e164]:
+                - generic [ref=f5e165]: ООО "СТРОЙСТАНДАРТ"
+                - generic [ref=f5e166]: ИНН 2315228669
+              - cell "0" [ref=f5e167]:
+                - generic [ref=f5e168]: "0"
+              - cell "0" [ref=f5e169]:
+                - generic [ref=f5e170]: "0"
+              - cell "Открыть" [ref=f5e171]:
+                - link "Открыть" [ref=f5e172] [cursor=pointer]:
+                  - /url: https://account-ok.test/cabinet/contractors?open=5
+                  - img [ref=f5e173]
+                  - text: Открыть
+            - row "ООО \"СТРОЙМОНТАЖ\" ИНН 7733229740 0 3 Открыть" [ref=f5e175]:
+              - cell "ООО \"СТРОЙМОНТАЖ\" ИНН 7733229740" [ref=f5e176]:
+                - generic [ref=f5e177]: ООО "СТРОЙМОНТАЖ"
+                - generic [ref=f5e178]: ИНН 7733229740
+              - cell "0" [ref=f5e179]:
+                - generic [ref=f5e180]: "0"
+              - cell "3" [ref=f5e181]:
+                - generic [ref=f5e182]: "3"
+              - cell "Открыть" [ref=f5e183]:
+                - link "Открыть" [ref=f5e184] [cursor=pointer]:
+                  - /url: https://account-ok.test/cabinet/contractors?open=4
+                  - img [ref=f5e185]
+                  - text: Открыть
+            - row "ООО \"ЛЕССАНТ\" ИНН 7838468745 2 1 Открыть" [ref=f5e187]:
+              - cell "ООО \"ЛЕССАНТ\" ИНН 7838468745" [ref=f5e188]:
+                - generic [ref=f5e189]: ООО "ЛЕССАНТ"
+                - generic [ref=f5e190]: ИНН 7838468745
+              - cell "2" [ref=f5e191]:
+                - generic [ref=f5e192]: "2"
+              - cell "1" [ref=f5e193]:
+                - generic [ref=f5e194]: "1"
+              - cell "Открыть" [ref=f5e195]:
+                - link "Открыть" [ref=f5e196] [cursor=pointer]:
+                  - /url: https://account-ok.test/cabinet/contractors?open=3
+                  - img [ref=f5e197]
+                  - text: Открыть
+            - row "ООО \"КОЛТУШСКИЙ ИНТЕРНЕТ\" ИНН 4703085774 0 0 Открыть" [ref=f5e199]:
+              - cell "ООО \"КОЛТУШСКИЙ ИНТЕРНЕТ\" ИНН 4703085774" [ref=f5e200]:
+                - generic [ref=f5e201]: ООО "КОЛТУШСКИЙ ИНТЕРНЕТ"
+                - generic [ref=f5e202]: ИНН 4703085774
+              - cell "0" [ref=f5e203]:
+                - generic [ref=f5e204]: "0"
+              - cell "0" [ref=f5e205]:
+                - generic [ref=f5e206]: "0"
+              - cell "Открыть" [ref=f5e207]:
+                - link "Открыть" [ref=f5e208] [cursor=pointer]:
+                  - /url: https://account-ok.test/cabinet/contractors?open=2
+                  - img [ref=f5e209]
+                  - text: Открыть
+            - row "ООО \"АКВА-ЭКСКУРС\" ИНН 7805132789 0 0 Открыть" [ref=f5e211]:
+              - cell "ООО \"АКВА-ЭКСКУРС\" ИНН 7805132789" [ref=f5e212]:
+                - generic [ref=f5e213]: ООО "АКВА-ЭКСКУРС"
+                - generic [ref=f5e214]: ИНН 7805132789
+              - cell "0" [ref=f5e215]:
+                - generic [ref=f5e216]: "0"
+              - cell "0" [ref=f5e217]:
+                - generic [ref=f5e218]: "0"
+              - cell "Открыть" [ref=f5e219]:
+                - link "Открыть" [ref=f5e220] [cursor=pointer]:
+                  - /url: https://account-ok.test/cabinet/contractors?open=1
+                  - img [ref=f5e221]
+                  - text: Открыть
+  - generic [ref=f5e225]:
+    - generic [ref=f5e227]:
+      - generic [ref=f5e228] [cursor=pointer]:
+        - generic: Request
+      - generic [ref=f5e229] [cursor=pointer]:
+        - generic: Timeline
+      - generic [ref=f5e230] [cursor=pointer]:
+        - generic: Views
+        - generic [ref=f5e231]: "4"
+      - generic [ref=f5e232] [cursor=pointer]:
+        - generic: Queries
+        - generic [ref=f5e233]: "7"
+      - generic [ref=f5e234] [cursor=pointer]:
+        - generic: Models
+        - generic [ref=f5e235]: "9"
+    - generic [ref=f5e236]:
+      - generic [ref=f5e244] [cursor=pointer]: GET /cabinet
+      - generic [ref=f5e245] [cursor=pointer]:
+        - generic: 896ms
+      - generic [ref=f5e247] [cursor=pointer]:
+        - generic: 28MB
+      - generic [ref=f5e249] [cursor=pointer]:
+        - generic: 13.x

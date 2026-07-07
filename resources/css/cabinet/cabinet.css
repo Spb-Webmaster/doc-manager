@@ -159,6 +159,33 @@
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  min-width: 0;
+}
+
+/* ── Mobile sidebar toggle / overlay ── */
+.sb-toggle {
+  display: none;
+  position: fixed;
+  top: 14px;
+  left: 14px;
+  z-index: 60;
+  width: 36px;
+  height: 36px;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--rad-sm);
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--text-h);
+  cursor: pointer;
+}
+
+.sb-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 22, 40, 0.45);
+  z-index: 40;
 }
 
 /* Topbar */
@@ -2035,14 +2062,14 @@
   font-weight: 700;
 }
 
-.inv-table {
+.doc-items-table {
   width: 100%;
   border-collapse: collapse;
   margin: 14px 0 0;
   font-size: 11px;
 }
 
-.inv-table th {
+.doc-items-table th {
   background: #f0f2f7;
   padding: 6px 8px;
   border: 1px solid #888;
@@ -2053,22 +2080,22 @@
   vertical-align: middle;
 }
 
-.inv-table td {
+.doc-items-table td {
   padding: 6px 8px;
   border: 1px solid #888;
   color: #111;
   vertical-align: top;
 }
 
-.inv-table td.tc {
+.doc-items-table td.tc {
   text-align: center;
 }
 
-.inv-table td.tr {
+.doc-items-table td.tr {
   text-align: right;
 }
 
-.inv-table td.empty-row {
+.doc-items-table td.empty-row {
   color: #bbb;
   font-style: italic;
   text-align: center;
@@ -4051,6 +4078,74 @@
 
 .md-items-table td.tc {
   text-align: center;
+}
+
+/* ══════════════════ Responsive ══════════════════ */
+/* ── Планшет и мобильный: сайдбар уезжает в выдвижное меню ── */
+@media (max-width: 960px) {
+  .sb-toggle {
+    display: flex;
+  }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 50;
+    transform: translateX(-100%);
+    transition: transform 0.22s ease;
+    box-shadow: 0 0 0 rgba(15, 22, 40, 0);
+  }
+  .sidebar.open {
+    transform: translateX(0);
+    box-shadow: 0 0 40px rgba(15, 22, 40, 0.18);
+  }
+  .sb-overlay.open {
+    display: block;
+  }
+  .topbar {
+    padding-left: 60px;
+  }
+  /* ── Дашборд (/cabinet) ── */
+  .qa-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .col2 {
+    grid-template-columns: 1fr;
+  }
+}
+/* ── Мобильный ── */
+@media (max-width: 640px) {
+  .content {
+    padding: 16px;
+  }
+  .topbar {
+    padding: 0 16px 0 56px;
+    height: auto;
+    min-height: 64px;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .tb-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .tb-right .btn {
+    flex: 1;
+    justify-content: center;
+  }
+  /* ── Дашборд (/cabinet) ── */
+  .qa-grid {
+    grid-template-columns: 1fr;
+  }
+  .tbl-wrap {
+    overflow-x: auto;
+  }
+  .tbl-wrap table {
+    min-width: 480px;
+  }
 }
 
 /*# sourceMappingURL=cabinet.css.map */

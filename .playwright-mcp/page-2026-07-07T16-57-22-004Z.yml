@@ -1,0 +1,172 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e2]:
+    - complementary [ref=f3e3]:
+      - link "СчётОк" [ref=f3e4] [cursor=pointer]:
+        - /url: https://account-ok.test
+        - img [ref=f3e6]
+        - text: СчётОк
+      - navigation [ref=f3e10]:
+        - link "Кабинет" [ref=f3e11] [cursor=pointer]:
+          - /url: https://account-ok.test/cabinet
+          - img [ref=f3e12]
+          - text: Кабинет
+        - link "Счета" [ref=f3e17] [cursor=pointer]:
+          - /url: https://account-ok.test/cabinet/invoices
+          - img [ref=f3e18]
+          - text: Счета
+        - link "Акты" [ref=f3e21] [cursor=pointer]:
+          - /url: https://account-ok.test/cabinet/acts
+          - img [ref=f3e22]
+          - text: Акты
+        - link "Шаблоны" [ref=f3e25] [cursor=pointer]:
+          - /url: https://account-ok.test/cabinet/templates
+          - img [ref=f3e26]
+          - text: Шаблоны
+        - link "Контрагенты" [ref=f3e30] [cursor=pointer]:
+          - /url: https://account-ok.test/cabinet/contractors
+          - img [ref=f3e31]
+          - text: Контрагенты
+        - link "Настройки" [ref=f3e36] [cursor=pointer]:
+          - /url: https://account-ok.test/cabinet/settings
+          - img [ref=f3e37]
+          - text: Настройки
+      - generic [ref=f3e40]:
+        - generic [ref=f3e41]:
+          - generic [ref=f3e42]: А
+          - generic [ref=f3e43]:
+            - generic [ref=f3e44]: Алексей Юрьевич Дементьев
+            - generic [ref=f3e45]: spb-webmaster@mail.ru
+        - button "Выйти" [ref=f3e47] [cursor=pointer]:
+          - img [ref=f3e48]
+          - text: Выйти
+    - generic [ref=f3e50]:
+      - generic [ref=f3e51]:
+        - banner [ref=f3e52]:
+          - generic [ref=f3e53]: Акты
+          - link "Создать акт" [ref=f3e55] [cursor=pointer]:
+            - /url: https://account-ok.test/cabinet/acts/create
+            - img [ref=f3e56]
+            - text: Создать акт
+        - generic [ref=f3e58]:
+          - generic [ref=f3e59]: "Контрагент:"
+          - generic [ref=f3e62]:
+            - combobox [ref=f3e63]:
+              - option "Все контрагенты" [selected]
+              - option "OOO \"СТРОЙМОНТАЖ\""
+              - option "ООО \"АКВА-ЭКСКУРС\""
+              - option "ООО \"КОЛТУШСКИЙ ИНТЕРНЕТ\""
+              - option "ООО \"ЛЕССАНТ\""
+              - option "ООО \"СТРОЙМОНТАЖ\""
+              - option "ООО \"СТРОЙСТАНДАРТ\""
+            - button "Все контрагенты" [ref=f3e64] [cursor=pointer]
+          - generic [ref=f3e65]: "Всего: 4"
+        - table [ref=f3e68]:
+          - rowgroup [ref=f3e69]:
+            - row "Выбрать всё Номер Дата Контрагент Основание Сумма" [ref=f3e70]:
+              - columnheader "Выбрать всё" [ref=f3e71]:
+                - checkbox "Выбрать всё" [ref=f3e72]
+              - columnheader "Номер" [ref=f3e73]
+              - columnheader "Дата" [ref=f3e74]
+              - columnheader "Контрагент" [ref=f3e75]
+              - columnheader "Основание" [ref=f3e76]
+              - columnheader "Сумма" [ref=f3e77]
+              - columnheader [ref=f3e78]
+          - rowgroup [ref=f3e79]:
+            - row "№ 1 05.08.2026 ООО \"ЛЕССАНТ\" ИНН 7838468745 Техническая поддержка сайта № 12/1 от 01.12.2025 15 000,00 ₽ PDF Удалить" [ref=f3e80]:
+              - cell [ref=f3e81]:
+                - checkbox [ref=f3e82]
+              - cell "№ 1" [ref=f3e83]:
+                - link "№ 1" [ref=f3e84] [cursor=pointer]:
+                  - /url: "#"
+              - cell "05.08.2026" [ref=f3e85]
+              - cell "ООО \"ЛЕССАНТ\" ИНН 7838468745" [ref=f3e86]:
+                - generic "ООО \"ЛЕССАНТ\"" [ref=f3e87]
+                - generic [ref=f3e88]: ИНН 7838468745
+              - cell "Техническая поддержка сайта № 12/1 от 01.12.2025" [ref=f3e89]
+              - cell "15 000,00 ₽" [ref=f3e90]
+              - cell "PDF Удалить" [ref=f3e91]:
+                - link "PDF" [ref=f3e92] [cursor=pointer]:
+                  - /url: https://account-ok.test/cabinet/acts/3/pdf
+                  - img [ref=f3e93]
+                  - text: PDF
+                - button "Удалить" [ref=f3e95] [cursor=pointer]
+            - row "№ 3 07.07.2026 ООО \"СТРОЙМОНТАЖ\" ИНН 7733229740 — 34 000,00 ₽ PDF Удалить" [ref=f3e96]:
+              - cell [ref=f3e97]:
+                - checkbox [ref=f3e98]
+              - cell "№ 3" [ref=f3e99]:
+                - link "№ 3" [ref=f3e100] [cursor=pointer]:
+                  - /url: "#"
+              - cell "07.07.2026" [ref=f3e101]
+              - cell "ООО \"СТРОЙМОНТАЖ\" ИНН 7733229740" [ref=f3e102]:
+                - generic "ООО \"СТРОЙМОНТАЖ\"" [ref=f3e103]
+                - generic [ref=f3e104]: ИНН 7733229740
+              - cell "—" [ref=f3e105]
+              - cell "34 000,00 ₽" [ref=f3e106]
+              - cell "PDF Удалить" [ref=f3e107]:
+                - link "PDF" [ref=f3e108] [cursor=pointer]:
+                  - /url: https://account-ok.test/cabinet/acts/6/pdf
+                  - img [ref=f3e109]
+                  - text: PDF
+                - button "Удалить" [ref=f3e111] [cursor=pointer]
+            - row "№ 2 07.07.2026 ООО \"СТРОЙМОНТАЖ\" ИНН 7733229740 — 79 666,00 ₽ PDF Удалить" [ref=f3e112]:
+              - cell [ref=f3e113]:
+                - checkbox [ref=f3e114]
+              - cell "№ 2" [ref=f3e115]:
+                - link "№ 2" [ref=f3e116] [cursor=pointer]:
+                  - /url: "#"
+              - cell "07.07.2026" [ref=f3e117]
+              - cell "ООО \"СТРОЙМОНТАЖ\" ИНН 7733229740" [ref=f3e118]:
+                - generic "ООО \"СТРОЙМОНТАЖ\"" [ref=f3e119]
+                - generic [ref=f3e120]: ИНН 7733229740
+              - cell "—" [ref=f3e121]
+              - cell "79 666,00 ₽" [ref=f3e122]
+              - cell "PDF Удалить" [ref=f3e123]:
+                - link "PDF" [ref=f3e124] [cursor=pointer]:
+                  - /url: https://account-ok.test/cabinet/acts/5/pdf
+                  - img [ref=f3e125]
+                  - text: PDF
+                - button "Удалить" [ref=f3e127] [cursor=pointer]
+            - row "№ 1 07.07.2026 ООО \"СТРОЙМОНТАЖ\" ИНН 7733229740 — 34 000,00 ₽ PDF Удалить" [ref=f3e128]:
+              - cell [ref=f3e129]:
+                - checkbox [ref=f3e130]
+              - cell "№ 1" [ref=f3e131]:
+                - link "№ 1" [ref=f3e132] [cursor=pointer]:
+                  - /url: "#"
+              - cell "07.07.2026" [ref=f3e133]
+              - cell "ООО \"СТРОЙМОНТАЖ\" ИНН 7733229740" [ref=f3e134]:
+                - generic "ООО \"СТРОЙМОНТАЖ\"" [ref=f3e135]
+                - generic [ref=f3e136]: ИНН 7733229740
+              - cell "—" [ref=f3e137]
+              - cell "34 000,00 ₽" [ref=f3e138]
+              - cell "PDF Удалить" [ref=f3e139]:
+                - link "PDF" [ref=f3e140] [cursor=pointer]:
+                  - /url: https://account-ok.test/cabinet/acts/4/pdf
+                  - img [ref=f3e141]
+                  - text: PDF
+                - button "Удалить" [ref=f3e143] [cursor=pointer]
+      - generic:
+        - img
+        - generic: Готово
+  - generic [ref=f3e146]:
+    - generic [ref=f3e148]:
+      - generic [ref=f3e149] [cursor=pointer]:
+        - generic: Request
+      - generic [ref=f3e150] [cursor=pointer]:
+        - generic: Timeline
+      - generic [ref=f3e151] [cursor=pointer]:
+        - generic: Views
+        - generic [ref=f3e152]: "7"
+      - generic [ref=f3e153] [cursor=pointer]:
+        - generic: Queries
+        - generic [ref=f3e154]: "7"
+      - generic [ref=f3e155] [cursor=pointer]:
+        - generic: Models
+        - generic [ref=f3e156]: "13"
+    - generic [ref=f3e157]:
+      - generic [ref=f3e165] [cursor=pointer]: GET /cabinet/acts
+      - generic [ref=f3e166] [cursor=pointer]:
+        - generic: 686ms
+      - generic [ref=f3e168] [cursor=pointer]:
+        - generic: 28MB
+      - generic [ref=f3e170] [cursor=pointer]:
+        - generic: 13.x

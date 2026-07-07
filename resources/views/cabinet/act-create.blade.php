@@ -382,7 +382,7 @@
       </div>
 
       <!-- Таблица позиций -->
-      <table class="inv-table">
+      <table class="doc-items-table">
         <thead>
           <tr>
             <th style="width:26px;">№</th>
