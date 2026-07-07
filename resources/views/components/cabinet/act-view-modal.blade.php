@@ -15,10 +15,12 @@
     </div>
     <div id="avm-body"></div>
     <div class="modal-foot">
-      <a id="avm-pdf-link" href="#" target="_blank" class="btn btn-primary btn-sm">
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 1.5v6M3.5 5.5 6 8l2.5-2.5M1.5 10.5h9"/></svg>
-        Скачать PDF
-      </a>
+        <div style="padding: 22px 0 0 0">
+          <a id="avm-pdf-link" href="#" target="_blank" class="btn btn-primary btn-sm">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 1.5v6M3.5 5.5 6 8l2.5-2.5M1.5 10.5h9"/></svg>
+            Скачать PDF
+          </a>
+        </div>
     </div>
   </div>
 </div>

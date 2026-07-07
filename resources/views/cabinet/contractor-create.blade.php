@@ -2,104 +2,8 @@
 
 @section('title', 'Новый контрагент — СчётОк')
 
-@push('styles')
-<style>
-  .main { overflow: hidden; }
-
-  .topbar {
-    padding: 0 0 0 28px !important;
-    gap: 0 !important;
-  }
-  .tb-breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text-s); flex: 1; }
-  .tb-breadcrumb a { color: var(--text-s); text-decoration: none; }
-  .tb-breadcrumb a:hover { color: var(--text-h); }
-  .tb-breadcrumb-sep { opacity: .4; }
-  .tb-current { font-weight: 600; color: var(--text-h); }
-  .topbar-actions { display: flex; align-items: center; border-left: 1px solid var(--border); height: 64px; flex-shrink: 0; }
-  .tb-btn { display: flex; align-items: center; gap: 7px; padding: 0 22px; height: 64px; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; border: none; text-decoration: none; transition: background .14s; white-space: nowrap; border-left: 1px solid var(--border); line-height: 1; }
-  .tb-btn:first-child { border-left: none; }
-  .tb-btn-ghost { background: transparent; color: var(--text-b); }
-  .tb-btn-ghost:hover { background: var(--bg); }
-  .tb-btn-primary { background: var(--accent); color: #fff; }
-  .tb-btn-primary:hover { background: var(--accent-hv); }
-  .tb-btn-primary:disabled { opacity: .5; cursor: not-allowed; pointer-events: none; }
-
-  .create-layout { flex: 1; display: grid; grid-template-columns: 600px 1fr; overflow: hidden; }
-  .form-col { overflow-y: auto; border-right: 1px solid var(--border); background: var(--surface); padding: 24px 28px 48px; }
-  .preview-col { overflow-y: auto; background: var(--bg); padding: 28px; display: flex; flex-direction: column; align-items: center; }
-
-  .form-section { margin-bottom: 24px; }
-  .form-section.disabled { opacity: .45; pointer-events: none; }
-  .fs-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
-  .fs-title { display: flex; align-items: center; gap: 9px; font-size: 14px; font-weight: 700; color: var(--text-h); letter-spacing: -.2px; }
-  .fs-num { width: 22px; height: 22px; border-radius: 6px; background: var(--accent-lt); color: var(--accent); font-size: 11px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .fs-num.done { background: var(--green-lt); color: var(--green); }
-  .fs-hint { font-size: 12.5px; color: var(--text-s); font-weight: 400; }
-  .form-divider { height: 1px; background: var(--border); margin-bottom: 24px; }
-
-  .inn-wrap { position: relative; margin-bottom: 10px; }
-  .inn-input { width: 100%; padding: 12px 48px 12px 14px; border: 1.5px solid var(--border); border-radius: var(--rad-sm); font-family: inherit; font-size: 16px; font-weight: 600; color: var(--text-h); background: var(--bg); outline: none; letter-spacing: .3px; transition: border-color .18s, box-shadow .18s, background .18s; }
-  .inn-input::placeholder { font-weight: 400; letter-spacing: 0; color: var(--text-s); }
-  .inn-input:focus { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px rgba(37,80,226,.12); }
-  .inn-input.valid   { border-color: var(--green); background: var(--surface); }
-  .inn-input.invalid { border-color: var(--red);   background: var(--red-lt); }
-  .inn-status { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; }
-  .spinner-ring { width: 18px; height: 18px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .7s linear infinite; display: none; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-  .inn-msg { font-size: 12px; min-height: 16px; }
-  .inn-msg.err  { color: var(--red); }
-  .inn-msg.ok   { color: var(--green); }
-  .inn-msg.idle { color: var(--text-s); }
-
-  .field-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 14px; }
-  .field:last-child { margin-bottom: 0; }
-  .field-label { font-size: 12.5px; font-weight: 600; color: var(--text-s); text-transform: uppercase; letter-spacing: .5px; }
-  .field-label .opt { color: var(--text-s); font-weight: 400; text-transform: none; letter-spacing: 0; font-size: 11.5px; }
-  .field-input { width: 100%; padding: 10px 13px; border: 1.5px solid var(--border); border-radius: var(--rad-sm); font-family: inherit; font-size: 14px; color: var(--text-h); background: var(--bg); outline: none; transition: border-color .16s, box-shadow .16s, background .16s; }
-  .field-input::placeholder { color: var(--text-s); }
-  .field-input:focus { border-color: var(--accent); background: var(--surface); box-shadow: 0 0 0 3px rgba(37,80,226,.10); }
-  .field-input[readonly] { background: var(--bg); color: var(--text-b); cursor: default; }
-  .field-input[readonly]:focus { border-color: var(--border); box-shadow: none; }
-  textarea.field-input { resize: vertical; min-height: 64px; line-height: 1.5; }
-
-  .auto-badge { font-size: 10px; font-weight: 700; color: var(--green); background: var(--green-lt); padding: 2px 7px; border-radius: 5px; text-transform: uppercase; letter-spacing: .4px; }
-
-  .tab-group { display: flex; border: 1.5px solid var(--border); border-radius: var(--rad-sm); overflow: hidden; margin-bottom: 14px; }
-  .tab-btn { flex: 1; padding: 9px; border: none; background: transparent; font-family: inherit; font-size: 13px; font-weight: 500; color: var(--text-s); cursor: pointer; transition: background .14s, color .14s; }
-  .tab-btn.active { background: var(--accent); color: #fff; }
-  .tab-btn:not(.active):hover { background: var(--bg); color: var(--text-h); }
-
-  .preview-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-s); margin-bottom: 14px; display: flex; align-items: center; gap: 8px; width: 100%; max-width: 440px; }
-  .preview-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-  .cp-card { background: var(--surface); width: 100%; max-width: 440px; border: 1px solid var(--border); border-radius: 16px; box-shadow: 0 4px 24px rgba(15,22,40,.06); overflow: hidden; }
-  .cp-card-head { padding: 22px 24px; display: flex; align-items: center; gap: 16px; border-bottom: 1px solid var(--border); }
-  .cp-card-ava { width: 58px; height: 58px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; flex-shrink: 0; background: var(--accent-lt); color: var(--accent); transition: background .2s, color .2s; }
-  .cp-card-name { font-size: 17px; font-weight: 700; color: var(--text-h); letter-spacing: -.3px; margin-bottom: 3px; }
-  .cp-card-type { display: inline-flex; align-items: center; padding: 2px 9px; border-radius: 6px; font-size: 11.5px; font-weight: 600; background: var(--bg); color: var(--text-s); }
-  .cp-card-body { padding: 6px 24px 18px; }
-  .cp-card-row { display: flex; align-items: flex-start; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); }
-  .cp-card-row:last-child { border-bottom: none; }
-  .cp-card-k { width: 92px; flex-shrink: 0; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; color: var(--text-s); padding-top: 2px; }
-  .cp-card-v { font-size: 13.5px; font-weight: 500; color: var(--text-h); flex: 1; }
-  .cp-card-v.empty { color: #C0C7D6; font-weight: 400; font-style: italic; }
-
-  .cp-card-empty { padding: 48px 32px; display: flex; flex-direction: column; align-items: center; gap: 12px; text-align: center; }
-  .cp-card-empty svg { opacity: .2; }
-  .cp-card-empty-t { font-size: 14px; font-weight: 600; color: var(--text-s); }
-  .cp-card-empty-s { font-size: 12.5px; color: var(--text-s); max-width: 240px; }
-
-  .preview-foot { width: 100%; max-width: 440px; margin-top: 14px; font-size: 12px; color: var(--text-s); text-align: center; line-height: 1.6; }
-
-  .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--dark); color: #fff; padding: 11px 20px; border-radius: 10px; font-size: 14px; font-weight: 500; opacity: 0; transition: opacity .25s, transform .25s; pointer-events: none; z-index: 9999; white-space: nowrap; display: flex; align-items: center; gap: 8px; }
-  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-  .toast svg { color: var(--green); }
-</style>
-@endpush
-
 @section('content')
-<header class="topbar">
+<header class="topbar" style="padding: 0 0 0 28px; gap: 0;">
   <div class="tb-breadcrumb">
     <a href="{{ route('cabinet.contractors') }}">Контрагенты</a>
     <span class="tb-breadcrumb-sep">›</span>
@@ -116,7 +20,7 @@
   </div>
 </header>
 
-<div class="create-layout">
+<div class="create-layout cp-create-layout">
 
   <!-- ── Форма ── -->
   <div class="form-col">

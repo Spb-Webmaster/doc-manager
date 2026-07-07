@@ -76,10 +76,17 @@ class PdfService
 
         $seller = $this->resolveSeller($act->user);
 
+        $stampSize = (int) min(55, round(27 * ($act->stamp_scale     ?? 100) / 100));
+        $sigHeight = (int) min(35, round(15 * ($act->signature_scale ?? 100) / 100));
+
         $pdf = Pdf::loadView('pdf.act', [
-            'act'    => $act,
-            'seller' => $seller,
-            'months' => self::MONTHS,
+            'act'       => $act,
+            'seller'    => $seller,
+            'months'    => self::MONTHS,
+            'stampSrc'  => $this->imageToBase64($act->stamp_path),
+            'stampSize' => $stampSize,
+            'sigSrc'    => $this->imageToBase64($act->signature_path),
+            'sigHeight' => $sigHeight,
         ])->setPaper('a4', 'portrait');
 
         $path = $this->actPath($act);
@@ -106,8 +113,10 @@ class PdfService
      */
     public function deleteAct(Act $act): void
     {
-        if ($act->pdf_path && Storage::disk('pdf')->exists($act->pdf_path)) {
-            Storage::disk('pdf')->delete($act->pdf_path);
+        foreach ([$act->pdf_path, $act->stamp_path, $act->signature_path] as $path) {
+            if ($path && Storage::disk('pdf')->exists($path)) {
+                Storage::disk('pdf')->delete($path);
+            }
         }
     }
 

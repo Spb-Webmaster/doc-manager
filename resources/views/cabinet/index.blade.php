@@ -2,38 +2,6 @@
 
 @section('title', 'Кабинет — СчётОк')
 
-@push('styles')
-<style>
-  .empty-req {
-    display: flex; flex-direction: column; align-items: center;
-    text-align: center; padding: 32px 24px; gap: 10px;
-  }
-  .empty-req-ico {
-    width: 54px; height: 54px; border-radius: 14px;
-    background: var(--accent-lt);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 4px;
-  }
-  .empty-req-title { font-size: 14.5px; font-weight: 700; color: var(--text-h); }
-  .empty-req-desc  { font-size: 12.5px; color: var(--text-s); line-height: 1.65; max-width: 230px; }
-  .empty-req-btn   { font-size: 13px; padding: 9px 20px; margin-top: 6px; text-decoration: none; }
-
-  .cp-empty {
-    display: flex; flex-direction: column; align-items: center;
-    text-align: center; padding: 52px 24px 56px; gap: 12px;
-  }
-  .cp-empty-ico {
-    width: 72px; height: 72px; border-radius: 20px;
-    background: var(--accent-lt);
-    display: flex; align-items: center; justify-content: center;
-    margin-bottom: 8px;
-  }
-  .cp-empty-title { font-size: 16px; font-weight: 700; color: var(--text-h); letter-spacing: -.2px; }
-  .cp-empty-desc  { font-size: 13.5px; color: var(--text-s); line-height: 1.7; max-width: 320px; }
-  .cp-empty-actions { display: flex; align-items: center; gap: 10px; margin-top: 8px; flex-wrap: wrap; justify-content: center; }
-</style>
-@endpush
-
 @section('content')
 
   <!-- Topbar -->
@@ -43,7 +11,7 @@
       <span class="tb-date">{{ now()->translatedFormat('d F Y') }}</span>
     </div>
     <div class="tb-right">
-      <a href="#" class="btn btn-outline">
+      <a href="{{ route('cabinet.acts.create') }}" class="btn btn-outline">
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <path d="M8 2H4a1.5 1.5 0 0 0-1.5 1.5v7A1.5 1.5 0 0 0 4 12h6a1.5 1.5 0 0 0 1.5-1.5V5.5M8 2v3.5H11.5M5 8l2 2 3-3"/>
         </svg>
@@ -75,7 +43,7 @@
           <div class="qa-desc">Два клика по ИНН</div>
         </div>
       </a>
-      <a class="qa-card" href="#">
+      <a class="qa-card" href="{{ route('cabinet.acts.create') }}">
         <div class="qa-ico" style="background:var(--green-lt);">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#159B6A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <path d="M11.5 3H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5z"/>
@@ -87,7 +55,7 @@
           <div class="qa-desc">Акт выполненных работ</div>
         </div>
       </a>
-      <a class="qa-card" href="#">
+      <a class="qa-card" href="{{ route('cabinet.contractors.create') }}">
         <div class="qa-ico" style="background:var(--purple-lt);">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#6B45D8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="8" cy="7" r="3.5"/>

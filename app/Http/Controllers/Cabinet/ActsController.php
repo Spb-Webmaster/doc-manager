@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Cabinet;
 
 use App\Enums\ActStatus;
 use App\Http\Controllers\Concerns\BulkDeletesDocuments;
+use App\Http\Controllers\Concerns\SavesBase64Images;
 use App\Http\Controllers\Controller;
 use App\Models\Act;
 use App\Models\Contract;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 class ActsController extends Controller
 {
     use BulkDeletesDocuments;
+    use SavesBase64Images;
 
     public function index(Request $request): View
     {
@@ -116,6 +118,10 @@ class ActsController extends Controller
             'new_contractor.address' => 'nullable|string|max:500',
             'contract_id'            => 'nullable|integer',
             'bank_account_id'        => 'nullable|integer',
+            'stamp_image'            => 'nullable|string',
+            'stamp_scale'            => 'nullable|integer|min:50|max:200',
+            'signature_image'        => 'nullable|string',
+            'signature_scale'        => 'nullable|integer|min:50|max:200',
             'number'                 => 'required|string|max:50',
             'date'                   => 'required|date',
             'basis'                  => 'nullable|string|max:500',
@@ -183,6 +189,10 @@ class ActsController extends Controller
             'number'          => $data['number'],
             'date'            => $data['date'],
             'basis'           => $this->sanitizeBasis($data['basis'] ?? null),
+            'stamp_path'      => $this->saveBase64Image($data['stamp_image'] ?? null, $user->id, 'stamp'),
+            'stamp_scale'     => $data['stamp_scale'] ?? 100,
+            'signature_path'  => $this->saveBase64Image($data['signature_image'] ?? null, $user->id, 'sig'),
+            'signature_scale' => $data['signature_scale'] ?? 100,
             'status'          => ActStatus::Draft,
             'subtotal'        => $subtotal,
             'nds_amount'      => $ndsAmount,

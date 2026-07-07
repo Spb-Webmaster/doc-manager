@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Cabinet;
 
 use App\Enums\InvoiceStatus;
 use App\Http\Controllers\Concerns\BulkDeletesDocuments;
+use App\Http\Controllers\Concerns\SavesBase64Images;
 use App\Http\Controllers\Controller;
 use App\Models\Contract;
 use App\Models\Invoice;
@@ -16,6 +17,7 @@ use Illuminate\Http\Request;
 class InvoicesController extends Controller
 {
     use BulkDeletesDocuments;
+    use SavesBase64Images;
 
     public function index(Request $request): View
     {
@@ -243,21 +245,6 @@ class InvoicesController extends Controller
     public function bulkDestroy(Request $request): JsonResponse
     {
         return $this->bulkDeleteOwned($request, auth()->user()->invoices());
-    }
-
-    private function saveBase64Image(?string $data, int $userId, string $prefix): ?string
-    {
-        if (!$data || !str_contains($data, ',')) return null;
-
-        [$header, $encoded] = explode(',', $data, 2);
-        $decoded = base64_decode($encoded, strict: true);
-        if ($decoded === false) return null;
-
-        $ext  = str_contains($header, 'png') ? 'png' : 'jpg';
-        $path = "images/{$userId}/{$prefix}_" . uniqid() . ".{$ext}";
-        \Illuminate\Support\Facades\Storage::disk('pdf')->put($path, $decoded);
-
-        return $path;
     }
 
     private function sanitizeBasis(?string $basis): ?string

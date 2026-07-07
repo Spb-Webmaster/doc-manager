@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
     'number', 'date', 'basis',
     'status',
     'subtotal', 'nds_amount', 'total',
-    'comment',
+    'comment', 'stamp_path', 'stamp_scale', 'signature_path', 'signature_scale',
 ])]
 class Act extends Model
 {

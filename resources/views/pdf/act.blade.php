@@ -117,31 +117,10 @@ body {
 .sign-block {
     margin-top: 8mm;
 }
-.sign-row {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 8mm;
-}
-.sign-row td {
-    font-size: 9pt;
-    vertical-align: bottom;
-    padding-bottom: 6mm;
-}
 .sign-heading {
     font-weight: bold;
     margin-bottom: 3mm;
     font-size: 10pt;
-}
-.sign-line {
-    border-bottom: 1px solid #000;
-    display: inline-block;
-    width: 40mm;
-    margin: 0 2mm;
-}
-.sign-detail {
-    font-size: 8pt;
-    color: #555;
-    margin-top: 1mm;
 }
 </style>
 </head>
@@ -252,32 +231,56 @@ body {
 
 {{-- ═══════════════════════════════════════════════
      ПОДПИСИ ДВУХ СТОРОН
-     Акт подписывается с обеих сторон, в отличие от счёта
+     Акт подписывается с обеих сторон, в отличие от счёта.
+     У Исполнителя может быть загружено изображение подписи/печати
+     (см. предпросмотр в кабинете) — печать справа, подпись слева.
      ═══════════════════════════════════════════════ --}}
+@php
+    $hasSig   = !empty($sigSrc);
+    $hasStamp = !empty($stampSrc);
+@endphp
+
 <div class="sign-block">
-    <table class="sign-row">
-        {{-- Подпись Исполнителя --}}
+    <table style="width:100%; border-collapse:collapse;">
+        {{-- Исполнитель: ФИО --}}
         <tr>
-            <td>
+            <td style="padding-bottom:2mm;">
                 <div class="sign-heading">Исполнитель</div>
                 <div>{{ $seller['name'] }}</div>
-                <div style="margin-top:6mm;">
-                    <span class="sign-line"></span>
-                    &nbsp;/{{ $seller['director'] }}/
-                </div>
-                <div class="sign-detail">М.П.</div>
             </td>
         </tr>
-        {{-- Подпись Заказчика --}}
+        {{-- Исполнитель: подпись (слева) и печать (справа) --}}
         <tr>
-            <td>
+            <td style="padding-bottom:8mm;">
+                <table style="width:100%; border-collapse:collapse;">
+                    <tr>
+                        <td style="width:60%; vertical-align:bottom;">
+                            @if($hasSig)
+                            <img src="{{ $sigSrc }}" style="height:{{ $sigHeight }}mm; width:auto; display:block;">
+                            @else
+                            <div style="height:{{ $sigHeight }}mm;"></div>
+                            @endif
+                        </td>
+                        <td style="width:40%; text-align:right; vertical-align:bottom;">
+                            @if($hasStamp)
+                            <img src="{{ $stampSrc }}" style="width:{{ $stampSize }}mm; height:auto; display:inline-block; opacity:0.9;">
+                            @endif
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        {{-- Заказчик: ФИО --}}
+        <tr>
+            <td style="padding-bottom:2mm;">
                 <div class="sign-heading">Заказчик</div>
                 <div>{{ $contractor->name }}</div>
-                <div style="margin-top:6mm;">
-                    <span class="sign-line"></span>
-                    &nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/
-                </div>
-                <div class="sign-detail">М.П.</div>
+            </td>
+        </tr>
+        {{-- Заказчик подписывает бумажный экземпляр вручную --}}
+        <tr>
+            <td style="padding-bottom:8mm;">
+                <div style="height:{{ $sigHeight }}mm;"></div>
             </td>
         </tr>
     </table>
