@@ -3,7 +3,7 @@
 @section('title', 'Новый контрагент — СчётОк')
 
 @section('content')
-<header class="topbar" style="padding: 0 0 0 28px; gap: 0;">
+<header class="topbar topbar--form">
   <div class="tb-breadcrumb">
     <a href="{{ route('cabinet.contractors') }}">Контрагенты</a>
     <span class="tb-breadcrumb-sep">›</span>

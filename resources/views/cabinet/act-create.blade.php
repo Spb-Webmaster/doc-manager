@@ -4,7 +4,7 @@
 
 @section('content')
 
-<header class="topbar" style="padding: 0 0 0 28px;">
+<header class="topbar topbar--form">
   <div class="tb-left">
     <div class="tb-breadcrumb">
       <a href="{{ route('cabinet') }}">Кабинет</a>

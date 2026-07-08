@@ -153,7 +153,7 @@
               </div>
               Счетов выставлено
             </div>
-            <div class="stat-num">0</div>
+            <div class="stat-num">{{ $invoicesCount }}</div>
           </div>
           <div class="stat-row">
             <div class="stat-lhs">
@@ -165,7 +165,7 @@
               </div>
               Актов выставлено
             </div>
-            <div class="stat-num">0</div>
+            <div class="stat-num">{{ $actsCount }}</div>
           </div>
           <div class="stat-row">
             <div class="stat-lhs">

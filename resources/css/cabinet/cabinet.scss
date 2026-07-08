@@ -204,6 +204,9 @@
     gap: 16px;
 }
 
+/* Топбар форм создания (счёт/акт/контрагент) — без правого паддинга под кнопки действий */
+.topbar--form { padding: 0 0 0 28px; gap: 0; }
+
 .tb-left {
     display: flex;
     align-items: baseline;
@@ -1601,4 +1604,40 @@
     }
 
     .danger-zone { padding: 16px; }
+
+    /* ── Создание счёта/акта/контрагента (/cabinet/invoices|acts/create, /cabinet/contractors/create) ── */
+    /* Двухколоночный грид (форма фиксированной ширины + предпросмотр) ломает мобильную вёрстку —
+       форма и предпросмотр становятся вертикальным стеком в одном скролл-контейнере */
+    .create-layout {
+        grid-template-columns: 1fr;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+
+    .form-col,
+    .preview-col {
+        overflow: visible;
+        border-right: none;
+        /* Запас справа — на несенсорных устройствах classic-скроллбар .create-layout не должен наезжать на текст */
+        padding: 16px 20px 16px 16px;
+    }
+
+    .cp-create-layout .form-col {
+        padding: 16px 20px 16px 16px;
+    }
+
+    .preview-col {
+        border-top: 1px solid var(--border);
+    }
+
+    /* Двухколоночные поля (КПП/ОГРН, Телефон/ФИО и т.п.) — в одну колонку */
+    .field-row-2 {
+        grid-template-columns: 1fr;
+    }
+
+    /* Позиции счёта/акта: Кол-во/Ед./Цена/Сумма — в сетку 2×2 вместо 4 фиксированных колонок */
+    .item-params-row {
+        grid-template-columns: 1fr 1fr;
+        padding-left: 0;
+    }
 }

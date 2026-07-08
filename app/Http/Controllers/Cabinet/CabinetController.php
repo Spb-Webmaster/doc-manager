@@ -33,6 +33,9 @@ class CabinetController extends Controller
             ->orderByDesc('created_at')
             ->get();
 
-        return view('cabinet.index', compact('reqData', 'bank', 'contractors'));
+        $invoicesCount = $user->invoices()->whereYear('date', now()->year)->count();
+        $actsCount     = $user->acts()->whereYear('date', now()->year)->count();
+
+        return view('cabinet.index', compact('reqData', 'bank', 'contractors', 'invoicesCount', 'actsCount'));
     }
 }
