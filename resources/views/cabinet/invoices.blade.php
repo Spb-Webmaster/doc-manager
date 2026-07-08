@@ -20,7 +20,7 @@
   <div class="filter-bar">
     <span class="filter-label">Контрагент:</span>
     <form method="GET" action="{{ route('cabinet.invoices') }}" style="display:contents;">
-      <div style="width:280px;">
+      <div class="filter-contractor">
         <x-form.mz-select name="contractor_id" onchange="this.form.submit()">
           <option value="">Все контрагенты</option>
           @foreach($contractors as $c)

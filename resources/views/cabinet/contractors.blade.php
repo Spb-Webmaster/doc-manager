@@ -319,9 +319,14 @@
     document.getElementById('detail-empty').style.display = 'none';
     const dc = document.getElementById('detail-content');
     dc.style.display = 'flex';
+    document.querySelector('.contractors-page').classList.add('show-detail');
 
     dc.innerHTML = `
       <div class="detail-head">
+        <button type="button" class="cp-back-btn" id="cp-back-btn">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 2.5L3.5 7l5 4.5"/></svg>
+          Контрагенты
+        </button>
         <div class="detail-ava" style="background:${clr}20;color:${clr};">${escHtml(initials(c.name))}</div>
         <div class="detail-head-info">
           <div class="detail-name">${escHtml(c.name)}</div>
@@ -389,8 +394,8 @@
             <button class="doc-tab active" data-tab="inv">Счета <span class="doc-tab-cnt" id="docs-cnt-inv">0</span></button>
             <button class="doc-tab" data-tab="act">Акты <span class="doc-tab-cnt" id="docs-cnt-act">0</span></button>
           </div>
-          <div id="docs-pane-inv"><div class="doc-empty">Загрузка…</div></div>
-          <div id="docs-pane-act" style="display:none"><div class="doc-empty">Загрузка…</div></div>
+          <div class="doc-pane" id="docs-pane-inv"><div class="doc-empty">Загрузка…</div></div>
+          <div class="doc-pane" id="docs-pane-act" style="display:none"><div class="doc-empty">Загрузка…</div></div>
         </div>
 
         <div class="info-card">
@@ -482,6 +487,13 @@
   /* ── Search ── */
   document.getElementById('cp-search').addEventListener('input', function() {
     renderList(this.value);
+  });
+
+  /* ── Мобильный drill-down: назад к списку ── */
+  document.getElementById('detail-col').addEventListener('click', function(e) {
+    if (e.target.closest('#cp-back-btn')) {
+      document.querySelector('.contractors-page').classList.remove('show-detail');
+    }
   });
 
   /* ── Modal ── */

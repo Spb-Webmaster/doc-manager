@@ -713,6 +713,7 @@
     padding: 12px 28px;
     display: flex; align-items: center; gap: 12px;
 }
+.filter-contractor { width: 280px; }
 .filter-label { font-size: 13px; font-weight: 600; color: var(--text-s); white-space: nowrap; }
 .filter-reset { font-size: 13px; color: var(--text-s); text-decoration: none; }
 .filter-reset:hover { color: var(--text-h); }
@@ -1104,6 +1105,22 @@
 .detail-inn  { font-size: 13px; color: var(--text-s); }
 .detail-head-btns { display: flex; gap: 8px; flex-wrap: wrap; }
 
+/* Кнопка «Назад к списку» — только на мобильном drill-down (см. Responsive) */
+.cp-back-btn {
+    display: none;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+    padding: 0 0 4px;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--accent);
+    cursor: pointer;
+}
+
 .detail-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 16px; }
 
 /* Карточка сведений */
@@ -1374,6 +1391,28 @@
     .col2 {
         grid-template-columns: 1fr;
     }
+
+    /* ── Контрагенты (/cabinet/contractors): drill-down вместо 2 колонок ── */
+    .list-col {
+        width: 100%;
+    }
+
+    .detail-col {
+        display: none;
+        width: 100%;
+    }
+
+    .contractors-page.show-detail .list-col {
+        display: none;
+    }
+
+    .contractors-page.show-detail .detail-col {
+        display: flex;
+    }
+
+    .cp-back-btn {
+        display: flex;
+    }
 }
 
 /* ── Мобильный ── */
@@ -1383,13 +1422,11 @@
     }
 
     .topbar {
-        padding: 0 16px 0 56px;
-        height: auto;
-        min-height: 64px;
         flex-wrap: wrap;
         gap: 10px;
-        padding-top: 12px;
-        padding-bottom: 12px;
+        height: auto;
+        min-height: 64px;
+        padding: 19px 16px 12px 56px;
     }
 
     .tb-right {
@@ -1413,5 +1450,56 @@
 
     .tbl-wrap table {
         min-width: 480px;
+    }
+
+    /* ── Списки документов (/cabinet/invoices, /cabinet/acts) ── */
+    .filter-bar {
+        flex-wrap: wrap;
+        padding: 12px 16px;
+    }
+
+    .filter-contractor {
+        width: 100%;
+    }
+
+    .filter-info {
+        margin-left: 0;
+    }
+
+    .bulk-toolbar.show {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .table-wrap {
+        padding: 16px;
+        overflow-x: auto;
+    }
+
+    .inv-table {
+        min-width: 640px;
+    }
+
+    .pag-wrap {
+        padding: 14px 16px 20px;
+    }
+
+    /* ── Контрагенты (/cabinet/contractors) ── */
+    .detail-head {
+        padding: 14px 16px;
+    }
+
+    .detail-body {
+        padding: 14px 16px;
+    }
+
+    .doc-pane {
+        overflow-x: auto;
+    }
+
+    .doc-mini-head,
+    .doc-mini-row {
+        width: max-content;
+        min-width: 100%;
     }
 }
