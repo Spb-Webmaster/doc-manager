@@ -3470,6 +3470,23 @@
   cursor: pointer;
 }
 
+/* Ряд «поле + кнопка действия» (ИНН → обновить из ФНС, БИК → найти банк) */
+.field-inline {
+  display: flex;
+  gap: 10px;
+  align-items: flex-end;
+}
+
+.field-inline .field-input {
+  max-width: 200px;
+}
+
+.field-inline .btn {
+  padding: 10px 16px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
 .inn-chip {
   display: flex;
   align-items: center;
@@ -4220,6 +4237,98 @@
   .doc-mini-row {
     width: max-content;
     min-width: 100%;
+  }
+  /* ── Настройки (/cabinet/settings) ── */
+  /* Контент из двух колонок (нав + панели) становится вертикальным стеком */
+  .settings-page .content {
+    flex-direction: column;
+  }
+  /* Левая навигация превращается в горизонтальную ленту вкладок со скроллом */
+  .tabs-nav {
+    width: 100%;
+    flex-shrink: 0;
+    display: flex;
+    gap: 6px;
+    padding: 10px 12px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tabs-nav::-webkit-scrollbar {
+    display: none;
+  }
+  .tabs-nav-title,
+  .tabs-sep {
+    display: none;
+  }
+  .tab-link {
+    width: auto;
+    flex-shrink: 0;
+    margin-bottom: 0;
+    white-space: nowrap;
+  }
+  .tab-panels {
+    padding: 16px;
+  }
+  .tab-panel {
+    max-width: none;
+  }
+  /* Карточки: меньше внутренние отступы */
+  .sc-head {
+    padding: 14px 16px;
+  }
+  .sc-body {
+    padding: 16px;
+  }
+  .sc-foot {
+    padding: 12px 16px;
+  }
+  /* Все двухколоночные сетки полей — в одну колонку */
+  .field-grid-2,
+  .field-grid-3,
+  .bank-fields {
+    grid-template-columns: 1fr;
+  }
+  /* Ряд «поле + кнопка» переносится, кнопка занимает всю ширину */
+  .field-inline {
+    flex-wrap: wrap;
+  }
+  .field-inline .field-input {
+    max-width: 100%;
+  }
+  .field-inline .btn {
+    flex: 1;
+    justify-content: center;
+  }
+  /* Кнопки в подвале карточки растягиваются на всю ширину */
+  .sc-foot .btn {
+    flex: 1;
+    justify-content: center;
+  }
+  /* Банковский счёт: компактнее шапка и подвал */
+  .bank-item-head {
+    padding: 12px 14px;
+    gap: 10px;
+  }
+  .bank-item-body {
+    padding: 14px;
+  }
+  .bank-item-foot {
+    padding: 10px 14px;
+  }
+  /* Скрываем ручку перетаскивания — на тач-устройствах порядок меняется редко */
+  .bank-drag-handle {
+    display: none;
+  }
+  /* Уведомления: тумблер уходит под текст */
+  .notif-row {
+    flex-direction: column;
+    gap: 12px;
+  }
+  .danger-zone {
+    padding: 16px;
   }
 }
 

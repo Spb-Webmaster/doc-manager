@@ -60,9 +60,9 @@
           <div class="sc-body">
             <div class="field">
               <div class="field-label">ИНН</div>
-              <div style="display:flex;gap:10px;align-items:flex-end;">
-                <input class="field-input" id="org-inn" type="text" value="{{ $requisites['inn'] ?? '' }}" maxlength="12" style="max-width:200px;">
-                <button class="btn btn-outline" id="inn-refresh-btn" style="padding:10px 16px;font-size:13px;">
+              <div class="field-inline">
+                <input class="field-input" id="org-inn" type="text" value="{{ $requisites['inn'] ?? '' }}" maxlength="12">
+                <button class="btn btn-outline" id="inn-refresh-btn">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M1 7A6 6 0 0 1 12.5 4M13 7A6 6 0 0 1 1.5 10"/>
                     <path d="M13 2.5V5H10.5M1 11.5V9H3.5"/>
@@ -184,9 +184,9 @@
               <div style="display:flex;flex-direction:column;gap:16px;">
                 <div class="field">
                   <div class="field-label">БИК банка</div>
-                  <div style="display:flex;gap:10px;align-items:flex-end;">
-                    <input class="field-input" id="new-bank-bik" type="text" placeholder="044525974" maxlength="9" style="max-width:200px;">
-                    <button class="btn btn-outline" id="bik-lookup-btn" style="padding:10px 16px;font-size:13px;">
+                  <div class="field-inline">
+                    <input class="field-input" id="new-bank-bik" type="text" placeholder="044525974" maxlength="9">
+                    <button class="btn btn-outline" id="bik-lookup-btn">
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M1 7A6 6 0 0 1 12.5 4M13 7A6 6 0 0 1 1.5 10"/>
                         <path d="M13 2.5V5H10.5M1 11.5V9H3.5"/>
