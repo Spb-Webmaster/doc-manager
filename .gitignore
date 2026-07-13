@@ -1,5 +1,6 @@
 *.log
 .DS_Store
+/CLAUDE.md
 /.playwright-mcp
 .env
 .env.backup
