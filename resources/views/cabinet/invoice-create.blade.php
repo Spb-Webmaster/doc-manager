@@ -1299,6 +1299,10 @@
       basis:           document.getElementById('inv-basis').value.trim() || null,
       nds_rate:        +document.getElementById('vat-select').value,
       items:           validItems.map(it => ({ name: it.name, unit: it.unit, qty: it.qty, price: it.price })),
+      stamp_image:     stampBase64,
+      stamp_scale:     stampScale,
+      signature_image: signatureBase64,
+      signature_scale: signatureScale,
     };
 
     try {
