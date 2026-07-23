@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Cabinet;
 use App\Http\Controllers\Controller;
 use App\Models\InvoiceTemplate;
 use App\Models\SmartInvoice;
+use App\Services\SmartInvoiceActService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -14,6 +15,10 @@ use Illuminate\Support\Carbon;
 
 class SmartInvoicesController extends Controller
 {
+    public function __construct(private readonly SmartInvoiceActService $actService)
+    {
+    }
+
     public function index(): View
     {
         $templates = auth()->user()
@@ -91,6 +96,7 @@ class SmartInvoicesController extends Controller
             'period_months'   => 'required|integer|in:1,2,3,6',
             'day_of_month'    => 'required|integer|min:1|max:31',
             'with_act'        => 'boolean',
+            'invoice_id'      => 'nullable|integer',
         ]);
 
         abort_unless(
@@ -109,7 +115,7 @@ class SmartInvoicesController extends Controller
 
         $nextRunAt = $this->calcNextRun((int) $data['day_of_month']);
 
-        SmartInvoice::create([
+        $smartInvoice = SmartInvoice::create([
             'user_id'             => $user->id,
             'invoice_template_id' => $template->id,
             'period_months'       => $data['period_months'],
@@ -117,6 +123,22 @@ class SmartInvoicesController extends Controller
             'with_act'            => $data['with_act'] ?? false,
             'next_run_at'         => $nextRunAt,
         ]);
+
+        if (!empty($data['invoice_id'])) {
+            $invoice = $user->invoices()->find($data['invoice_id']);
+
+            if ($invoice) {
+                $periodStart = $invoice->date->copy();
+                $periodEnd   = $this->actService->periodEnd($periodStart, (int) $data['period_months']);
+                $dateRange   = $this->actService->dateRange($periodStart, $periodEnd);
+
+                $this->actService->appendPeriodToInvoiceItems($invoice, $dateRange);
+
+                if ($smartInvoice->with_act) {
+                    $this->actService->createAct($smartInvoice, $invoice, $periodStart, $periodEnd);
+                }
+            }
+        }
 
         return response()->json(['ok' => true], 201);
     }

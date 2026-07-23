@@ -1323,6 +1323,7 @@
 
       // 2. Сохраняем умный счёт (contractor уже существует — используем id из ответа)
       const smartPayload = {
+        invoice_id:      invJson.invoice,
         contractor_id:   invJson.contractor_id,
         bank_account_id: selectedBankAccountId,
         basis:           document.getElementById('inv-basis').value.trim() || null,
