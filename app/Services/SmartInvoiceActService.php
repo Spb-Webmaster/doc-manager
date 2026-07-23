@@ -55,6 +55,10 @@ class SmartInvoiceActService
             'subtotal'        => $subtotal,
             'nds_amount'      => $ndsAmount,
             'total'           => $total,
+            'stamp_path'      => $invoice->stamp_path,
+            'stamp_scale'     => $invoice->stamp_scale,
+            'signature_path'  => $invoice->signature_path,
+            'signature_scale' => $invoice->signature_scale,
         ]);
 
         foreach ($items as $i => $item) {
