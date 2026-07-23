@@ -256,14 +256,14 @@ body {
                     <tr>
                         <td style="width:60%; vertical-align:bottom;">
                             @if($hasSig)
-                            <img src="{{ $sigSrc }}" style="height:{{ $sigHeight }}mm; width:auto; display:block;">
+                            <img src="{{ $sigSrc }}" style="height:{{ $sigHeight }}mm; width:auto; display:block; margin-top:-50px;">
                             @else
                             <div style="height:{{ $sigHeight }}mm;"></div>
                             @endif
                         </td>
                         <td style="width:40%; text-align:right; vertical-align:bottom;">
                             @if($hasStamp)
-                            <img src="{{ $stampSrc }}" style="width:{{ $stampSize }}mm; height:auto; display:inline-block; opacity:0.9;">
+                            <img src="{{ $stampSrc }}" style="width:{{ $stampSize }}mm; height:auto; display:inline-block; opacity:0.9; margin-top:-50px;">
                             @endif
                         </td>
                     </tr>
