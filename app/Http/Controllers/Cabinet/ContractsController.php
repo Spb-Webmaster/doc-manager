@@ -10,8 +10,19 @@ use App\Models\Contractor;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * Договоры контрагентов в личном кабинете (полностью AJAX, без своих страниц).
+ *
+ * Используются в карточке контрагента и как «основание» при создании счетов и актов.
+ */
 class ContractsController extends Controller
 {
+    /**
+     * GET /cabinet/contractors/{contractor}/contracts — список договоров контрагента (AJAX).
+     *
+     * Доступ только к своим контрагентам. Возвращает JSON-массив договоров
+     * в порядке ручной сортировки (sort_order).
+     */
     public function index(Contractor $contractor): JsonResponse
     {
         abort_unless($contractor->user_id === auth()->id(), 403);
@@ -21,6 +32,12 @@ class ContractsController extends Controller
         );
     }
 
+    /**
+     * POST /cabinet/contracts/reorder — сохранение порядка договоров (AJAX, drag&drop).
+     *
+     * Принимает массив ids в новом порядке; обновляет sort_order только
+     * у договоров текущего пользователя. Возвращает JSON {ok: true}.
+     */
     public function reorder(Request $request): JsonResponse
     {
         $ids = $request->validate([
@@ -39,6 +56,12 @@ class ContractsController extends Controller
         return response()->json(['ok' => true]);
     }
 
+    /**
+     * POST /cabinet/contractors/{contractor}/contracts — создание договора (AJAX).
+     *
+     * Доступ только к своим контрагентам. Принимает название, номер и дату.
+     * Возвращает JSON 201 с созданным договором.
+     */
     public function store(Request $request, Contractor $contractor): JsonResponse
     {
         abort_unless($contractor->user_id === auth()->id(), 403);
@@ -57,6 +80,11 @@ class ContractsController extends Controller
         return response()->json(['contract' => $contract], 201);
     }
 
+    /**
+     * PATCH /cabinet/contracts/{contract} — обновление договора (AJAX).
+     *
+     * Доступ только к своим договорам. Возвращает JSON с обновлённым договором.
+     */
     public function update(Request $request, Contract $contract): JsonResponse
     {
         abort_unless($contract->user_id === auth()->id(), 403);
@@ -72,6 +100,11 @@ class ContractsController extends Controller
         return response()->json(['contract' => $contract->fresh()]);
     }
 
+    /**
+     * DELETE /cabinet/contracts/{contract} — удаление договора (AJAX).
+     *
+     * Доступ только к своим договорам. Возвращает JSON с сообщением.
+     */
     public function destroy(Contract $contract): JsonResponse
     {
         abort_unless($contract->user_id === auth()->id(), 403);

@@ -13,8 +13,18 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Validation\Rule;
 
+/**
+ * Настройки личного кабинета: реквизиты, банковские счета, профиль,
+ * уведомления, пароль, удаление аккаунта. Все изменения — через AJAX (JSON).
+ */
 class SettingsController extends Controller
 {
+    /**
+     * GET /cabinet/settings — страница настроек.
+     *
+     * Собирает реквизиты (ЮЛ или ИП), банковские счета в порядке сортировки
+     * и флаг уведомлений. Возвращает view 'cabinet.settings'.
+     */
     public function index(): View
     {
         $user  = auth()->user();
@@ -40,6 +50,13 @@ class SettingsController extends Controller
         return view('cabinet.settings', compact('requisites', 'bankAccounts', 'notifyInvoiceFromTemplate'));
     }
 
+    /**
+     * POST /cabinet/requisites — сохранение реквизитов (AJAX).
+     *
+     * По длине ИНН определяет тип: 10 цифр — юр. лицо (LegalEntity),
+     * 12 цифр — ИП (IndividualEntrepreneur), и создаёт/обновляет запись.
+     * Возвращает JSON с сообщением либо 422 при ошибке валидации.
+     */
     public function saveRequisites(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -89,6 +106,13 @@ class SettingsController extends Controller
         return response()->json(['message' => 'Реквизиты сохранены']);
     }
 
+    /**
+     * POST /cabinet/bank-accounts — добавление банковского счёта (AJAX).
+     *
+     * Проверяет существование банка по БИК через сервис DaData; первый счёт
+     * пользователя становится основным. Возвращает JSON с данными счёта
+     * либо 422 (БИК не найден / сервис недоступен / счёт уже зарегистрирован).
+     */
     public function storeBankAccount(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -142,6 +166,12 @@ class SettingsController extends Controller
         ]);
     }
 
+    /**
+     * POST /cabinet/bank-accounts/reorder — порядок счетов (AJAX, drag&drop).
+     *
+     * Принимает массив ids в новом порядке; первый счёт становится основным.
+     * Обновляет только счета текущего пользователя. Возвращает JSON {ok: true}.
+     */
     public function reorderBankAccounts(Request $request): JsonResponse
     {
         $ids = $request->validate([
@@ -163,6 +193,11 @@ class SettingsController extends Controller
         return response()->json(['ok' => true]);
     }
 
+    /**
+     * DELETE /cabinet/bank-accounts/{bankAccount} — удаление счёта (AJAX).
+     *
+     * Доступ только к своим счетам. Возвращает JSON с сообщением.
+     */
     public function destroyBankAccount(BankAccount $bankAccount): JsonResponse
     {
         abort_if($bankAccount->user_id !== auth()->id(), 403);
@@ -170,6 +205,12 @@ class SettingsController extends Controller
         return response()->json(['message' => 'Счёт удалён']);
     }
 
+    /**
+     * POST /cabinet/profile — сохранение личных данных (AJAX).
+     *
+     * Обновляет имя, телефон (хранится только цифрами) и email (уникален).
+     * Возвращает JSON с сообщением либо 422 при ошибке валидации.
+     */
     public function saveProfile(Request $request): JsonResponse
     {
         $user = auth()->user();
@@ -193,6 +234,12 @@ class SettingsController extends Controller
         return response()->json(['message' => 'Личные данные сохранены']);
     }
 
+    /**
+     * POST /cabinet/notifications — переключение email-уведомлений (AJAX).
+     *
+     * Включает/выключает уведомление о счетах, созданных по шаблону.
+     * Требует заполненного email в профиле. Возвращает JSON с сообщением либо 422.
+     */
     public function saveNotifications(Request $request): JsonResponse
     {
         $validated = $request->validate([
@@ -212,6 +259,11 @@ class SettingsController extends Controller
         return response()->json(['message' => 'Настройки уведомлений сохранены']);
     }
 
+    /**
+     * POST /cabinet/password — смена пароля (AJAX).
+     *
+     * Требует пароль от 5 символов с подтверждением. Возвращает JSON с сообщением.
+     */
     public function changePassword(Request $request): JsonResponse
     {
         $request->validate([
@@ -227,6 +279,12 @@ class SettingsController extends Controller
         return response()->json(['message' => 'Пароль успешно изменён']);
     }
 
+    /**
+     * POST /cabinet/account/delete — пометка аккаунта на удаление (AJAX).
+     *
+     * Ставит у пользователя признак account = 'delete' (фактическое удаление
+     * выполняется отдельно). Возвращает JSON с сообщением.
+     */
     public function markAccountDelete(): JsonResponse
     {
         auth()->user()->update(['account' => 'delete']);

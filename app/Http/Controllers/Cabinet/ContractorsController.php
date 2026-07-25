@@ -9,8 +9,20 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
+/**
+ * Контрагенты (заказчики) в личном кабинете.
+ *
+ * Страницы: список контрагентов и форма добавления.
+ * AJAX (JSON): создание, обновление, удаление, списки счетов/актов контрагента.
+ */
 class ContractorsController extends Controller
 {
+    /**
+     * GET /cabinet/contractors — страница списка контрагентов пользователя.
+     *
+     * Отдаёт view 'cabinet.contractors' с массивом контрагентов (реквизиты,
+     * контакты, банк) и счётчиками счетов/актов по каждому.
+     */
     public function index(): View
     {
         $contractors = auth()->user()
@@ -39,12 +51,24 @@ class ContractorsController extends Controller
         return view('cabinet.contractors', compact('contractors'));
     }
 
+    /**
+     * GET /cabinet/contractors/create — страница формы добавления контрагента.
+     *
+     * Передаёт во view список уже добавленных ИНН для проверки дублей на фронте.
+     */
     public function create(): \Illuminate\Contracts\View\View
     {
         $existingInns = auth()->user()->contractors()->pluck('inn');
         return view('cabinet.contractor-create', compact('existingInns'));
     }
 
+    /**
+     * POST /cabinet/contractors — создание контрагента.
+     *
+     * Валидирует ИНН (10 или 12 цифр, уникален в рамках пользователя) и реквизиты.
+     * Для AJAX-запроса возвращает JSON с данными созданного контрагента,
+     * для обычного — redirect на список контрагентов.
+     */
     public function store(Request $request): JsonResponse|\Illuminate\Http\RedirectResponse
     {
         $validated = $request->validate([
@@ -107,6 +131,12 @@ class ContractorsController extends Controller
         return redirect()->route('cabinet.contractors');
     }
 
+    /**
+     * PATCH /cabinet/contractors/{contractor} — обновление контрагента (AJAX).
+     *
+     * Доступ только к своим контрагентам (403 для чужих). ИНН не редактируется.
+     * Возвращает JSON с актуальными данными контрагента и счётчиками счетов/актов.
+     */
     public function update(Request $request, Contractor $contractor): JsonResponse
     {
         abort_if($contractor->user_id !== auth()->id(), 403);
@@ -163,6 +193,11 @@ class ContractorsController extends Controller
         ]);
     }
 
+    /**
+     * DELETE /cabinet/contractors/{contractor} — удаление контрагента (AJAX).
+     *
+     * Доступ только к своим контрагентам. Возвращает JSON с сообщением.
+     */
     public function destroy(Contractor $contractor): JsonResponse
     {
         abort_if($contractor->user_id !== auth()->id(), 403);
@@ -170,6 +205,12 @@ class ContractorsController extends Controller
         return response()->json(['message' => 'Контрагент удалён']);
     }
 
+    /**
+     * GET /cabinet/contractors/{contractor}/invoices — счета контрагента (AJAX).
+     *
+     * Используется в раскрывающейся карточке контрагента.
+     * Возвращает JSON-массив счетов: номер, дата, сумма, статус, название договора.
+     */
     public function invoices(Contractor $contractor): JsonResponse
     {
         abort_unless($contractor->user_id === auth()->id(), 403);
@@ -191,6 +232,12 @@ class ContractorsController extends Controller
         return response()->json($rows);
     }
 
+    /**
+     * GET /cabinet/contractors/{contractor}/acts — акты контрагента (AJAX).
+     *
+     * Используется в раскрывающейся карточке контрагента.
+     * Возвращает JSON-массив актов: номер, дата, сумма, статус.
+     */
     public function acts(Contractor $contractor): JsonResponse
     {
         abort_unless($contractor->user_id === auth()->id(), 403);

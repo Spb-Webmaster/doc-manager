@@ -13,12 +13,25 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
+/**
+ * «Умные счета» — шаблоны для автоматического выставления счетов по расписанию.
+ *
+ * Страница: список шаблонов. AJAX (JSON): просмотр, включение/выключение,
+ * создание, удаление. Периодическую генерацию счетов по шаблонам выполняет
+ * консольная команда ProcessSmartInvoices.
+ */
 class SmartInvoicesController extends Controller
 {
     public function __construct(private readonly SmartInvoiceActService $actService)
     {
     }
 
+    /**
+     * GET /cabinet/templates — страница списка шаблонов умных счетов.
+     *
+     * Возвращает view 'cabinet.templates' с шаблонами пользователя
+     * (включая контрагента и банковский счёт шаблона).
+     */
     public function index(): View
     {
         $templates = auth()->user()
@@ -30,6 +43,12 @@ class SmartInvoicesController extends Controller
         return view('cabinet.templates', compact('templates'));
     }
 
+    /**
+     * GET /cabinet/templates/{smartInvoice} — данные шаблона для просмотра (AJAX).
+     *
+     * Доступ только к своим шаблонам. Возвращает JSON: периодичность, день месяца,
+     * признак акта, активность, даты запусков, контрагент, основание, НДС и позиции.
+     */
     public function showTemplate(SmartInvoice $smartInvoice): JsonResponse
     {
         abort_unless($smartInvoice->user_id === auth()->id(), 403);
@@ -60,6 +79,11 @@ class SmartInvoicesController extends Controller
         ]);
     }
 
+    /**
+     * PATCH /cabinet/templates/{smartInvoice}/toggle — вкл/выкл шаблона (AJAX).
+     *
+     * Доступ только к своим шаблонам. Возвращает JSON {is_active: bool}.
+     */
     public function toggleActive(SmartInvoice $smartInvoice): JsonResponse
     {
         abort_unless($smartInvoice->user_id === auth()->id(), 403);
@@ -69,6 +93,12 @@ class SmartInvoicesController extends Controller
         return response()->json(['is_active' => $smartInvoice->is_active]);
     }
 
+    /**
+     * DELETE /cabinet/templates/{smartInvoice} — удаление шаблона (AJAX).
+     *
+     * Удаляет и сам шаблон расписания, и связанный шаблон счёта (InvoiceTemplate).
+     * Уже выставленные счета не затрагиваются. Возвращает JSON {ok: true}.
+     */
     public function destroyTemplate(SmartInvoice $smartInvoice): JsonResponse
     {
         abort_unless($smartInvoice->user_id === auth()->id(), 403);
@@ -79,6 +109,15 @@ class SmartInvoicesController extends Controller
         return response()->json(['ok' => true]);
     }
 
+    /**
+     * POST /cabinet/smart-invoices — создание шаблона умного счёта (AJAX).
+     *
+     * Создаёт InvoiceTemplate (контрагент, основание, НДС, позиции) и SmartInvoice
+     * (периодичность, день месяца, признак акта) с рассчитанной датой первого запуска.
+     * Если передан invoice_id (шаблон создаётся из уже выставленного счёта) —
+     * дописывает период в позиции счёта и при необходимости сразу создаёт акт.
+     * Возвращает JSON 201 {ok: true}.
+     */
     public function store(Request $request): JsonResponse
     {
         $user = auth()->user();
@@ -143,6 +182,10 @@ class SmartInvoicesController extends Controller
         return response()->json(['ok' => true], 201);
     }
 
+    /**
+     * Рассчитывает дату ближайшего запуска: указанный день в текущем месяце,
+     * а если он уже прошёл — в следующем (с поправкой на длину месяца).
+     */
     private function calcNextRun(int $day): Carbon
     {
         $now  = now();

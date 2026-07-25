@@ -19,10 +19,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 ])]
 class Invoice extends Model
 {
-    protected $fillable = [
-        'user_id',
-    ];
-
     protected function casts(): array
     {
         return [

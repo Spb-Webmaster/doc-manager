@@ -7,8 +7,18 @@ namespace App\Http\Controllers\Cabinet;
 use App\Http\Controllers\Controller;
 use Illuminate\Contracts\View\View;
 
+/**
+ * Главная страница личного кабинета.
+ */
 class CabinetController extends Controller
 {
+    /**
+     * GET /cabinet — дашборд кабинета.
+     *
+     * Собирает реквизиты пользователя (ЮЛ или ИП), основной банковский счёт,
+     * список контрагентов со счётчиками документов и количество счетов/актов
+     * за текущий год. Возвращает view 'cabinet.index'.
+     */
     public function index(): View
     {
         $user  = auth()->user();

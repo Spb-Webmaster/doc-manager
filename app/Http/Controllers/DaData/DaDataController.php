@@ -9,8 +9,14 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
+/**
+ * Прокси к API DaData для автозаполнения реквизитов на формах кабинета.
+ */
 class DaDataController extends Controller
 {
+    /**
+     * Запрос к findById-справочнику DaData (party / bank) с токенами из конфига.
+     */
     private function request(string $endpoint, string $query): \Illuminate\Http\Client\Response
     {
         return Http::withHeaders([
@@ -21,6 +27,12 @@ class DaDataController extends Controller
         ]);
     }
 
+    /**
+     * POST /dadata/party — поиск организации/ИП по ИНН (AJAX).
+     *
+     * Возвращает JSON с наименованием (полным и кратким), ОГРН, КПП, адресом,
+     * телефоном и email; 404 — если ИНН не найден, 422 — если сервис недоступен.
+     */
     public function party(Request $request): JsonResponse
     {
         $inn = trim((string) $request->input('inn'));
@@ -56,6 +68,12 @@ class DaDataController extends Controller
         ]);
     }
 
+    /**
+     * POST /dadata/bank — поиск банка по БИК (AJAX).
+     *
+     * Возвращает JSON с названием банка, корсчётом и городом;
+     * 404 — если банк не найден, 422 — если сервис недоступен.
+     */
     public function bank(Request $request): JsonResponse
     {
         $bik = trim((string) $request->input('bik'));

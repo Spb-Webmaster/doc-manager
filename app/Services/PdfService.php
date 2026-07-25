@@ -19,39 +19,51 @@ class PdfService
     ];
 
     /**
-     * Генерирует PDF для счёта и сохраняет файл в Storage.
+     * Конфигурация, различающаяся у типов документов:
+     * blade-шаблон, имя переменной во view, префикс имени файла
+     * и специфичная связь для eager load.
+     */
+    private function config(Act|Invoice $document): array
+    {
+        return $document instanceof Invoice
+            ? ['view' => 'pdf.invoice', 'var' => 'invoice', 'prefix' => 'счет', 'load' => 'contract']
+            : ['view' => 'pdf.act',     'var' => 'act',     'prefix' => 'акт',  'load' => 'invoice'];
+    }
+
+    /**
+     * Генерирует PDF документа (счёта или акта) и сохраняет файл в Storage.
      * Возвращает путь относительно диска 'pdf'.
      */
-    public function generateInvoice(Invoice $invoice): string
+    public function generate(Act|Invoice $document): string
     {
+        $cfg = $this->config($document);
+
         // Подгружаем все связанные данные одним запросом
-        $invoice->loadMissing([
+        $document->loadMissing([
             'contractor',
             'bankAccount',
-            'contract',
             'items',
             'user.legalEntity',
             'user.individualEntrepreneur',
             'user.selfEmployed',
+            $cfg['load'],
         ]);
-
-        $seller = $this->resolveSeller($invoice->user);
 
         // base 27mm при scale=100 → при 160% даёт 43mm
-        $stampSize = (int) min(55, round(27 * ($invoice->stamp_scale     ?? 100) / 100));
-        $sigHeight = (int) min(35, round(15 * ($invoice->signature_scale ?? 100) / 100));
+        $stampSize = (int) min(55, round(27 * ($document->stamp_scale     ?? 100) / 100));
+        $sigHeight = (int) min(35, round(15 * ($document->signature_scale ?? 100) / 100));
 
-        $pdf = Pdf::loadView('pdf.invoice', [
-            'invoice'   => $invoice,
-            'seller'    => $seller,
+        $pdf = Pdf::loadView($cfg['view'], [
+            $cfg['var'] => $document,
+            'seller'    => $this->resolveSeller($document->user),
             'months'    => self::MONTHS,
-            'stampSrc'  => $this->imageToBase64($invoice->stamp_path),
+            'stampSrc'  => $this->imageToBase64($document->stamp_path),
             'stampSize' => $stampSize,
-            'sigSrc'    => $this->imageToBase64($invoice->signature_path),
+            'sigSrc'    => $this->imageToBase64($document->signature_path),
             'sigHeight' => $sigHeight,
         ])->setPaper('a4', 'portrait');
 
-        $path = $this->invoicePath($invoice);
+        $path = $this->path($document);
 
         Storage::disk('pdf')->put($path, $pdf->output());
 
@@ -59,49 +71,23 @@ class PdfService
     }
 
     /**
-     * Генерирует PDF для акта и сохраняет файл в Storage.
-     * Возвращает путь относительно диска 'pdf'.
+     * Удаляет только PDF-файл документа — используется перед перегенерацией,
+     * когда файлы печати и подписи ещё нужны для нового PDF.
      */
-    public function generateAct(Act $act): string
+    public function deletePdf(Act|Invoice $document): void
     {
-        $act->loadMissing([
-            'contractor',
-            'bankAccount',
-            'invoice',
-            'items',
-            'user.legalEntity',
-            'user.individualEntrepreneur',
-            'user.selfEmployed',
-        ]);
-
-        $seller = $this->resolveSeller($act->user);
-
-        $stampSize = (int) min(55, round(27 * ($act->stamp_scale     ?? 100) / 100));
-        $sigHeight = (int) min(35, round(15 * ($act->signature_scale ?? 100) / 100));
-
-        $pdf = Pdf::loadView('pdf.act', [
-            'act'       => $act,
-            'seller'    => $seller,
-            'months'    => self::MONTHS,
-            'stampSrc'  => $this->imageToBase64($act->stamp_path),
-            'stampSize' => $stampSize,
-            'sigSrc'    => $this->imageToBase64($act->signature_path),
-            'sigHeight' => $sigHeight,
-        ])->setPaper('a4', 'portrait');
-
-        $path = $this->actPath($act);
-
-        Storage::disk('pdf')->put($path, $pdf->output());
-
-        return $path;
+        if ($document->pdf_path && Storage::disk('pdf')->exists($document->pdf_path)) {
+            Storage::disk('pdf')->delete($document->pdf_path);
+        }
     }
 
     /**
-     * Удаляет PDF-файл счёта из Storage, если он существует.
+     * Удаляет все файлы документа (PDF, печать, подпись) из Storage —
+     * используется при удалении самого документа.
      */
-    public function deleteInvoice(Invoice $invoice): void
+    public function deleteFiles(Act|Invoice $document): void
     {
-        foreach ([$invoice->pdf_path, $invoice->stamp_path, $invoice->signature_path] as $path) {
+        foreach ([$document->pdf_path, $document->stamp_path, $document->signature_path] as $path) {
             if ($path && Storage::disk('pdf')->exists($path)) {
                 Storage::disk('pdf')->delete($path);
             }
@@ -109,39 +95,16 @@ class PdfService
     }
 
     /**
-     * Удаляет PDF-файл акта из Storage, если он существует.
+     * Формирует путь файла документа:
+     * {user_id}/{contractor_id}/{акт|счет}-{number}-{date}.pdf
      */
-    public function deleteAct(Act $act): void
+    private function path(Act|Invoice $document): string
     {
-        foreach ([$act->pdf_path, $act->stamp_path, $act->signature_path] as $path) {
-            if ($path && Storage::disk('pdf')->exists($path)) {
-                Storage::disk('pdf')->delete($path);
-            }
-        }
-    }
+        $prefix = $this->config($document)['prefix'];
+        $number = $this->sanitizeFilename($document->number);
+        $date   = $document->date->format('d-m-Y');
 
-    /**
-     * Формирует путь файла счёта:
-     * {user_id}/{contractor_id}/счет-{number}-{date}.pdf
-     */
-    private function invoicePath(Invoice $invoice): string
-    {
-        $number = $this->sanitizeFilename($invoice->number);
-        $date   = $invoice->date->format('d-m-Y');
-
-        return "{$invoice->user_id}/{$invoice->contractor_id}/счет-{$number}-{$date}.pdf";
-    }
-
-    /**
-     * Формирует путь файла акта:
-     * {user_id}/{contractor_id}/акт-{number}-{date}.pdf
-     */
-    private function actPath(Act $act): string
-    {
-        $number = $this->sanitizeFilename($act->number);
-        $date   = $act->date->format('d-m-Y');
-
-        return "{$act->user_id}/{$act->contractor_id}/акт-{$number}-{$date}.pdf";
+        return "{$document->user_id}/{$document->contractor_id}/{$prefix}-{$number}-{$date}.pdf";
     }
 
     /**

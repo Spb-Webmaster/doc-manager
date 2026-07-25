@@ -5,9 +5,8 @@ use App\Http\Controllers\Axios\AxiosController;
 use App\Http\Controllers\Cabinet\CabinetController;
 use App\Http\Controllers\Cabinet\ContractsController;
 use App\Http\Controllers\Cabinet\ContractorsController;
-use App\Http\Controllers\Cabinet\ActPdfController;
 use App\Http\Controllers\Cabinet\ActsController;
-use App\Http\Controllers\Cabinet\InvoicePdfController;
+use App\Http\Controllers\Cabinet\DocumentPdfController;
 use App\Http\Controllers\Cabinet\InvoicesController;
 use App\Http\Controllers\Cabinet\SmartInvoicesController;
 use App\Http\Controllers\Cabinet\SettingsController;
@@ -40,7 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/cabinet/invoices', [InvoicesController::class, 'store'])->name('cabinet.invoices.store');
     Route::post('/cabinet/invoices/bulk-delete', [InvoicesController::class, 'bulkDestroy'])->name('cabinet.invoices.bulk-delete');
     Route::delete('/cabinet/invoices/{invoice}', [InvoicesController::class, 'destroy'])->name('cabinet.invoices.destroy');
-    Route::get('/cabinet/invoices/{invoice}/pdf', [InvoicePdfController::class, 'download'])->name('cabinet.invoices.pdf');
+    Route::get('/cabinet/invoices/{invoice}/pdf', [DocumentPdfController::class, 'invoice'])->name('cabinet.invoices.pdf');
     Route::get('/cabinet/templates', [SmartInvoicesController::class, 'index'])->name('cabinet.templates');
     Route::get('/cabinet/templates/{smartInvoice}', [SmartInvoicesController::class, 'showTemplate'])->name('cabinet.templates.show');
     Route::patch('/cabinet/templates/{smartInvoice}/toggle', [SmartInvoicesController::class, 'toggleActive'])->name('cabinet.templates.toggle');
@@ -53,7 +52,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/cabinet/acts', [ActsController::class, 'store'])->name('cabinet.acts.store');
     Route::post('/cabinet/acts/bulk-delete', [ActsController::class, 'bulkDestroy'])->name('cabinet.acts.bulk-delete');
     Route::delete('/cabinet/acts/{act}', [ActsController::class, 'destroy'])->name('cabinet.acts.destroy');
-    Route::get('/cabinet/acts/{act}/pdf', [ActPdfController::class, 'download'])->name('cabinet.acts.pdf');
+    Route::get('/cabinet/acts/{act}/pdf', [DocumentPdfController::class, 'act'])->name('cabinet.acts.pdf');
     Route::get('/cabinet/contractors', [ContractorsController::class, 'index'])->name('cabinet.contractors');
     Route::get('/cabinet/contractors/create', [ContractorsController::class, 'create'])->name('cabinet.contractors.create');
     Route::post('/cabinet/contractors', [ContractorsController::class, 'store'])->name('cabinet.contractors.store');

@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 #[Fillable([
-    'user_id', 'contractor_id', 'invoice_id', 'bank_account_id',
+    'user_id', 'contractor_id', 'contract_id', 'invoice_id', 'bank_account_id',
     'number', 'date', 'basis',
     'status',
     'subtotal', 'nds_amount', 'total',
@@ -38,6 +38,11 @@ class Act extends Model
     public function contractor(): BelongsTo
     {
         return $this->belongsTo(Contractor::class);
+    }
+
+    public function contract(): BelongsTo
+    {
+        return $this->belongsTo(Contract::class);
     }
 
     public function invoice(): BelongsTo
