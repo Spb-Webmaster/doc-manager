@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/cabinet/templates', [SmartInvoicesController::class, 'index'])->name('cabinet.templates');
     Route::get('/cabinet/templates/{smartInvoice}', [SmartInvoicesController::class, 'showTemplate'])->name('cabinet.templates.show');
     Route::patch('/cabinet/templates/{smartInvoice}/toggle', [SmartInvoicesController::class, 'toggleActive'])->name('cabinet.templates.toggle');
+    Route::put('/cabinet/templates/{smartInvoice}', [SmartInvoicesController::class, 'update'])->name('cabinet.templates.update');
     Route::delete('/cabinet/templates/{smartInvoice}', [SmartInvoicesController::class, 'destroyTemplate'])->name('cabinet.templates.destroy');
     Route::post('/cabinet/smart-invoices', [SmartInvoicesController::class, 'store'])->name('cabinet.smart-invoices.store');
     Route::get('/cabinet/acts', [ActsController::class, 'index'])->name('cabinet.acts');

@@ -12,6 +12,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 /**
  * «Умные счета» — шаблоны для автоматического выставления счетов по расписанию.
@@ -63,6 +64,7 @@ class SmartInvoicesController extends Controller
             'with_act'      => $smartInvoice->with_act,
             'is_active'     => $smartInvoice->is_active,
             'next_run_at'   => $smartInvoice->next_run_at?->format('d.m.Y'),
+            'next_run_iso'  => $smartInvoice->next_run_at?->format('Y-m-d'),
             'last_run_at'   => $smartInvoice->last_run_at?->format('d.m.Y H:i'),
             'contractor'    => $tpl->contractor ? [
                 'name' => $tpl->contractor->name,
@@ -91,6 +93,55 @@ class SmartInvoicesController extends Controller
         $smartInvoice->update(['is_active' => !$smartInvoice->is_active]);
 
         return response()->json(['is_active' => $smartInvoice->is_active]);
+    }
+
+    /**
+     * PUT /cabinet/templates/{smartInvoice} — редактирование шаблона (AJAX).
+     *
+     * Доступ только к своим шаблонам. Меняет расписание (дата следующего запуска,
+     * день месяца, периодичность, признак акта) и содержимое счёта (основание, НДС,
+     * позиции с ценами). Контрагент и банковский счёт не меняются.
+     * Уже выставленные счета не затрагиваются. Возвращает JSON {ok: true}.
+     */
+    public function update(Request $request, SmartInvoice $smartInvoice): JsonResponse
+    {
+        abort_unless($smartInvoice->user_id === auth()->id(), 403);
+
+        $data = $request->validate([
+            'next_run_at'   => 'required|date_format:Y-m-d',
+            'period_months' => 'required|integer|in:1,2,3,6',
+            'day_of_month'  => 'required|integer|min:1|max:31',
+            'with_act'      => 'boolean',
+            'basis'         => 'nullable|string|max:500',
+            'nds_rate'      => 'required|integer|in:0,10,20',
+            'items'         => 'required|array|min:1',
+            'items.*.name'  => 'required|string|max:500',
+            'items.*.unit'  => 'required|string|max:50',
+            'items.*.qty'   => 'required|numeric|min:0',
+            'items.*.price' => 'required|numeric|min:0',
+        ]);
+
+        DB::transaction(function () use ($smartInvoice, $data) {
+            $smartInvoice->invoiceTemplate->update([
+                'basis'    => $data['basis'] ?? null,
+                'nds_rate' => $data['nds_rate'],
+                'items'    => array_map(fn($it) => [
+                    'name'  => $it['name'],
+                    'unit'  => $it['unit'],
+                    'qty'   => (float) $it['qty'],
+                    'price' => (float) $it['price'],
+                ], $data['items']),
+            ]);
+
+            $smartInvoice->update([
+                'next_run_at'   => Carbon::createFromFormat('Y-m-d', $data['next_run_at'])->startOfDay(),
+                'period_months' => $data['period_months'],
+                'day_of_month'  => $data['day_of_month'],
+                'with_act'      => $data['with_act'] ?? false,
+            ]);
+        });
+
+        return response()->json(['ok' => true]);
     }
 
     /**

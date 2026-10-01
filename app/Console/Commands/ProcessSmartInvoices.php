@@ -11,6 +11,8 @@ use App\Models\Invoice;
 use App\Models\SmartInvoice;
 use App\Services\SmartInvoiceActService;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProcessSmartInvoices extends Command
 {
@@ -46,6 +48,12 @@ class ProcessSmartInvoices extends Command
                 $processed++;
             } catch (\Throwable $e) {
                 $this->error("SmartInvoice #{$smart->id}: {$e->getMessage()}");
+                Log::error('Ошибка создания счёта по умному шаблону', [
+                    'smart_invoice_id' => $smart->id,
+                    'user_id'          => $smart->user_id,
+                    'next_run_at'      => $smart->next_run_at?->toDateString(),
+                    'exception'        => $e,
+                ]);
             }
         }
 
@@ -53,7 +61,23 @@ class ProcessSmartInvoices extends Command
         return self::SUCCESS;
     }
 
+    /**
+     * Счёт, позиции, акт и сдвиг next_run_at создаются в одной транзакции.
+     * Иначе при падении на любом шаге (например, на акте) счёт остаётся в БД,
+     * а next_run_at не сдвигается — и команда на следующий день создаёт
+     * ещё один такой же счёт, и так каждый день.
+     */
     private function processOne(SmartInvoice $smart): void
+    {
+        [$invoice, $act] = DB::transaction(fn() => $this->createDocuments($smart));
+
+        $this->notifyInvoiceCreated($smart, $invoice, $act);
+    }
+
+    /**
+     * @return array{0: Invoice, 1: ?Act}
+     */
+    private function createDocuments(SmartInvoice $smart): array
     {
         $template    = $smart->invoiceTemplate;
         $userId      = $smart->user_id;
@@ -108,7 +132,7 @@ class ProcessSmartInvoices extends Command
             'next_run_at' => $nextMonth->addDays($d - 1),
         ]);
 
-        $this->notifyInvoiceCreated($smart, $invoice, $act);
+        return [$invoice, $act];
     }
 
     private function notifyInvoiceCreated(SmartInvoice $smart, Invoice $invoice, ?Act $act): void

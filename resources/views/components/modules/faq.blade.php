@@ -1,27 +1,48 @@
 @props(['items' => []])
 
+@php
+    /**
+     * Json-поле «Вопрос/Ответ» в админке почти всегда содержит мусорные строки:
+     * блок добавили и не заполнили, пару добавили и оставили пустой. Раньше такие
+     * записи доезжали до вёрстки как <details></details> — браузер рисует его
+     * своим заголовком «Сведения».
+     *
+     * Поэтому чистим данные до вывода: пара живёт, только если заполнен вопрос
+     * (без него у аккордеона нет заголовка), блок — только если в нём осталась
+     * хоть одна пара. Если после чистки не осталось ничего, показываем тот же
+     * запасной список вопросов, что и при незаполненном поле.
+     */
+    $faqBlocks = collect($items)
+        ->map(fn ($block) => [
+            'title'   => trim((string) data_get($block, 'title', '')),
+            'options' => collect(data_get($block, 'options', []))
+                ->filter(fn ($qa) => trim((string) data_get($qa, 'question', '')) !== '')
+                ->values(),
+        ])
+        ->filter(fn ($block) => $block['options']->isNotEmpty())
+        ->values();
+@endphp
+
 <section class="faq" id="faq">
     <div class="container faq__content">
 
-        @if(!empty($items))
-            @foreach($items as $block)
-                @if(!empty($block['options']))
-                    @if(!empty($block['title']))
-                        <h2>{{ $block['title'] }}</h2>
-                    @endif
-                    <div class="faq-list">
-                        @foreach($block['options'] as $index => $qa)
-                            <details {{ $index === 0 ? 'open' : '' }}>
-                                @if(!empty($qa['question']))
-                                    <summary>{{ $qa['question'] }}</summary>
-                                @endif
-                                @if(!empty($qa['answer']))
-                                    <div>{!! $qa['answer'] !!}</div>
-                                @endif
-                            </details>
-                        @endforeach
-                    </div>
+        @if($faqBlocks->isNotEmpty())
+            @foreach($faqBlocks as $block)
+                @if($block['title'] !== '')
+                    <h2>{{ $block['title'] }}</h2>
                 @endif
+
+                <div class="faq-list">
+                    @foreach($block['options'] as $index => $qa)
+                        <details {{ $index === 0 ? 'open' : '' }}>
+                            <summary>{{ data_get($qa, 'question') }}</summary>
+
+                            @if(filled(data_get($qa, 'answer')))
+                                <div>{!! data_get($qa, 'answer') !!}</div>
+                            @endif
+                        </details>
+                    @endforeach
+                </div>
             @endforeach
         @else
             <h2>Частые вопросы?</h2>

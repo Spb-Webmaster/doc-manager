@@ -55,10 +55,13 @@ class SmartInvoiceActService
             'subtotal'        => $subtotal,
             'nds_amount'      => $ndsAmount,
             'total'           => $total,
+            // У счёта, только что созданного через Invoice::create() без этих полей,
+            // атрибуты *_scale равны null (дефолт БД = 100 в модель не подтягивается),
+            // а в acts колонки NOT NULL — без ?? 100 вставка падает.
             'stamp_path'      => $invoice->stamp_path,
-            'stamp_scale'     => $invoice->stamp_scale,
+            'stamp_scale'     => $invoice->stamp_scale ?? 100,
             'signature_path'  => $invoice->signature_path,
-            'signature_scale' => $invoice->signature_scale,
+            'signature_scale' => $invoice->signature_scale ?? 100,
         ]);
 
         foreach ($items as $i => $item) {

@@ -4123,6 +4123,236 @@
   text-align: center;
 }
 
+/* Кнопка «Редактировать» на карточке шаблона (рядом с «Пауза» и «×») */
+.tpl-edit-btn {
+  width: 28px;
+  height: 28px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-s);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.13s, color 0.13s, border-color 0.13s;
+}
+
+.tpl-edit-btn:hover {
+  background: var(--accent-lt);
+  color: var(--accent);
+  border-color: rgba(37, 80, 226, 0.3);
+}
+
+/* Форма редактирования шаблона внутри модалки */
+.templates-page .modal-foot {
+  padding: 0 24px 22px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
+.templates-page .modal-foot:empty {
+  display: none;
+}
+
+.templates-page .modal-foot .btn {
+  padding: 10px 22px;
+  border-radius: var(--rad-sm);
+  font-size: 14px;
+}
+
+.templates-page .modal-body {
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+}
+
+.md-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.md-form-grid .field-label {
+  font-size: 11px;
+  letter-spacing: 0.4px;
+}
+
+.md-form-grid .field-input,
+.md-form-grid .field-select {
+  padding: 9px 12px;
+  font-size: 13.5px;
+}
+
+.md-form-hint {
+  font-size: 11.5px;
+  color: var(--text-s);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.md-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  color: var(--text-h);
+  cursor: pointer;
+  user-select: none;
+  padding: 9px 12px;
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--rad-sm);
+}
+
+.md-check input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.md-edit-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.md-edit-table th {
+  padding: 8px 8px;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  color: var(--text-s);
+  text-align: left;
+}
+
+.md-edit-table td {
+  padding: 6px 4px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: middle;
+}
+
+.md-edit-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.md-edit-table .field-input {
+  padding: 7px 9px;
+  font-size: 13px;
+}
+
+.md-edit-table td.tr {
+  text-align: right;
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--text-h);
+  padding-right: 8px;
+}
+
+.md-row-del {
+  width: 26px;
+  height: 26px;
+  border: 1.5px solid var(--border);
+  border-radius: 6px;
+  background: transparent;
+  cursor: pointer;
+  color: var(--text-s);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.13s, color 0.13s, border-color 0.13s;
+}
+
+.md-row-del:hover {
+  background: var(--red-lt);
+  color: var(--red);
+  border-color: rgba(214, 59, 59, 0.3);
+}
+
+.md-row-del:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.md-row-del:disabled:hover {
+  background: transparent;
+  color: var(--text-s);
+  border-color: var(--border);
+}
+
+.md-add-row {
+  background: transparent;
+  border: 1.5px dashed var(--border);
+  border-radius: var(--rad-sm);
+  width: 100%;
+  padding: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  transition: background 0.13s, border-color 0.13s;
+}
+
+.md-add-row:hover {
+  background: var(--accent-lt);
+  border-color: var(--accent);
+}
+
+.md-totals {
+  padding: 10px 14px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--rad-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.md-totals-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--text-s);
+}
+
+.md-totals-row span:last-child {
+  font-weight: 600;
+  color: var(--text-h);
+}
+
+.md-totals-row.total {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-h);
+  border-top: 1px solid var(--border);
+  padding-top: 6px;
+  margin-top: 4px;
+}
+
+.md-form-error {
+  font-size: 12.5px;
+  color: var(--red);
+  background: var(--red-lt);
+  border: 1px solid rgba(214, 59, 59, 0.25);
+  border-radius: var(--rad-sm);
+  padding: 9px 12px;
+}
+
+.md-form-error:empty {
+  display: none;
+}
+
+@media (max-width: 560px) {
+  .md-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
 /* ══════════════════ Responsive ══════════════════ */
 /* ── Планшет и мобильный: сайдбар уезжает в выдвижное меню ── */
 @media (max-width: 960px) {
