@@ -155,7 +155,8 @@
     toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
   }
 
-  let tplData = null;   // данные открытого шаблона (ответ showTemplate)
+  let tplData    = null;  // данные открытого шаблона (ответ showTemplate)
+  let tplNextCal = null;  // календарь «Следующий запуск» в форме редактирования
 
   const NDS_LABEL = r => r > 0 ? r + '%' : 'Без НДС';
 
@@ -294,7 +295,7 @@
         <div class="md-form-grid">
           <div class="field">
             <label class="field-label" for="te-next">Следующий запуск</label>
-            <input class="field-input" type="date" id="te-next" name="next_run_at" value="${escHtml(d.next_run_iso ?? '')}" required>
+            <div class="date-wrap" data-calendar data-input-id="te-next" data-format="short" data-value="${escHtml(d.next_run_iso ?? '')}" data-placeholder="Выберите дату"></div>
             <div class="md-form-hint">Дата ближайшего счёта. Она же станет датой счёта и началом периода.</div>
           </div>
           <div class="field">
@@ -348,6 +349,8 @@
           <div class="md-totals-row total"><span>Итого:</span><span id="te-total"></span></div>
         </div>
       </form>`;
+
+    [tplNextCal] = window.cabinetCalendar.init(bodyEl);
 
     d.items.forEach(it => addTplItemRow(it));
     recalcTplTotals();
@@ -416,8 +419,14 @@
     const btn   = document.getElementById('te-save');
     errEl.textContent = '';
 
+    const nextRunAt = tplNextCal?.getIso() ?? '';
+    if (!nextRunAt) {
+      errEl.textContent = 'Укажите дату следующего запуска.';
+      return;
+    }
+
     const payload = {
-      next_run_at:   document.getElementById('te-next').value,
+      next_run_at:   nextRunAt,
       day_of_month:  parseInt(document.getElementById('te-day').value),
       period_months: parseInt(document.getElementById('te-period').value),
       with_act:      document.getElementById('te-act').checked,

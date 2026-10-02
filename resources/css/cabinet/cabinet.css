@@ -4029,7 +4029,7 @@
 }
 
 /* Модалка настроек шаблона — шире модалок списков документов (520px vs 480px) */
-.templates-page .modal {
+#tpl-modal .modal {
   max-width: 520px;
 }
 
@@ -4145,24 +4145,24 @@
 }
 
 /* Форма редактирования шаблона внутри модалки */
-.templates-page .modal-foot {
+#tpl-modal .modal-foot {
   padding: 0 24px 22px;
   display: flex;
   gap: 10px;
   justify-content: flex-end;
 }
 
-.templates-page .modal-foot:empty {
+#tpl-modal .modal-foot:empty {
   display: none;
 }
 
-.templates-page .modal-foot .btn {
+#tpl-modal .modal-foot .btn {
   padding: 10px 22px;
   border-radius: var(--rad-sm);
   font-size: 14px;
 }
 
-.templates-page .modal-body {
+#tpl-modal .modal-body {
   max-height: calc(100vh - 220px);
   overflow-y: auto;
 }

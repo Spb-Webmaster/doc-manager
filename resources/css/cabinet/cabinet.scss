@@ -1342,7 +1342,7 @@
 .tpl-del-btn:hover { background: var(--red-lt); color: var(--red); border-color: rgba(214,59,59,.3); }
 
 /* Модалка настроек шаблона — шире модалок списков документов (520px vs 480px) */
-.templates-page .modal { max-width: 520px; }
+#tpl-modal .modal { max-width: 520px; }
 .modal-body { padding: 20px 24px; display: flex; flex-direction: column; gap: 18px; }
 
 .md-section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; color: var(--text-s); margin-bottom: 8px; }
@@ -1364,10 +1364,10 @@
 .tpl-edit-btn:hover { background: var(--accent-lt); color: var(--accent); border-color: rgba(37,80,226,.3); }
 
 /* Форма редактирования шаблона внутри модалки */
-.templates-page .modal-foot { padding: 0 24px 22px; display: flex; gap: 10px; justify-content: flex-end; }
-.templates-page .modal-foot:empty { display: none; }
-.templates-page .modal-foot .btn { padding: 10px 22px; border-radius: var(--rad-sm); font-size: 14px; }
-.templates-page .modal-body { max-height: calc(100vh - 220px); overflow-y: auto; }
+#tpl-modal .modal-foot { padding: 0 24px 22px; display: flex; gap: 10px; justify-content: flex-end; }
+#tpl-modal .modal-foot:empty { display: none; }
+#tpl-modal .modal-foot .btn { padding: 10px 22px; border-radius: var(--rad-sm); font-size: 14px; }
+#tpl-modal .modal-body { max-height: calc(100vh - 220px); overflow-y: auto; }
 .md-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .md-form-grid .field-label { font-size: 11px; letter-spacing: .4px; }
 .md-form-grid .field-input,

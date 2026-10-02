@@ -29,9 +29,11 @@
   color: var(--text-s);
 }
 
+/* Позицию задаёт JS (calendar.js): fixed, чтобы попап не обрезался
+   прокручиваемой колонкой формы или телом модального окна */
 .cal-pop {
-  position: absolute;
-  top: calc(100% + 6px);
+  position: fixed;
+  top: 0;
   left: 0;
   background: var(--surface);
   border: 1px solid var(--border);

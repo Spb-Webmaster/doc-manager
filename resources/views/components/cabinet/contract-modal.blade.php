@@ -25,20 +25,7 @@
         </div>
         <div class="m-field">
           <div class="m-field-label">Дата <span style="color:var(--red)">*</span></div>
-          <div class="date-wrap">
-            <svg class="date-ico" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-              <rect x="1.5" y="2.5" width="13" height="12" rx="2"/><path d="M5 1.5v2M11 1.5v2M1.5 6.5h13"/>
-            </svg>
-            <input class="date-input" id="ct-date" type="text" readonly placeholder="Выберите дату">
-            <div class="cal-pop" id="ct-calendar">
-              <div class="cal-header">
-                <button class="cal-nav" id="ct-cal-prev" type="button">‹</button>
-                <span class="cal-month-lbl" id="ct-cal-label"></span>
-                <button class="cal-nav" id="ct-cal-next" type="button">›</button>
-              </div>
-              <div class="cal-grid" id="ct-cal-grid"></div>
-            </div>
-          </div>
+          <x-cabinet.date-picker id="ct-date" placeholder="Выберите дату" />
         </div>
       </div>
     </div>
@@ -55,24 +42,16 @@
 (function () {
   const CSRF = document.querySelector('meta[name="csrf-token"]').content;
 
-  const MONTHS = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
-  const DAYS   = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
-
   let _contractorId  = null;
   let _editingId     = null;
   let _selectedDate  = null;
-  let _calViewing    = new Date();
+  let _cal           = null;   // экземпляр общего календаря (include/cabinet/calendar.js)
 
   const modal      = document.getElementById('contract-modal');
   const inpName    = document.getElementById('ct-name');
   const inpNum     = document.getElementById('ct-number');
-  const ctDateInp  = document.getElementById('ct-date');
-  const ctCalPop   = document.getElementById('ct-calendar');
   const btnSave    = document.getElementById('ct-save');
 
-  function formatDateDisplay(d) {
-    return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-  }
   function formatDateISO(d) {
     const y = d.getFullYear();
     const m = String(d.getMonth() + 1).padStart(2, '0');
@@ -86,56 +65,19 @@
 
   [inpName, inpNum].forEach(el => el.addEventListener('input', validate));
 
-  /* ── Calendar ── */
-  function renderCtCal() {
-    const y = _calViewing.getFullYear(), m = _calViewing.getMonth();
-    document.getElementById('ct-cal-label').textContent = MONTHS[m] + ' ' + y;
-    let g = DAYS.map(d => `<div class="cal-dow">${d}</div>`).join('');
-    let fd = new Date(y, m, 1).getDay(); if (fd === 0) fd = 7; fd--;
-    for (let i = 0; i < fd; i++) g += '<div class="cal-day empty"></div>';
-    const tot = new Date(y, m + 1, 0).getDate();
-    for (let d = 1; d <= tot; d++) {
-      const date = new Date(y, m, d);
-      const sel = _selectedDate && date.toDateString() === _selectedDate.toDateString();
-      const tod = date.toDateString() === new Date().toDateString();
-      g += `<div class="cal-day${sel ? ' selected' : ''}${tod && !sel ? ' today' : ''}" data-y="${y}" data-m="${m}" data-d="${d}">${d}</div>`;
-    }
-    const grid = document.getElementById('ct-cal-grid');
-    grid.innerHTML = g;
-    grid.querySelectorAll('.cal-day:not(.empty)').forEach(el => {
-      el.addEventListener('click', () => {
-        _selectedDate = new Date(+el.dataset.y, +el.dataset.m, +el.dataset.d);
-        ctDateInp.value = formatDateDisplay(_selectedDate);
-        closeCtCal();
-        renderCtCal();
-        validate();
-      });
-    });
-  }
+  /* ── Календарь ── */
+  // Общий модуль подключается сборкой Vite и выполняется после разбора страницы,
+  // поэтому забираем созданный им экземпляр на DOMContentLoaded.
+  document.addEventListener('DOMContentLoaded', () => {
+    [_cal] = window.cabinetCalendar.init(document.querySelector('[data-input-id="ct-date"]'));
+    if (!_cal) return;
 
-  function openCtCal() {
-    const rect = ctDateInp.getBoundingClientRect();
-    ctCalPop.style.position = 'fixed';
-    ctCalPop.style.top  = (rect.bottom + 6) + 'px';
-    ctCalPop.style.left = rect.left + 'px';
-    ctCalPop.classList.add('open');
-    ctDateInp.classList.add('open');
-    renderCtCal();
-  }
-
-  function closeCtCal() {
-    ctCalPop.classList.remove('open');
-    ctDateInp.classList.remove('open');
-  }
-
-  ctDateInp.addEventListener('click', e => { e.stopPropagation(); ctCalPop.classList.contains('open') ? closeCtCal() : openCtCal(); });
-  document.getElementById('ct-cal-prev').addEventListener('click', e => { e.stopPropagation(); _calViewing.setMonth(_calViewing.getMonth() - 1); renderCtCal(); });
-  document.getElementById('ct-cal-next').addEventListener('click', e => { e.stopPropagation(); _calViewing.setMonth(_calViewing.getMonth() + 1); renderCtCal(); });
-  document.addEventListener('click', e => { if (!ctCalPop.contains(e.target)) closeCtCal(); });
+    _cal.onSelect = date => { _selectedDate = date; validate(); };
+  });
 
   /* ── Modal open / close ── */
   function closeModal() {
-    closeCtCal();
+    _cal?.close();
     modal.classList.remove('open');
     _editingId    = null;
     _contractorId = null;
@@ -155,15 +97,8 @@
     inpName.value = contract?.name   ?? '';
     inpNum.value  = contract?.number ?? '';
 
-    if (contract?.date) {
-      _selectedDate = new Date(contract.date + 'T00:00:00');
-      _calViewing   = new Date(_selectedDate);
-      ctDateInp.value = formatDateDisplay(_selectedDate);
-    } else {
-      _selectedDate   = null;
-      _calViewing     = new Date();
-      ctDateInp.value = '';
-    }
+    _cal?.setDate(contract?.date ?? null, { silent: true });
+    _selectedDate = _cal?.getDate() ?? null;
 
     validate();
     modal.classList.add('open');

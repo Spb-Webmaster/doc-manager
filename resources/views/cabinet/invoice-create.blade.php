@@ -229,20 +229,7 @@
         </div>
         <div class="field">
           <div class="field-label">Дата</div>
-          <div class="date-wrap">
-            <svg class="date-ico" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-              <rect x="1.5" y="2.5" width="13" height="12" rx="2"/><path d="M5 1.5v2M11 1.5v2M1.5 6.5h13"/>
-            </svg>
-            <input class="date-input" id="inv-date" type="text" readonly>
-            <div class="cal-pop" id="calendar">
-              <div class="cal-header">
-                <button class="cal-nav" id="cal-prev">‹</button>
-                <span class="cal-month-lbl" id="cal-label"></span>
-                <button class="cal-nav" id="cal-next">›</button>
-              </div>
-              <div class="cal-grid" id="cal-grid"></div>
-            </div>
-          </div>
+          <x-cabinet.date-picker id="inv-date" :value="now()" />
         </div>
       </div>
       <div class="field">
@@ -572,7 +559,6 @@
   let innTimer = null;
   let items = [{ name: '', unit: 'шт.', qty: 1, price: 0 }];
   let selectedDate = new Date();
-  let calViewing = new Date();
   let selectedContractorId  = null;
   let selectedContractId    = null;
   let stampBase64           = null;
@@ -686,12 +672,7 @@
     updatePreview();
   });
 
-  /* ── Calendar ── */
-  const MONTHS = ['Январь','Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'];
-  const DAYS   = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
-  const calPop  = document.getElementById('calendar');
-  const dateInp = document.getElementById('inv-date');
-
+  /* ── Календарь ── */
   function formatDate(d) {
     return d.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
   }
@@ -699,38 +680,17 @@
     return d.toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
   }
 
-  function renderCal() {
-    const y = calViewing.getFullYear(), m = calViewing.getMonth();
-    document.getElementById('cal-label').textContent = MONTHS[m] + ' ' + y;
-    let g = DAYS.map(d => `<div class="cal-dow">${d}</div>`).join('');
-    let fd = new Date(y, m, 1).getDay(); if (fd === 0) fd = 7; fd--;
-    for (let i = 0; i < fd; i++) g += '<div class="cal-day empty"></div>';
-    const tot = new Date(y, m + 1, 0).getDate();
-    for (let d = 1; d <= tot; d++) {
-      const date = new Date(y, m, d);
-      const sel = selectedDate && date.toDateString() === selectedDate.toDateString();
-      const tod = date.toDateString() === new Date().toDateString();
-      g += `<div class="cal-day${sel ? ' selected' : ''}${tod && !sel ? ' today' : ''}" data-y="${y}" data-m="${m}" data-d="${d}">${d}</div>`;
-    }
-    document.getElementById('cal-grid').innerHTML = g;
-    document.getElementById('cal-grid').querySelectorAll('.cal-day:not(.empty)').forEach(el => {
-      el.addEventListener('click', () => {
-        selectedDate = new Date(+el.dataset.y, +el.dataset.m, +el.dataset.d);
-        dateInp.value = formatDate(selectedDate);
-        calPop.classList.remove('open'); dateInp.classList.remove('open');
-        renderCal(); updatePreview();
-      });
-    });
-  }
+  // Сам виджет — общий модуль resources/js/include/cabinet/calendar.js.
+  // Он подключается сборкой Vite как module и выполняется после разбора страницы,
+  // поэтому берём созданный им экземпляр на DOMContentLoaded.
+  document.addEventListener('DOMContentLoaded', () => {
+    const [cal] = window.cabinetCalendar.init(document.querySelector('[data-input-id="inv-date"]'));
+    if (!cal) return;
 
-  dateInp.addEventListener('click', e => { e.stopPropagation(); calPop.classList.toggle('open'); dateInp.classList.toggle('open'); renderCal(); });
-  document.getElementById('cal-prev').addEventListener('click', e => { e.stopPropagation(); calViewing.setMonth(calViewing.getMonth() - 1); renderCal(); });
-  document.getElementById('cal-next').addEventListener('click', e => { e.stopPropagation(); calViewing.setMonth(calViewing.getMonth() + 1); renderCal(); });
-  document.addEventListener('click', () => { calPop.classList.remove('open'); dateInp.classList.remove('open'); });
-
-  selectedDate = new Date();
-  dateInp.value = formatDate(selectedDate);
-  renderCal();
+    cal.onSelect = date => { selectedDate = date; updatePreview(); };
+    selectedDate = cal.getDate();
+    updatePreview();
+  });
 
   /* ── Line items ── */
   function renderItems() {
