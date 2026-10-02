@@ -270,6 +270,12 @@ export function createCabinetCalendar(wrap, options = {}) {
  * @returns {CabinetCalendar[]} созданные (и ранее созданные) экземпляры
  */
 export function cabinetCalendarInit(scope = document, options = {}) {
+    // Явно переданный пустой scope (не нашли элемент) не должен превращаться
+    // в document — иначе вызывающий код получил бы чужой календарь страницы
+    if (arguments.length > 0 && !scope) {
+        return [];
+    }
+
     const root  = scope || document;
     const nodes = [...root.querySelectorAll('[data-calendar]')];
 
